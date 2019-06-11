@@ -9,7 +9,18 @@
   
   <modules>
   	<module>prolog4j-api</module>
+  	<module>prolog4j-swi</module>
   </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.prolog4j</groupId>
+        <artifactId>prolog4j-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
