@@ -9,7 +9,8 @@
   
   <modules>
   	<module>prolog4j-api</module>
-  	<module>prolog4j-swi</module>
+    <module>prolog4j-swi</module>
+    <module>prolog4j-test</module>
   </modules>
 
   <dependencyManagement>
@@ -17,7 +18,7 @@
       <dependency>
         <groupId>org.prolog4j</groupId>
         <artifactId>prolog4j-api</artifactId>
-        <version>${project.version}</version>
+        <version>1.0-SNAPSHOT</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -25,6 +26,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	<maven.compiler.source>11</maven.compiler.source>
+	<maven.compiler.target>11</maven.compiler.target>
   </properties>
   
 </project>

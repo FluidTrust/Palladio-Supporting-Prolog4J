@@ -46,7 +46,12 @@ public final class SWIPrologProverFactory extends AbstractProverFactory {
 		StringTokenizer st = new StringTokenizer(libraryPath, File.pathSeparator);
 		while (st.hasMoreTokens()) {
 			try {
-				JPL.setNativeLibraryDir(st.nextToken());
+				String tok = st.nextToken();
+				System.out.println(tok);
+				System.out.println(System.mapLibraryName("jpl"));
+				System.out.println((new File(tok, System.mapLibraryName("jpl"))).getAbsolutePath());
+				JPL.setNativeLibraryDir(tok);
+				JPL.loadNativeLibrary();
 				JPL.init();
 				break;
 			}

@@ -48,7 +48,26 @@
 						</manifestEntries>
 					</archive>
 				</configuration>
-			</plugin>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <tasks>
+                        <echo>Removing prolog4j-api's dummy ProverFactoryBinder</echo>
+                        <delete file="target/classes/org/prolog4j/ProverFactoryBinder.class" />
+                    </tasks>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 

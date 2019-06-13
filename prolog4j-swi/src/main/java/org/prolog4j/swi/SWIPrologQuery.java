@@ -23,20 +23,16 @@
  */
 package org.prolog4j.swi;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.jpl7.PrologException;
 import org.jpl7.Term;
 import org.jpl7.Util;
 import org.jpl7.Variable;
-import org.jpl7.fli.Prolog;
-
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.InvalidQueryException;
 import org.prolog4j.Query;
 import org.prolog4j.Solution;
-import org.prolog4j.UnknownVariableException;
 
 /**
  * The tuProlog implementation of the Query class.
