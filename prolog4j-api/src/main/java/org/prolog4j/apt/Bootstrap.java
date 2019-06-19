@@ -42,7 +42,6 @@ public class Bootstrap {
 				cr.accept(cv, 0);
 				if (className.equals("org/prolog4j/GoalTest")) {
 					ClassReader cr2 = new ClassReader(cw.toByteArray());
-//					cr.accept(new ASMifierClassVisitor(new PrintWriter(System.out)), 0);
 					cr2.accept(new ASMifierClassVisitor(new PrintWriter(System.out)), 0);
 				}
 				

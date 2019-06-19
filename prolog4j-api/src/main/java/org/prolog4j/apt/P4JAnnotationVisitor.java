@@ -65,7 +65,6 @@ class P4JAnnotationVisitor extends LazyClassVisitor {
 	@Override
 	public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
 		if (desc.equals("Lorg/prolog4j/annotations/Theory;")) {
-//			return new TheoryVisitor(className);
 			return theoryAnn = new AnnotationNode(desc);
 		}
 		return null;

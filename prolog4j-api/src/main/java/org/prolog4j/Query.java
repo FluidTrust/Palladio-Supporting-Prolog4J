@@ -23,7 +23,6 @@
  */
 package org.prolog4j;
 
-//import java.lang.ref.Reference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +37,6 @@ public abstract class Query {
 	
 	/** The name of the named placeholders of the goal. */
 	private final ArrayList<String> placeholderNames;
-
-//	/**
-//	 * Weak references to the objects referred by the query.
-//	 */
-//	List<Reference> weakReferences;
 	
 	/**
 	 * Creates a query object.
@@ -103,15 +97,6 @@ public abstract class Query {
 		return placeholderNames;
 	}
 
-//	/**
-//	 * Returns a list with the place holders in the query.
-//	 * 
-//	 * @return the place holders
-//	 */
-//	protected List<PlaceHolder> getPlaceholders() {
-//		return placeholders;
-//	}
-
 	/**
 	 * Creates a new variable name that does not occurs in the goal.
 	 * 
@@ -164,17 +149,5 @@ public abstract class Query {
 	 * @return the same query instance
 	 */
 	public abstract Query bind(String variable, Object value);
-
-//	public void assertz(Object... args) {
-//		solve("assertz(" + goal.substring(0, goal.lastIndexOf('.')) + ").", args);
-//	}
-//	
-//	public void retract() {
-//		solve("retract(" + goal.substring(0, goal.lastIndexOf('.')) + ").");
-//	}
-//
-//	List<Reference> getWeakReferences() {
-//		return new ArrayList(0);
-//	}
 	
 }

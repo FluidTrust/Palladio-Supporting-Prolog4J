@@ -51,12 +51,6 @@ public class SWIPrologQuery extends Query {
 	/** The SWI-Prolog variables representing the input variables of the goal. */
 	private Variable[] inputVars;
 	
-	/** 
-	 * This field stores those elements of {@link inputVars} that are still not
-	 * bound.
-	 */
-	private List<Variable> unboundVars;
-	
 	/**
 	 * Creates a SWI-Prolog query object.
 	 * 
@@ -67,7 +61,6 @@ public class SWIPrologQuery extends Query {
 		super(goal);
 		this.prover = prover;
 		this.cp = prover.getConversionPolicy();
-//		List<PlaceHolder> placeholders = getPlaceholders();
 		List<String> placeholderNames = getPlaceholderNames();
 		int placeholderNo = placeholderNames.size();
 		inputVars = new Variable[placeholderNo];
@@ -83,14 +76,11 @@ public class SWIPrologQuery extends Query {
 			sGoal = new org.jpl7.Compound(",", new Term[]{new org.jpl7.Compound("=", new Term[]{argVar, arg}), sGoal});
 			inputVars[index] = arg;
 		}
-//		sGoal.resolveTerm();
 	}
 
 	@Override
 	public <A> Solution<A> solve(Object... actualArgs) {
-//		prover.reclaimObsoleteFacts();
 		int i = 0;
-//		for (Variable var: unboundVars) {
 		org.jpl7.Term g = sGoal;
 		for (String ph: getPlaceholderNames()) {
 			g = new org.jpl7.Compound(
@@ -106,25 +96,11 @@ public class SWIPrologQuery extends Query {
 	@Override
 	public Query bind(int argument, Object value) {
 		throw new UnsupportedOperationException();
-//		inputVars[argument].free();
-//		engine.unify(inputVars[argument], (Term) cp.convertObject(value));
-//		return this;
 	}
 
 	@Override
 	public Query bind(String variable, Object value) {
 		throw new UnsupportedOperationException();
-//		for (Variable v: inputVars) {
-//			if (v.isBound()) {
-//				continue;
-//			}
-//			if (v.name().equals(variable)) {
-//				v.free();
-//				Prolog.unify(v, (Term) cp.convertObject(value));
-//				return this;
-//			}
-//		}
-//		throw new UnknownVariableException(variable);
 	}
 
 }

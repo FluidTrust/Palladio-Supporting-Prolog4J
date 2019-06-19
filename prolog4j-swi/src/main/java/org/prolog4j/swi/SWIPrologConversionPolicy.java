@@ -113,9 +113,9 @@ public class SWIPrologConversionPolicy extends ConversionPolicy {
 				return pList;
 			}
 		});
-		addObjectConverter(List.class, new Converter<List>() {
+		addListConverter(List.class, new Converter<List<?>>() {
 			@Override
-			public Object convert(List list) {
+			public Object convert(List<?> list) {
 				Term pList = new Atom("[]");
 				ListIterator<?> it = list.listIterator(list.size());
 				while (it.hasPrevious()) {
@@ -156,7 +156,7 @@ public class SWIPrologConversionPolicy extends ConversionPolicy {
 			public Object convert(org.jpl7.Compound value) {
 				if (Util.listToLength(value) != -1) {
 					Term term = value;
-					List list = new LinkedList();
+					List<Object> list = new LinkedList<Object>();
 					while (term.hasFunctor(".", 2)) {
 						list.add(convertTerm(term.arg(1)));
 						term = term.arg(2);
@@ -166,12 +166,12 @@ public class SWIPrologConversionPolicy extends ConversionPolicy {
 				int arity = value.arity();
 				Object[] args = new Object[arity];
 				for (int i = 0; i < arity; ++i) {
-//					args[i] = convertTerm(value.arg(i).getTerm());
 					args[i] = convertTerm(value.arg(i + 1));
 				}
 				return new Compound(value.name(), args);
 			}
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public <R> R convert(org.jpl7.Compound value, java.lang.Class<R> to) {
 				int length = Util.listToLength(value);
@@ -193,11 +193,6 @@ public class SWIPrologConversionPolicy extends ConversionPolicy {
 	public boolean match(Object term1, Object term2) {
 		throw new UnsupportedOperationException();
 	}
-
-//	@Override
-//	public Object variable() {
-//		return new Var();
-//	}
 
 	@Override
 	public Object term(int value) {
@@ -246,7 +241,6 @@ public class SWIPrologConversionPolicy extends ConversionPolicy {
 
 	@Override
 	protected Object getArg(Object compound, int index) {
-//		return ((Struct) compound).getArg(index).getTerm();
 		return convertTerm(((Term) compound).arg(index + 1));
 	}
 

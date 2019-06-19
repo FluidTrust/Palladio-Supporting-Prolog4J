@@ -26,8 +26,6 @@ package org.prolog4j.swi;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.jpl7.util.*;
-
 import org.prolog4j.AbstractProver;
 import org.prolog4j.Query;
 
@@ -64,7 +62,6 @@ public class SWIPrologProver extends AbstractProver {
 
 	public void loadTheory(String filename) {
 		throw new UnsupportedOperationException();
-//		new jpl.Query("consult", new jpl.Term[]{new jpl.Atom(filename)});
 	}
 
 	@Override

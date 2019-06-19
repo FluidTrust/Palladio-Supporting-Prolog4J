@@ -25,17 +25,12 @@ package org.prolog4j.swi;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 import org.jpl7.Term;
-import org.jpl7.Variable;
-
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.Prover;
-import org.prolog4j.ProverFactory;
 import org.prolog4j.Solution;
 import org.prolog4j.SolutionIterator;
 import org.prolog4j.UnknownVariableException;
@@ -49,13 +44,8 @@ import org.prolog4j.UnknownVariableException;
  */
 public class SWIPrologSolution<S> extends Solution<S> {
 
-	/** The SWI-Prolog prover that is used for solving this query. */
-	private Prover prover;
-
 	/** The conversion policy of the SWI-Prolog prover that is used for solving this query. */
 	private final ConversionPolicy cp;
-
-//	private static final Terms terms = Terms.getInstance();
 
 	/** The list of variables occurring in the query. */
 	private List<String> vars;
@@ -76,7 +66,6 @@ public class SWIPrologSolution<S> extends Solution<S> {
 	 * @param goal the goal to be solved
 	 */
 	SWIPrologSolution(Prover prover, Term goal) {
-		this.prover = prover;
 		this.cp = prover.getConversionPolicy();
 		query = new org.jpl7.Query(goal);
 		success = query.hasMoreSolutions();
@@ -84,9 +73,8 @@ public class SWIPrologSolution<S> extends Solution<S> {
 			return;
 		}
 		solution = query.nextSolution();
-		vars = new ArrayList(solution.keySet());
+		vars = new ArrayList<String>(solution.keySet());
 		if (vars.size() > 0) {
-			// defaultOutputVariable = varName(vars.size() - 1);
 			on(varName(vars.size() - 1));
 		}
 	}
@@ -106,6 +94,7 @@ public class SWIPrologSolution<S> extends Solution<S> {
 		return vars.get(varIndex);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <A> A get(String variable) {
 		if (clazz == null) {
@@ -128,7 +117,7 @@ public class SWIPrologSolution<S> extends Solution<S> {
 	}
 
 	@Override
-	public void collect(Collection... collections) {
+	public void collect(Collection<?>... collections) {
 		SolutionIterator<S> it = iterator();
 		while (it.hasNext()) {
 			it.next();
@@ -138,6 +127,7 @@ public class SWIPrologSolution<S> extends Solution<S> {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<?>[] toLists() {
 		List<?>[] lists = new List<?>[vars.size() - 1];

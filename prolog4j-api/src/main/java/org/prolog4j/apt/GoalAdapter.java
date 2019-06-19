@@ -172,7 +172,6 @@ class GoalAdapter extends ClassAdapter {
 			mv.visitInsn(returnType.getOpcode(IRETURN));
 		}
 		mv.visitMaxs(stack, locals);
-//		mv.visitMaxs(0, locals);
 		mv.visitEnd();
 		return mv;
 	}
@@ -197,7 +196,6 @@ class GoalAdapter extends ClassAdapter {
 				"$P4J_PROVER", "Lorg/prolog4j/Prover;", 
 				null, null);
 		for (int i = 0; i < goalVisitors.size(); ++i) {
-			AnnotationNode an = goalVisitors.get(i).goalAnnotation;
 			visitField(ACC_PUBLIC + ACC_STATIC + ACC_FINAL, 
 					"$P4J_GOAL_" + i, "Lorg/prolog4j/Query;", 
 					null, null);
@@ -220,14 +218,14 @@ class GoalAdapter extends ClassAdapter {
 		mv.visitMethodInsn(INVOKESTATIC, "org/prolog4j/ProverFactory", "getProver", "(Ljava/lang/String;)Lorg/prolog4j/Prover;");
 		mv.visitFieldInsn(PUTSTATIC, classDesc, "$P4J_PROVER", "Lorg/prolog4j/Prover;");
 		if (theoryAnn != null) {
-			List values = theoryAnn.values;
+			List<?> values = theoryAnn.values;
 			Object val = values.get(1);
 			if (val instanceof String) {
 				mv.visitFieldInsn(GETSTATIC, classDesc, "$P4J_PROVER", "Lorg/prolog4j/Prover;");
 				mv.visitLdcInsn(val);
 				mv.visitMethodInsn(INVOKEINTERFACE, "org/prolog4j/Prover", "addTheory", "(Ljava/lang/String;)V");
 			} else if (val instanceof List) {
-				List list = (List) val;
+				List<?> list = (List<?>) val;
 				mv.visitFieldInsn(GETSTATIC, classDesc, "$P4J_PROVER", "Lorg/prolog4j/Prover;");
 				int argNo = list.size();
 				if (argNo < 6) {
@@ -261,7 +259,7 @@ class GoalAdapter extends ClassAdapter {
 	}
 
 	private Object getValue(AnnotationNode an, String name) {
-		Iterator iterator = an.values.iterator();
+		Iterator<?> iterator = an.values.iterator();
 		while (iterator.hasNext() && !iterator.next().equals(name)) {
 			iterator.next();
 		}

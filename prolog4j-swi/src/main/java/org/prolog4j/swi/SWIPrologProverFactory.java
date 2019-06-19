@@ -47,9 +47,6 @@ public final class SWIPrologProverFactory extends AbstractProverFactory {
 		while (st.hasMoreTokens()) {
 			try {
 				String tok = st.nextToken();
-				System.out.println(tok);
-				System.out.println(System.mapLibraryName("jpl"));
-				System.out.println((new File(tok, System.mapLibraryName("jpl"))).getAbsolutePath());
 				JPL.setNativeLibraryDir(tok);
 				JPL.loadNativeLibrary();
 				JPL.init();
@@ -65,8 +62,6 @@ public final class SWIPrologProverFactory extends AbstractProverFactory {
 	 * The unique instance of this class.
 	 */
 	private static final SWIPrologProverFactory INSTANCE = new SWIPrologProverFactory();
-	
-	private static final SWIPrologProver prover = null;
 	
 	/**
 	 * Returns the single instance of this class.

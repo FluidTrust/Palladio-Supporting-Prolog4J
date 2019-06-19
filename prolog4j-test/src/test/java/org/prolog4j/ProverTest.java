@@ -177,15 +177,15 @@ public class ProverTest {
         assertEquals(Arrays.asList("socrates", "plato"), mortals);
 
         int i = 0;
-        for (Object o: p.solve("member(X, [0, 1, 2]).")) {
+        for (@SuppressWarnings("unused") Object o: p.solve("member(X, [0, 1, 2]).")) {
             ++i;
         }
         assertEquals(i, 3);
         
-        for (Object o: p.solve("member(X, 1).")) {
+        for (@SuppressWarnings("unused") Object o: p.solve("member(X, 1).")) {
             fail();
         }
-        for (Object o: p.solve("member(X, 1).").on("X")) {
+        for (@SuppressWarnings("unused") Object o: p.solve("member(X, 1).").on("X")) {
             fail();
         }
     }
@@ -212,9 +212,9 @@ public class ProverTest {
     @Test
     public void testTestGet() {
     	Solution<Object> solve = p.solve("member(X, [2, 3, 4]), member(Y, [5, 6, 7]).");
-    	assertEquals(solve.get("X"), new Integer(2));
+    	assertEquals(solve.get("X"), Integer.valueOf(2));
     	Solution<Object> solve2 = p.solve("member(X, [2, 3, 4]), member(Y, [5, 6, 7]).");
-    	assertEquals(solve2.get("Y"), new Integer(5));
+    	assertEquals(solve2.get("Y"), Integer.valueOf(5));
     }
     
     /**
@@ -261,19 +261,10 @@ public class ProverTest {
     public void testTermConverters() {
         int iVal = p.<Integer>solve("X=1.").get();
         assertEquals(1, iVal);
-//        long lVal = p.<Long>solve("X=1L.").get();
-//        assertEquals(1L, lVal);
-//        float fVal = p.<Float>solve("X=1.0f.").get();
-//        assertEquals(1.0f, fVal, 0.0);
         double dVal = p.<Double>solve("X=1.0.").get();
         assertEquals(1.0, dVal, 0.0);
         String sVal = p.<String>solve("X=prolog4j.").get();
         assertEquals("prolog4j", sVal);
-        
-//        Object[] iaVal = p.<Integer[]>solve("X = [0, 1, 2].").get();
-//        assertArrayEquals(new Object[]{0, 1, 2}, iaVal);
-//        Object[] saVal = p.<Object[]>solve("X = [a, b, c].").get();
-//        assertArrayEquals(new Object[]{"a", "b", "c"}, saVal);
         
         List<Integer> liVal = p.<List<Integer>>solve("X = [0, 1, 2].").get();
         assertEquals(Arrays.asList(0, 1, 2), liVal);
@@ -289,14 +280,9 @@ public class ProverTest {
      */
     @Test
     public void testObjectConverters() {
-        System.out.println("ProverTest.testObjectConverters()");
-        System.out.println(List[].class.getSuperclass());
-        System.out.println(List.class.getSuperclass());
         assertSuccess("?=1.", 1);
         assertFailure("?=1.", 1.0);
         assertFailure("?=1.", 2);
-//        assertSuccess("?=1L.", 1L);
-//        assertSuccess("?=1.0f.", 1.0f);
         assertSuccess("?=1.0.", 1.0);
         assertFailure("?=1.0.", 1);
         assertFailure("?=1.0.", 2.0);
@@ -307,9 +293,7 @@ public class ProverTest {
         assertSuccess("?='2'.", "2");
         assertFailure("?=2.", "2");
         assertFailure("?='2'.", 2);
-
-//        assertSuccess("?=[0, 1, 2].", (Object) new Integer[]{0, 1, 2});
-//        assertSuccess("?=[a, b, c].", (Object) new String[]{"a", "b", "c"});
+        
         assertSuccess("?=[0, 1, 2].", Arrays.asList(0, 1, 2));
         assertSuccess("?=[a, b, c].", Arrays.asList("a", "b", "c"));
 
@@ -322,7 +306,6 @@ public class ProverTest {
     @Test
     public void testCustomObjectConverters() {
         final ConversionPolicy cp = p.getConversionPolicy();
-//        final ConversionPolicy cp = ProverFactory.getConversionPolicy();
         class Human {
             private final String name;
             Human(String name) {
@@ -348,7 +331,6 @@ public class ProverTest {
     @Test
     public void testCustomTermConverters() {
         final ConversionPolicy cp = p.getConversionPolicy();
-//        final ConversionPolicy cp = ProverFactory.getConversionPolicy();
         class Human {
             private final String name;
             Human(String name) {
@@ -466,12 +448,4 @@ public class ProverTest {
     public void testFormatElements() {
         assertSuccess("member(?, [1, 2, 3]).", 1);
     }
-
-//    /**
-//     * Tests the format elements
-//     */
-//    @Test(expected = InvalidQueryException.class)
-//    public void testFormatElements2() {
-//        assertSuccess("member({xy}, [1, 2, 3]).", 1);
-//    }
 }

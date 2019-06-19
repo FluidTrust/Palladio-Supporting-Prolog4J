@@ -24,64 +24,24 @@
 package org.prolog4j;
 
 import java.io.Serializable;
-//import java.lang.ref.Reference;
-//import java.lang.ref.ReferenceQueue;
-//import java.util.HashMap;
-//import java.util.LinkedList;
-//import java.util.List;
-//import java.util.Map;
+import java.util.List;
 
 /**
  * Serves as base class for prover implementation.
  */
 public abstract class AbstractProver implements Prover, Serializable {
-
-//	/**
-//	 * Weak facts refers to Java objects by weak references.
-//	 */
-//	private Map<Reference, List<Query>> weakFacts = new HashMap<Reference, List<Query>>();
-//	
-//	/**
-//	 * Reference queue for the objects referred by weak facts.
-//	 */
-//	private ReferenceQueue<Object> obsoleteObjects = new ReferenceQueue<Object>();
 	
-	/** Class version for serialization. */
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public final <A> Solution<A> solve(String goal, Object... actualArgs) {
-//		reclaimObsoleteFacts();
 		return query(goal).solve(actualArgs);
 	}
-
-//	/**
-//	 * Retracts weak rules that refer to objects reclaimed by the garbage 
-//	 * collector.
-//	 */
-//	public void reclaimObsoleteFacts() {
-//		Reference ref = obsoleteObjects.poll();
-//		while (ref != null) {
-//			List<Query> rules = weakFacts.get(ref);
-//			for (Query rule: rules) {
-//				rule.retract();
-//			}
-//			ref = obsoleteObjects.poll();
-//		}
-//	}
 
 	@Override
 	public void assertz(String fact, Object... args) {
 		Query q = query("assertz(" + fact.substring(0, fact.lastIndexOf('.')) + ").");
 		q.solve(args);
-//		for (Reference ref: q.getWeakReferences()) {
-//			List<Query> rules = weakFacts.get(ref);
-//			if (rules == null) {
-//				rules = new LinkedList<Query>();
-//				weakFacts.put(ref, rules);
-//			}
-//			rules.add(q);
-//		}
 	}
 
 	@Override
@@ -131,6 +91,14 @@ public abstract class AbstractProver implements Prover, Serializable {
 			}
 			delegate.addObjectConverter(pattern, converter);
 		}
+		
+		@Override
+		public <T> void addListConverter(Class<T> pattern, Converter<List<?>> converter) {
+			if (delegate == GLOBAL_POLICY) {
+				delegate = ProverFactory.createConversionPolicy();
+			}
+			delegate.addListConverter(pattern, converter);
+		}
 
 		@Override
 		public void addTermConverter(String pattern, Converter<Object> converter) {
@@ -151,7 +119,7 @@ public abstract class AbstractProver implements Prover, Serializable {
 		}
 		
 		@Override
-		public <T> T convertTerm(Object term, java.lang.Class<T> type) {
+		public <U,T> T convertTerm(U term, java.lang.Class<T> type) {
 			return delegate.convertTerm(term, type);
 		}
 
@@ -217,28 +185,5 @@ public abstract class AbstractProver implements Prover, Serializable {
 		public boolean isInteger(Object term) {
 			return delegate.isInteger(term);
 		}
-
-//		@Override
-//		public Term pattern(String term) {
-//			return delegate.pattern(term);
-//		}
 	}
-
-	// /**
-	// * Replace this instance with a homonymous (same name) prover returned by
-	// * ProverFactory. Note that this method is only called during
-	// * deserialization.
-	// * <p>
-	// * This approach will work well if the desired IProverFactory is the one
-	// * references by ProverFactory. However, if the user manages its prover
-	// * hierarchy through a different (non-static) mechanism, e.g. dependency
-	// * injection, then this approach would be mostly counterproductive.
-	// *
-	// * @return prover with same name as returned by ProverFactory
-	// */
-	// protected Object readResolve() {
-	// // TODO The knowledge base is not restored this way.
-	// return ProverFactory.getProver(getName());
-	// }
-
 }

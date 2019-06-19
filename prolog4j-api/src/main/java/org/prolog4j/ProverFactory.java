@@ -42,14 +42,6 @@ import java.util.List;
  * Please note that all methods in <code>ProverFactory</code> are static.
  */
 public final class ProverFactory {
-
-//	static final String NO_PROVER_FACTORY_BINDER_URL = 
-//		"http://prolog4j.org/codes.html#ProverFactoryBinder";
-//	static final String MULTIPLE_BINDINGS_URL = "http://prolog4j.org/codes.html#multiple_bindings";
-//	static final String NULL_LF_URL = "http://prolog4j.org/codes.html#null_LF";
-//	static final String VERSION_MISMATCH = "http://prolog4j.org/codes.html#version_mismatch";
-
-//	static final String UNSUCCESSFUL_INIT_URL = "http://prolog4j.org/codes.html#unsuccessfulInit";
 	
 	/**
 	 * The error message when the initialization of the prover factory was 
@@ -128,8 +120,6 @@ public final class ProverFactory {
 			if (msg != null
 					&& msg.indexOf("org/prolog4j/ProverFactoryBinder") != -1) {
 				reportFailure("Failed to load class \"org.prolog4j.ProverFactoryBinder\".");
-//				reportFailure("See " + NO_PROVER_FACTORY_BINDER_URL
-//						+ " for further details.");
 			}
 			throw ncde;
 		} catch (Exception e) {
@@ -155,7 +145,6 @@ public final class ProverFactory {
 			reportFailure("The requested version " + requested
 					+ " by your Prolog4J binding is not compatible with "
 					+ Arrays.toString(API_COMPATIBILITY_LIST));
-//			reportFailure("See " + VERSION_MISMATCH + " for further details.");
 		} catch (java.lang.NoSuchFieldError nsfe) {
 			reportFailure("The binding does not declare its compatibility list.");
 		} catch (Throwable e) {
@@ -187,7 +176,6 @@ public final class ProverFactory {
 				for (URL implementation : implementationList) {
 					reportFailure("Found binding in [" + implementation + "]");
 				}
-//				reportFailure("See " + MULTIPLE_BINDINGS_URL + " for an explanation.");
 			}
 		} catch (IOException ioe) {
 			reportFailure("Error getting resources from path", ioe);

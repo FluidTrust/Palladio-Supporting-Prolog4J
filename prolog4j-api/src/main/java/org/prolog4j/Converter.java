@@ -34,11 +34,11 @@ public abstract class Converter<T> {
 	 * Converts an object to another one. If the conversion is not applicable
 	 * then it returns <code>null</code>.
 	 * 
-	 * @param object the object to convert
+	 * @param term the object to convert
 	 * @return the result of the conversion or <code>null</code> if the object
 	 *         cannot be converted
 	 */
-	public abstract Object convert(T object);
+	public abstract Object convert(T term);
 	
 	/**
 	 * Converts an object to another one of a specific type. If the conversion
@@ -50,7 +50,6 @@ public abstract class Converter<T> {
 	 * @return the result of the conversion or <code>null</code> if the object
 	 *         cannot be converted
 	 */
-	@SuppressWarnings("unchecked")
 	public <R> R convert(T object, Class<R> to) {
 		return to.cast(convert(object));
 	}

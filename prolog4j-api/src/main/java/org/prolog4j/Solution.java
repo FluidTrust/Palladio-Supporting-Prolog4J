@@ -230,9 +230,8 @@ public abstract class Solution<S> implements Iterable<S> {
 	 * @param variables the name of the output variables
 	 * @param collections the collections where to store the solutions
 	 */
-	@SuppressWarnings("unchecked")
-	public final void collect(String[] variables, Collection[] collections) {
-		SolutionIterator it = iterator();
+	public final void collect(String[] variables, Collection<?>[] collections) {
+		SolutionIterator<?> it = iterator();
 		while (it.hasNext()) {
 			it.next();
 			for (int i = 0; i < variables.length; ++i) {
@@ -247,8 +246,7 @@ public abstract class Solution<S> implements Iterable<S> {
 	 * @param collections
 	 *            the collections which will store the solutions
 	 */
-	@SuppressWarnings("unchecked")
-	public abstract void collect(Collection... collections);
+	public abstract void collect(Collection<?>... collections);
 	
 	/**
 	 * Collects the values of the primary variable into a {@link java.util.Set
