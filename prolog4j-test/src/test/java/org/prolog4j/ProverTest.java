@@ -425,7 +425,6 @@ public class ProverTest {
      */
     @Test
     public void testWeakFacts() {
-        // TODO
         p.assertz("roman2(michelangelo).");
         p.assertz("roman2(davinci).");
         p.assertz("roman2(iulius).");

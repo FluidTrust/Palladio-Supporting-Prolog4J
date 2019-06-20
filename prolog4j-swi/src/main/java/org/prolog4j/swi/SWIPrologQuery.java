@@ -23,12 +23,13 @@
  */
 package org.prolog4j.swi;
 
-import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import org.jpl7.PrologException;
 import org.jpl7.Term;
 import org.jpl7.Util;
-import org.jpl7.Variable;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.InvalidQueryException;
 import org.prolog4j.Query;
@@ -46,10 +47,14 @@ public class SWIPrologQuery extends Query {
 	private final ConversionPolicy cp;
 	
 	/** The SWI-Prolog representation of the goal to be solved. */
-	private org.jpl7.Term sGoal;
+	private Term swiGoal;
+	
+	private String goalPattern;
+	
+	private String myGoal;
 
 	/** The SWI-Prolog variables representing the input variables of the goal. */
-	private Variable[] inputVars;
+	//private Variable[] inputVars;
 	
 	/**
 	 * Creates a SWI-Prolog query object.
@@ -61,36 +66,54 @@ public class SWIPrologQuery extends Query {
 		super(goal);
 		this.prover = prover;
 		this.cp = prover.getConversionPolicy();
-		List<String> placeholderNames = getPlaceholderNames();
-		int placeholderNo = placeholderNames.size();
-		inputVars = new Variable[placeholderNo];
+		this.goalPattern = goal;
+		//List<String> placeholderNames = getPlaceholderNames();
+		//int placeholderNo = placeholderNames.size();
+		//inputVars = new Variable[placeholderNo];
 
-		try {
-		sGoal = Util.textToTerm(getGoal());
-		} catch (PrologException exc) {
-			throw new InvalidQueryException(getGoal());
-		}
-		for (int i = 0, index = 0; i < placeholderNo; ++i, ++index) {
-			Variable argVar = new Variable(placeholderNames.get(i));
-			Variable arg = new Variable("J__" + argVar.name());
-			sGoal = new org.jpl7.Compound(",", new Term[]{new org.jpl7.Compound("=", new Term[]{argVar, arg}), sGoal});
-			inputVars[index] = arg;
+		//try {
+		//sGoal = Util.textToTerm(getGoal());
+		//} catch (PrologException exc) {
+		//	throw new InvalidQueryException(getGoal());
+		//}
+		myGoal = getGoal();
+		for(String ph: getPlaceholderNames()) {
+			//myGoal = myGoal.replace(ph, " ? ");
+			//String replaceRegex =
+			Pattern finder = Pattern.compile("^"+ph+"|[^a-zA-Z0-9]"+ph+"[^a-zA-Z0-9]|"+ph+"$");
+			Matcher m = finder.matcher(myGoal);
+			if(m.find()) {
+				String s = m.group();
+				String ns = s.replace(ph, " ? ");
+				myGoal = myGoal.replace(s, ns);
+			}
 		}
 	}
+	
 
 	@Override
 	public <A> Solution<A> solve(Object... actualArgs) {
-		int i = 0;
-		org.jpl7.Term g = sGoal;
-		for (String ph: getPlaceholderNames()) {
-			g = new org.jpl7.Compound(
-						",", 
-						new Term[]{
-								new org.jpl7.Compound("=", new Term[]{new Variable(ph), 
-										(Term) cp.convertObject(actualArgs[i++])}),
-								g});
+		//int i = 0;
+		//org.jpl7.Term g = sGoal;
+		//for (String ph: getPlaceholderNames()) {
+		//	g = new org.jpl7.Compound(
+		//				",", 
+		//				new Term[]{
+		//						new org.jpl7.Compound("=", new Term[]{new Variable(ph), 
+		//								(Term) cp.convertObject(actualArgs[i++])}),
+		//						g});
+		//}
+		//return new SWIPrologSolution<A>(prover, g);
+		Term[] argTerms = Stream.of(actualArgs)
+				.map(arg -> (Term)cp.convertObject(arg))
+				.toArray(Term[]::new);
+		
+		try {
+			swiGoal = Util.textParamsToTerm(myGoal, argTerms);
+		} catch (PrologException exc) {
+			throw new InvalidQueryException(getGoal());
 		}
-		return new SWIPrologSolution<A>(prover, g);
+		return new SWIPrologSolution<A>(prover, swiGoal);
 	}
 
 	@Override

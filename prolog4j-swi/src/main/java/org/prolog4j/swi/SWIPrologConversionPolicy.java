@@ -116,10 +116,10 @@ public class SWIPrologConversionPolicy extends ConversionPolicy {
 		addListConverter(List.class, new Converter<List<?>>() {
 			@Override
 			public Object convert(List<?> list) {
-				Term pList = new Atom("[]");
+				Term pList = new Atom("[]", "reserved_symbol");
 				ListIterator<?> it = list.listIterator(list.size());
 				while (it.hasPrevious()) {
-					pList = new org.jpl7.Compound(".",
+					pList = new org.jpl7.Compound("[|]",
 							new Term[] {(Term) convertObject(it.previous()), pList});
 				}
 				return pList;
@@ -157,7 +157,7 @@ public class SWIPrologConversionPolicy extends ConversionPolicy {
 				if (Util.listToLength(value) != -1) {
 					Term term = value;
 					List<Object> list = new LinkedList<Object>();
-					while (term.hasFunctor(".", 2)) {
+					while (term.hasFunctor("[|]", 2)) {
 						list.add(convertTerm(term.arg(1)));
 						term = term.arg(2);
 					}
