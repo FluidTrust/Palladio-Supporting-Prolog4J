@@ -105,9 +105,9 @@ public class SWIPrologConversionPolicy extends ConversionPolicy {
 		addObjectConverter(Object[].class, new Converter<Object[]>() {
 			@Override
 			public Object convert(Object[] array) {
-				Term pList = new Atom("[]");
+				Term pList = new Atom("[]", "reserved_symbol");
 				for (int i = array.length - 1; i >= 0; --i) {
-					pList = new org.jpl7.Compound(".", 
+					pList = new org.jpl7.Compound("[|]", 
 							new Term[] { (Term) convertObject(array[i]), pList});
 				}
 				return pList;
