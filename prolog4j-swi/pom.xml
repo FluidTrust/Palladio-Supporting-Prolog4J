@@ -10,6 +10,7 @@
   <artifactId>prolog4j-swi</artifactId>
   <packaging>jar</packaging>
   <name>prolog4j-swi</name>
+  <description>Implementation for the Prolog4J API based on SWI-Prolog</description>
 
   <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
