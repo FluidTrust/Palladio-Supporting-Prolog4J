@@ -72,7 +72,7 @@ public abstract class ConversionPolicy {
 	 * the map are the patterns. If a pattern matches a term then its converter can
 	 * be applied.
 	 */
-	private HashMap<Object, Converter<?>> termConverters = new HashMap<Object, Converter<?>>();
+	private HashMap<Class<?>, Converter<?>> termConverters = new HashMap<Class<?>, Converter<?>>();
 
 	/**
 	 * Represents the reverse insertion order of the keys to
