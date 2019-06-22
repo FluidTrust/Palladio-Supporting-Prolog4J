@@ -9,7 +9,9 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>prolog4j-test</artifactId>
   <packaging>jar</packaging>
+  
   <name>prolog4j-test</name>
+  <description>Common unit tests for the implementations of the Prolog4J API</description>
 
   <dependencies>
     <dependency>
