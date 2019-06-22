@@ -1,33 +1,76 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.prolog4j</groupId>
-  <artifactId>prolog4j-parent</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>prolog4j-parent</name>
-  
-  <modules>
-  	<module>prolog4j-api</module>
-    <module>prolog4j-swi</module>
-    <module>prolog4j-test</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.prolog4j</groupId>
+	<artifactId>prolog4j-parent</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.prolog4j</groupId>
-        <artifactId>prolog4j-api</artifactId>
-        <version>1.0-SNAPSHOT</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-  
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	<maven.compiler.source>11</maven.compiler.source>
-	<maven.compiler.target>11</maven.compiler.target>
-  </properties>
-  
+	<name>prolog4j-parent</name>
+	<description>Easy to use interface over Prolog engines for Java.</description>
+	<inceptionYear>2009</inceptionYear>
+	<url>http://prolog4j.org/</url>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>espakm</id>
+			<name>Miklos Espak</name>
+			<email>espak.miklos@inf.unideb.hu</email>
+			<organization>University of Debrecen, Faculty of Informatics</organization>
+			<organizationUrl>http://www.inf.unideb.hu/</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>jeszy</id>
+			<name>Peter Jeszenszky</name>
+			<email>jeszenszky.peter@inf.unideb.hu</email>
+			<url>http://www.inf.unideb.hu/~jeszy/</url>
+			<organization>University of Debrecen, Faculty of Informatics</organization>
+			<organizationUrl>http://www.inf.unideb.hu/</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<name>Johannes Werner</name>
+			<roles>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<modules>
+		<module>prolog4j-api</module>
+		<module>prolog4j-swi</module>
+		<module>prolog4j-test</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.prolog4j</groupId>
+				<artifactId>prolog4j-api</artifactId>
+				<version>1.0-SNAPSHOT</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+	</properties>
+
 </project>
