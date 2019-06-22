@@ -75,7 +75,6 @@ public class TuPrologQuery extends Query {
 		this.cp = prover.getConversionPolicy();
 		this.engine = prover.getEngine();
 		List<String> placeholderNames = getPlaceholderNames();
-//		List<PlaceHolder> placeholders = getPlaceholders();
 		int placeholderNo = placeholderNames.size();
 		inputVars = new Var[placeholderNo];
 		try {
@@ -95,7 +94,6 @@ public class TuPrologQuery extends Query {
 
 	@Override
 	public <A> Solution<A> solve(Object... actualArgs) {
-//		prover.reclaimObsoleteFacts();
 		int i = 0;
 		for (Var var: inputVars) {
 			if (explicitlyBoundVars.contains(var)) {
@@ -118,9 +116,6 @@ public class TuPrologQuery extends Query {
 	@Override
 	public Query bind(String variable, Object value) {
 		for (Var v: inputVars) {
-//			if (v.isBound()) {
-//				continue;
-//			}
 			if (v.getName().equals(variable)) {
 				v.free();
 				explicitlyBoundVars.add(v);

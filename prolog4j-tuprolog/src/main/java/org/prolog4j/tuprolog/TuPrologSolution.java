@@ -29,8 +29,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.prolog4j.ConversionPolicy;
-import org.prolog4j.Prover;
-import org.prolog4j.ProverFactory;
 import org.prolog4j.Solution;
 import org.prolog4j.SolutionIterator;
 import org.prolog4j.UnknownVariableException;
@@ -51,16 +49,8 @@ import alice.tuprolog.Var;
  */
 public class TuPrologSolution<S> extends Solution<S> {
 
-	/** The tuProlog prover that is used for solving this query. */
-	private Prover prover;
-
 	/** The conversion policy of the tuProlog prover that is used for solving this query. */
 	private final ConversionPolicy cp;
-
-//	/** The conversion policy of the tuProlog prover that is used for solving this query. */
-//	private static final ConversionPolicy cp = ProverFactory.getConversionPolicy();
-
-//	private static final Terms terms = Terms.getInstance();
 
 	/** The tuProlog engine that is used for solving the query. */
 	private final Prolog engine;
@@ -81,7 +71,6 @@ public class TuPrologSolution<S> extends Solution<S> {
 	 * @param goal the goal to be solved
 	 */
 	TuPrologSolution(TuPrologProver prover, Term goal) {
-		this.prover = prover;
 		this.cp = prover.getConversionPolicy();
 		this.engine = prover.getEngine();
 		solution = engine.solve(goal);
@@ -95,7 +84,6 @@ public class TuPrologSolution<S> extends Solution<S> {
 			throw new IllegalStateException(e);
 		}
 		if (vars.size() > 0) {
-			// defaultOutputVariable = varName(vars.size() - 1);
 			on(varName(vars.size() - 1));
 		}
 	}
@@ -115,6 +103,7 @@ public class TuPrologSolution<S> extends Solution<S> {
 		return vars.get(varIndex).getOriginalName();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <A> A get(String variable) {
 		try {
@@ -138,14 +127,14 @@ public class TuPrologSolution<S> extends Solution<S> {
 			if (term == null) {
 				throw new UnknownVariableException(variable);
 			}
-			return (A) cp.convertTerm(term, type);
+			return cp.convertTerm(term, type);
 		} catch (NoSolutionException e) {
 			throw new NoSuchElementException();
 		}
 	}
 
 	@Override
-	public void collect(Collection... collections) {
+	public void collect(Collection<?>... collections) {
 		SolutionIterator<S> it = iterator();
 		while (it.hasNext()) {
 			it.next();
@@ -155,6 +144,7 @@ public class TuPrologSolution<S> extends Solution<S> {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public List<?>[] toLists() {
 		List<?>[] lists = new List<?>[vars.size() - 1];
@@ -170,11 +160,8 @@ public class TuPrologSolution<S> extends Solution<S> {
 		try {
 			boolean hasNext = engine.hasOpenAlternatives()
 					&& (solution = engine.solveNext()).isSuccess();
-//			if (!hasNext)
-//				engine.solveHalt();
 			return hasNext;
 		} catch (NoMoreSolutionException e) {
-			// Should not happen.
 			throw new IllegalStateException(e);
 		}
 	}

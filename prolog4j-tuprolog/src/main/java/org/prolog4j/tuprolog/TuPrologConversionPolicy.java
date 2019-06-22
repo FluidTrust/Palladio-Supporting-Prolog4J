@@ -135,9 +135,9 @@ public class TuPrologConversionPolicy extends ConversionPolicy {
 				return pList;
 			}
 		});
-		addObjectConverter(List.class, new Converter<List>() {
+		addListConverter(List.class, new Converter<List<?>>() {
 			@Override
-			public Object convert(List list) {
+			public Object convert(List<?> list) {
 				Struct pList = new Struct();
 				ListIterator<?> it = list.listIterator(list.size());
 				while (it.hasPrevious()) {
@@ -176,7 +176,7 @@ public class TuPrologConversionPolicy extends ConversionPolicy {
 					return value.getName();
 				}
 				if (value.isList()) {
-					List list = new LinkedList();
+					List<Object> list = new LinkedList<Object>();
 					while (!value.isEmptyList()) {
 						Term t = value.getArg(0);
 						list.add(convertTerm(t.getTerm()));
@@ -192,6 +192,7 @@ public class TuPrologConversionPolicy extends ConversionPolicy {
 				return new Compound(value.getName(), args);
 			}
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public <R> R convert(Struct value, java.lang.Class<R> to) {
 				if (value.isList() && Object[].class.isAssignableFrom(to)) {
@@ -219,11 +220,6 @@ public class TuPrologConversionPolicy extends ConversionPolicy {
 		}
 		return false;
 	}
-
-//	@Override
-//	public Object variable() {
-//		return new Var();
-//	}
 
 	@Override
 	public Object term(int value) {
@@ -290,12 +286,6 @@ public class TuPrologConversionPolicy extends ConversionPolicy {
 		return t;
 	}
 
-//	@Override
-//	public org.prolog4j.Term pattern(String term) {
-//		return null;
-////		return new TuPrologTerm(term);
-//	}
-
 	@Override
 	public int intValue(Object term) {
 		return ((alice.tuprolog.Number) term).intValue();
@@ -319,7 +309,6 @@ public class TuPrologConversionPolicy extends ConversionPolicy {
 
 	@Override
 	protected Object getArg(Object compound, int index) {
-//		return ((Struct) compound).getArg(index).getTerm();
 		return convertTerm(((Struct) compound).getArg(index).getTerm());
 	}
 

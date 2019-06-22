@@ -40,19 +40,6 @@ import alice.tuprolog.Theory;
  */
 public class TuPrologProver extends AbstractProver {
 
-	// static {
-	// GLOBAL.engine.addWarningListener(new WarningListener() {
-	// public void onWarning(WarningEvent e) {
-	// System.out.println(e.getMsg());
-	// }
-	// });
-	// GLOBAL.engine.addOutputListener(new OutputListener() {
-	// public void onOutput(alice.tuprolog.event.OutputEvent e) {
-	// System.out.println(e.getMsg());
-	// };
-	// });
-	// }
-
 	/** Class version for serialization. */
 	private static final long serialVersionUID = 1L;
 

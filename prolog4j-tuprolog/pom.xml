@@ -20,6 +20,11 @@
 			<artifactId>prolog4j-api</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>it.unibo.alice.tuprolog</groupId>
+			<artifactId>tuprolog</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.prolog4j</groupId>
 			<artifactId>prolog4j-test</artifactId>
 			<version>${project.version}</version>
