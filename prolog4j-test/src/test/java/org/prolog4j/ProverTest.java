@@ -55,12 +55,6 @@ public class ProverTest {
     @BeforeClass
     public static void setUpBeforeClass() {
         p = ProverFactory.getProver(ProverTest.class);
-        p.addTheory(
-        "member(X, [X|_]).",
-        "member(X, [_|L]) :- member(X, L).",
-        "append([], R, R).",
-        "append([H|T], L, [H|R]) :-" +
-        "    append(T, L, R).");
         
         p.addTheory(
                 "mortal(X) :- human(X).",

@@ -25,12 +25,12 @@ package org.prolog4j.projog;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import org.prolog4j.AbstractProver;
-import org.prolog4j.Query;
+import java.io.Reader;
+import java.io.StringReader;
 
 import org.projog.api.Projog;
-import org.projog.api.QueryStatement;
+import org.prolog4j.AbstractProver;
+import org.prolog4j.Query;
 
 /**
  * Represents a Prolog knowledge base and provides methods for solving queries
@@ -81,8 +81,8 @@ public class ProjogProver extends AbstractProver {
 
 	@Override
 	public void addTheory(String theory) {
-		QueryStatement q = engine.query("assertz(" + theory + ").");
-		q.getResult();
+		Reader inputStatement = new StringReader(theory);
+		engine.consultReader(inputStatement);
 	}
 
 	@Override
