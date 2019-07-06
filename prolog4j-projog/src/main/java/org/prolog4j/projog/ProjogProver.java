@@ -47,6 +47,8 @@ public class ProjogProver extends AbstractProver {
 	 */
 	private final Projog engine;
 
+	private String customKnowledgeBase = "";
+
 	/**
 	 * Creates a projog prover.
 	 */
@@ -81,15 +83,22 @@ public class ProjogProver extends AbstractProver {
 
 	@Override
 	public void addTheory(String theory) {
-		Reader inputStatement = new StringReader(theory);
-		engine.consultReader(inputStatement);
+		customKnowledgeBase = customKnowledgeBase + theory;
+		readCustomKnowledgeBase();
 	}
 
 	@Override
 	public void addTheory(String... theory) {
-		for(int i = 0;i < theory.length;i++) {
-			addTheory(theory[i]);
+		for (int i = 0; i < theory.length; i++) {
+			customKnowledgeBase = customKnowledgeBase + theory[i];
 		}
+		readCustomKnowledgeBase();
+	}
+
+	// TODO find a better solution
+	private void readCustomKnowledgeBase() {
+		Reader inputStatement = new StringReader(customKnowledgeBase);
+		engine.consultReader(inputStatement);
 	}
 
 }

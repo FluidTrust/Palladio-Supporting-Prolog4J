@@ -86,7 +86,7 @@ public class TuPrologConversionPolicy extends ConversionPolicy {
 	private static final Converter<Int> INT_TERM_CONVERTER = new Converter<Int>() {
 		@Override
 		public Object convert(Int value) {
-			return value.intValue();
+			return value.longValue();
 		}
 	};
 	/** Converts an alice.tuprolog.Long term to a Long object. */

@@ -55,7 +55,7 @@ public class ProjogSolution<S> extends Solution<S> {
 	private QueryResult solution;
 
 	/** True if the query has a solution, otherwise false. */
-	private final boolean success;
+	private boolean success;
 
 	/**
 	 * Creates an object, using which the solutions of a query can be accessed.
@@ -68,12 +68,16 @@ public class ProjogSolution<S> extends Solution<S> {
 		this.solution = goal;
 
 		try {
-			goal.next();
+			this.success = goal.next();
 		} catch (ProjogException e) {
 			this.success = false;
 			return;
 		}
-		this.success = true;
+		
+		List<String> variableIds = new ArrayList<String>(goal.getVariableIds());
+		if (variableIds.size() > 0) {
+			on(variableIds.get(variableIds.size()-1));
+		}
 	}
 
 	@Override
@@ -89,7 +93,7 @@ public class ProjogSolution<S> extends Solution<S> {
 			try {
 				term = solution.getTerm(variable);
 			} catch (ProjogException e) {
-				return null;
+				throw new UnknownVariableException(variable);
 			}
 			return (A) cp.convertTerm(term);
 		}
@@ -99,8 +103,10 @@ public class ProjogSolution<S> extends Solution<S> {
 	@Override
 	public <A> A get(String variable, Class<A> type) {
 		try {
-			Term term = solution.getTerm(variable);
-			if (term == null) {
+			Term term;
+			try {
+				term = solution.getTerm(variable);
+			} catch (ProjogException e) {
 				throw new UnknownVariableException(variable);
 			}
 			return cp.convertTerm(term, type);
@@ -135,7 +141,7 @@ public class ProjogSolution<S> extends Solution<S> {
 
 	@Override
 	protected boolean fetch() {
-		return !solution.isExhausted() && solution.next();
+		return solution.next();
 	}
 
 }

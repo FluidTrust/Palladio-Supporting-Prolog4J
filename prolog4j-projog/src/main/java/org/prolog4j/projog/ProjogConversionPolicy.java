@@ -24,12 +24,20 @@
 package org.prolog4j.projog;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.projog.core.KnowledgeBase;
+import org.projog.core.KnowledgeBaseUtils;
+import org.projog.core.parser.ParserException;
+import org.projog.core.parser.SentenceParser;
 import org.projog.core.term.Atom;
 import org.projog.core.term.DecimalFraction;
+import org.projog.core.term.EmptyList;
 import org.projog.core.term.IntegerNumber;
 import org.projog.core.term.ListFactory;
 import org.projog.core.term.ListUtils;
@@ -37,9 +45,11 @@ import org.projog.core.term.Numeric;
 import org.projog.core.term.Structure;
 import org.projog.core.term.Term;
 import org.projog.core.term.TermType;
+import org.projog.core.term.Variable;
 import org.prolog4j.Compound;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.Converter;
+import org.prolog4j.InvalidQueryException;
 
 /**
  * tuProlog implementation of the conversion policy.
@@ -89,8 +99,7 @@ public class ProjogConversionPolicy extends ConversionPolicy {
 		}
 	};
 	/** Converts an alice.tuprolog.Float term to a Float object. */
-	private static final Converter<DecimalFraction> DOUBLE_TERM_CONVERTER = 
-		new Converter<DecimalFraction>() {
+	private static final Converter<DecimalFraction> DOUBLE_TERM_CONVERTER = new Converter<DecimalFraction>() {
 		@Override
 		public Object convert(DecimalFraction value) {
 			return value.getDouble();
@@ -110,14 +119,15 @@ public class ProjogConversionPolicy extends ConversionPolicy {
 		addObjectConverter(Object[].class, new Converter<Object[]>() {
 			@Override
 			public Object convert(Object[] array) {
-				List<Term> termList = Arrays.asList(array).stream().map(x -> (Term)convertObject(x)).collect(Collectors.toList());
+				List<Term> termList = Arrays.asList(array).stream().map(x -> (Term) convertObject(x))
+						.collect(Collectors.toList());
 				return ListFactory.createList(termList);
 			}
 		});
 		addListConverter(List.class, new Converter<List<?>>() {
 			@Override
 			public Object convert(List<?> list) {
-				List<Term> termList = list.stream().map(x -> (Term)convertObject(x)).collect(Collectors.toList());
+				List<Term> termList = list.stream().map(x -> (Term) convertObject(x)).collect(Collectors.toList());
 				return ListFactory.createList(termList);
 			}
 		});
@@ -135,21 +145,61 @@ public class ProjogConversionPolicy extends ConversionPolicy {
 		});
 		addObjectConverter(Term.class, new Converter<Term>() {
 			@Override
-			public Object convert(Term value) {
-				return value;
+			public Object convert(Term term) {
+				return term;
+			}
+		});
+		addObjectConverter(Numeric.class, new Converter<Numeric>() {
+			@Override
+			public Object convert(Numeric term) {
+				return term;
 			}
 		});
 		addTermConverter(IntegerNumber.class, LONG_TERM_CONVERTER);
 		addTermConverter(DecimalFraction.class, DOUBLE_TERM_CONVERTER);
+		addTermConverter(Atom.class, new Converter<Atom>() {
+			@Override
+			public Object convert(Atom term) {
+				return term.getName();
+			}
+		});
+		addTermConverter(org.projog.core.term.List.class, new Converter<org.projog.core.term.List>() {
+			@Override
+			public Object convert(org.projog.core.term.List term) {
+				List<Term> termList = ListUtils.toJavaUtilList(term);
+				List<Object> convertedList = termList.stream() //
+						.map(x -> convertTerm(x)) //
+						.collect(Collectors.toList());
+				return convertedList;
+			}
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public <R> R convert(org.projog.core.term.List value, Class<R> to) {
+				if (!Object[].class.isAssignableFrom(to)) {
+					return null;
+				}
+				List<R> termList = new ArrayList<R>();
+
+				Term currentTerm = value;
+				while (!(currentTerm instanceof EmptyList)) {
+					Term current = currentTerm.getArgument(0);
+					termList.add((R) convertTerm(current));
+					currentTerm = currentTerm.getArgument(1);
+				}
+
+				R[] array = (R[]) Array.newInstance(to.getComponentType(), termList.size());
+				for (int i = 0; i < array.length; i++) {
+					array[i] = termList.get(i);
+				}
+				return to.cast(array);
+			}
+		});
+
+		// TODO check if necessary
 		addTermConverter(Structure.class, new Converter<Structure>() {
 			@Override
 			public Object convert(Structure value) {
-				if (isAtom(value)) {
-					return value.getName();
-				}
-				else if (isList(value)) {
-					return ListUtils.toJavaUtilList(value);
-				}
 				int arity = value.getNumberOfArguments();
 				Object[] args = new Object[arity];
 				for (int i = 0; i < arity; ++i) {
@@ -178,7 +228,7 @@ public class ProjogConversionPolicy extends ConversionPolicy {
 			}
 		});
 	}
-	
+
 	private boolean isList(Term term) {
 		return term.getType() == TermType.LIST || term.getType() == TermType.EMPTY_LIST;
 	}
@@ -203,12 +253,65 @@ public class ProjogConversionPolicy extends ConversionPolicy {
 
 	@Override
 	public Object term(String name) {
-		return null; // TODO
+		KnowledgeBase defaultKnowledgeBase = KnowledgeBaseUtils.createKnowledgeBase();
+		SentenceParser parser = SentenceParser.getInstance(name, KnowledgeBaseUtils.getOperands(defaultKnowledgeBase));
+		try {
+			Term result = parser.parseTerm();
+			return result;
+		} catch (ParserException e) {
+			throw new InvalidQueryException(name, e);
+		}
 	}
 
 	@Override
 	public Object term(String name, Object... args) {
-		return null; // TODO
+		TermPattern tp = tp(name);
+		Map<String, Term> map = new HashMap<String, Term>();
+		List<String> placeholderNames = tp.placeholderNames;
+		for (int i = 0; i < placeholderNames.size(); ++i) {
+			map.put(placeholderNames.get(i), (Term) convertObject(args[i]));
+		}
+		Term term = (Term) term(tp.pattern);
+		return replacePlaceholders(term, map);
+	}
+
+	private Term replacePlaceholders(Term t, Map<String, Term> args) {
+		switch (t.getType()) {
+		case STRUCTURE:
+			Term[] tt = new Term[t.getNumberOfArguments()];
+			boolean hasChanged = false;
+			for (int i = 0; i < t.getNumberOfArguments(); i++) {
+				tt[i] = replacePlaceholders(t.getArgs()[i], args);
+				hasChanged |= tt[i] != t.getArgs()[i];
+			}
+			if(hasChanged) {
+				return Structure.createStructure(t.getName(), tt);
+			}
+		case ATOM:
+		case EMPTY_LIST:
+		case FRACTION:
+		case INTEGER:
+			break;
+		case LIST:
+			List<Term> termList = ListUtils.toJavaUtilList(t);
+			List<Term> replacedTerms = new ArrayList<Term>();
+			hasChanged = false;
+			for(Term term:termList) {
+				Term replaced = replacePlaceholders(term, args);
+				replacedTerms.add(replaced);
+				hasChanged |= replaced != term;
+			}
+			if(hasChanged) {
+				return ListFactory.createList(replacedTerms);
+			}
+		case VARIABLE:
+			Term t1 = args.get(((Variable)t).getId());
+			if (t1 != null) {
+				return t1;
+			}
+		}
+
+		return t;
 	}
 
 	@Override
@@ -230,7 +333,6 @@ public class ProjogConversionPolicy extends ConversionPolicy {
 	protected int getArity(Object compound) {
 		return ((Structure) compound).getNumberOfArguments();
 	}
-
 
 	@Override
 	protected Object getArg(Object compound, int index) {

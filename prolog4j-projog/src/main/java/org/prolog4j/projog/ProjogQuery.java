@@ -26,6 +26,7 @@ package org.prolog4j.projog;
 import org.projog.api.Projog;
 import org.projog.api.QueryResult;
 import org.projog.api.QueryStatement;
+import org.projog.core.ProjogException;
 import org.projog.core.term.Term;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.InvalidQueryException;
@@ -68,8 +69,13 @@ public class ProjogQuery extends Query {
 			throw new InvalidQueryException(getGoal());
 		}
 		
-		QueryStatement qs =  engine.query(getGoal());
-		this.goal = qs.getResult();
+		try {
+			QueryStatement qs =  engine.query(getGoal());
+			this.goal = qs.getResult();
+		} catch(ProjogException e) {
+			throw new InvalidQueryException(getGoal(), e);
+		}
+		
 		for(int i = 0; i < actualArgs.length; i++) {
 			this.goal.setTerm(getPlaceholderNames().get(i), (Term) cp.convertObject(actualArgs[i]));
 		}
