@@ -57,7 +57,6 @@ public class ProverTest {
 		p = ProverFactory.getProver(ProverTest.class);
 
 		p.addTheory("mortal(X) :- human(X).", "human(socrates).", "human(plato).");
-		p.getConversionPolicy();
 	}
 
 	/**

@@ -47,7 +47,27 @@ public class ProjogProver extends AbstractProver {
 	 */
 	private final Projog engine;
 
-	private String customKnowledgeBase = "";
+	/**
+	 * Due to a bug in Projog we have to keep track of all the custom predicates
+	 * ourselves.
+	 * 
+	 * The bug: Consider following code
+	 * 
+	 * p.addTheory("greek(socrates)."); 
+	 * p.addTheory("greek(demokritos).");
+	 * p.addTheory("greek(plato).");
+	 * 
+	 * What you would expect is that all three statements would be in the
+	 * knowledgeBase. But what actually happens is that only the last theory is
+	 * present (p.addTheory("greek(plato).");) The reason for this is that projog
+	 * uses the function name (in this case greek) as the key into a hashmap where
+	 * the associated predicates are stored. And with each call to addTheory, the
+	 * previous predicate is replaced in the hashmap.
+	 * 
+	 * Thus we have to keep track of custom predicates and add them all together
+	 * each time something changes.
+	 */
+	private CustomKnowledgeBase knowledgeBase = new CustomKnowledgeBase();
 
 	/**
 	 * Creates a projog prover.
@@ -83,22 +103,28 @@ public class ProjogProver extends AbstractProver {
 
 	@Override
 	public void addTheory(String theory) {
-		customKnowledgeBase = customKnowledgeBase + theory;
-		readCustomKnowledgeBase();
+		knowledgeBase.addTheory(theory);
+		knowledgeBase.load();
 	}
 
 	@Override
-	public void addTheory(String... theory) {
-		for (int i = 0; i < theory.length; i++) {
-			customKnowledgeBase = customKnowledgeBase + theory[i];
+	public void addTheory(String... theories) {
+		for (String theory : theories) {
+			knowledgeBase.addTheory(theory);
 		}
-		readCustomKnowledgeBase();
+		knowledgeBase.load();
 	}
 
-	// TODO find a better solution
-	private void readCustomKnowledgeBase() {
-		Reader inputStatement = new StringReader(customKnowledgeBase);
-		engine.consultReader(inputStatement);
-	}
+	private class CustomKnowledgeBase {
+		private StringBuilder knowledgeBase = new StringBuilder();
 
+		public void addTheory(String theory) {
+			this.knowledgeBase.append(theory);
+		}
+
+		public void load() {
+			Reader inputStatement = new StringReader(knowledgeBase.toString());
+			engine.consultReader(inputStatement);
+		}
+	}
 }

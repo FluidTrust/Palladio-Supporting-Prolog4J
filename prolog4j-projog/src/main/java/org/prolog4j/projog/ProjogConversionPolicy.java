@@ -195,8 +195,6 @@ public class ProjogConversionPolicy extends ConversionPolicy {
 				return to.cast(array);
 			}
 		});
-
-		// TODO check if necessary
 		addTermConverter(Structure.class, new Converter<Structure>() {
 			@Override
 			public Object convert(Structure value) {
@@ -207,30 +205,7 @@ public class ProjogConversionPolicy extends ConversionPolicy {
 				}
 				return new Compound(value.getName(), args);
 			}
-
-			@SuppressWarnings("unchecked")
-			@Override
-			public <R> R convert(Structure value, java.lang.Class<R> to) {
-				if (isList(value) && Object[].class.isAssignableFrom(to)) {
-					int length = value.getNumberOfArguments();
-					R[] array = (R[]) Array.newInstance(to.getComponentType(), length);
-					for (int i = 0; i < length; ++i) {
-						Term t = value.getArgument(0);
-						array[i] = (R) convertTerm(t.getTerm());
-						value = (Structure) value.getArgument(1).getTerm();
-					}
-					return to.cast(array);
-				}
-				if (isAtom(value) && to == String.class) {
-					return to.cast(value.getName());
-				}
-				return null;
-			}
 		});
-	}
-
-	private boolean isList(Term term) {
-		return term.getType() == TermType.LIST || term.getType() == TermType.EMPTY_LIST;
 	}
 
 	@Override
