@@ -77,10 +77,10 @@ public class SWIPrologConversionPolicy extends ConversionPolicy {
 		}
 	};
 	/** Converts a jpl.Integer term to an Integer object. */
-	private static final Converter<org.jpl7.Integer> INT_TERM_CONVERTER = new Converter<org.jpl7.Integer>() {
+	private static final Converter<org.jpl7.Integer> Long_TERM_CONVERTER = new Converter<org.jpl7.Integer>() {
 		@Override
 		public Object convert(org.jpl7.Integer value) {
-			return value.intValue();
+			return value.longValue();
 		}
 	};
 	/** Converts a jpl.Float term to a Double object. */
@@ -143,7 +143,7 @@ public class SWIPrologConversionPolicy extends ConversionPolicy {
 				return value;
 			}
 		});
-		addTermConverter(org.jpl7.Integer.class, INT_TERM_CONVERTER);
+		addTermConverter(org.jpl7.Integer.class, Long_TERM_CONVERTER);
 		addTermConverter(org.jpl7.Float.class, DOUBLE_TERM_CONVERTER);
 		addTermConverter(Atom.class, new Converter<Atom>() {
 			@Override

@@ -206,9 +206,9 @@ public class ProverTest {
 	 */
 	@Test
 	public void testTestGet() {
-		Solution<Object> solve = p.solve("member(X, [2, 3, 4]), member(Y, [5, 6, 7]).");
+		Solution<Long> solve = p.<Long>solve("member(X, [2, 3, 4]), member(Y, [5, 6, 7]).");
 		assertEquals(solve.get("X"), Long.valueOf(2));
-		Solution<Object> solve2 = p.solve("member(X, [2, 3, 4]), member(Y, [5, 6, 7]).");
+		Solution<Long> solve2 = p.<Long>solve("member(X, [2, 3, 4]), member(Y, [5, 6, 7]).");
 		assertEquals(solve2.get("Y"), Long.valueOf(5));
 	}
 
