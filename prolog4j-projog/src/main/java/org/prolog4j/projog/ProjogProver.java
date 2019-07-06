@@ -97,11 +97,6 @@ public class ProjogProver extends AbstractProver {
 	}
 
 	@Override
-	public void loadTheory(InputStream input) throws IOException {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public void addTheory(String theory) {
 		knowledgeBase.addTheory(theory);
 		knowledgeBase.load();

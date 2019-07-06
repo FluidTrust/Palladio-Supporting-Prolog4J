@@ -23,6 +23,8 @@
  */
 package org.prolog4j;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 
@@ -30,7 +32,7 @@ import java.util.List;
  * Serves as base class for prover implementation.
  */
 public abstract class AbstractProver implements Prover, Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -53,7 +55,20 @@ public abstract class AbstractProver implements Prover, Serializable {
 		}
 		query("retract(" + fact.substring(0, lastDot) + ").").solve();
 	}
-	
+
+	@Override
+	public void loadTheory(InputStream input) throws IOException {
+		StringBuilder inputString = new StringBuilder();
+
+		int i;
+		while ((i = input.read()) != -1) {
+			inputString.append((char) i);
+		}
+
+		String[] inputLines = inputString.toString().split(System.lineSeparator());
+		addTheory(inputLines);
+	}
+
 	/** The default conversion policy used by the current implementation. */
 	private static final ConversionPolicy GLOBAL_POLICY = ProverFactory.getConversionPolicy();
 
@@ -64,26 +79,25 @@ public abstract class AbstractProver implements Prover, Serializable {
 	public ConversionPolicy getConversionPolicy() {
 		return conversionPolicy;
 	}
-	
+
 	@Override
 	public void setConversionPolicy(ConversionPolicy conversionPolicy) {
 		this.conversionPolicy = conversionPolicy;
 	}
-	
-	/** 
-	 * By default this policy delegates method calls to the global policy.
-	 * At the first time when the policy is customized (a converter is added),
-	 * it creates a new policy, and it will delegate the subsequent calls to
-	 * this new policy.
+
+	/**
+	 * By default this policy delegates method calls to the global policy. At the
+	 * first time when the policy is customized (a converter is added), it creates a
+	 * new policy, and it will delegate the subsequent calls to this new policy.
 	 */
 	private class LazyConversionPolicy extends ConversionPolicy {
-		
-		/** 
-		 * The conversion requests will be delegated to this policy. 
-		 * Its value is the global policy by default.
+
+		/**
+		 * The conversion requests will be delegated to this policy. Its value is the
+		 * global policy by default.
 		 */
 		private ConversionPolicy delegate = GLOBAL_POLICY;
-		
+
 		@Override
 		public <T> void addObjectConverter(Class<T> pattern, Converter<T> converter) {
 			if (delegate == GLOBAL_POLICY) {
@@ -91,7 +105,7 @@ public abstract class AbstractProver implements Prover, Serializable {
 			}
 			delegate.addObjectConverter(pattern, converter);
 		}
-		
+
 		@Override
 		public <T> void addListConverter(Class<T> pattern, Converter<List<?>> converter) {
 			if (delegate == GLOBAL_POLICY) {
@@ -107,19 +121,19 @@ public abstract class AbstractProver implements Prover, Serializable {
 			}
 			delegate.addTermConverter(pattern, converter);
 		}
-		
+
 		@Override
 		public Object convertObject(Object object) {
 			return delegate.convertObject(object);
 		}
-		
+
 		@Override
 		public Object convertTerm(Object term) {
 			return delegate.convertTerm(term);
 		}
-		
+
 		@Override
-		public <U,T> T convertTerm(U term, java.lang.Class<T> type) {
+		public <U, T> T convertTerm(U term, java.lang.Class<T> type) {
 			return delegate.convertTerm(term, type);
 		}
 
@@ -132,10 +146,12 @@ public abstract class AbstractProver implements Prover, Serializable {
 		public Object term(int value) {
 			return delegate.term(value);
 		}
+
 		@Override
 		public Object term(double value) {
 			return delegate.term(value);
 		}
+
 		@Override
 		public Object term(String name) {
 			return delegate.term(name);
@@ -145,22 +161,27 @@ public abstract class AbstractProver implements Prover, Serializable {
 		public Object term(String name, Object... args) {
 			return delegate.term(name, args);
 		}
+
 		@Override
 		public int intValue(Object term) {
 			return delegate.intValue(term);
 		}
+
 		@Override
 		public double doubleValue(Object term) {
 			return delegate.doubleValue(term);
 		}
+
 		@Override
 		protected String getName(Object compound) {
 			return delegate.getName(compound);
 		}
+
 		@Override
 		protected int getArity(Object compound) {
 			return delegate.getArity(compound);
 		}
+
 		@Override
 		protected Object getArg(Object compound, int index) {
 			return delegate.getArg(compound, index);

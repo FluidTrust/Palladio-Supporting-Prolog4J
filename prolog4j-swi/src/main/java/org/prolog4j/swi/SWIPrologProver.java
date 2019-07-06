@@ -55,11 +55,6 @@ public class SWIPrologProver extends AbstractProver {
 		throw new UnsupportedOperationException();
 	}
 
-	@Override
-	public void loadTheory(InputStream input) throws IOException {
-		throw new UnsupportedOperationException();
-	}
-
 	public void loadTheory(String filename) {
 		throw new UnsupportedOperationException();
 	}
@@ -73,8 +68,7 @@ public class SWIPrologProver extends AbstractProver {
 	@Override
 	public void addTheory(String... theory) {
 		for (String clause: theory) {
-			org.jpl7.Query query = new org.jpl7.Query("assertz", new org.jpl7.Term[]{org.jpl7.Util.textToTerm(clause)});
-			query.hasSolution();
+			addTheory(clause);
 		}
 	}
 
