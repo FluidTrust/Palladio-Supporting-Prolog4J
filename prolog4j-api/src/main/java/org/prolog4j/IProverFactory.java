@@ -40,7 +40,7 @@ public interface IProverFactory {
 	 * 
 	 * @return a new prover
 	 */
-	Prover getProver();
+	public Prover getProver();
 
 	/**
 	 * Returns an appropriate {@link Prover} instance as specified by the
@@ -53,7 +53,7 @@ public interface IProverFactory {
 	 *            the name of the prover to return
 	 * @return a prover instance with the specified name
 	 */
-	Prover getProver(String name);
+	public Prover getProver(String name);
 
 	/**
 	 * Returns the conversion policy used by provers at default. The 
@@ -62,13 +62,19 @@ public interface IProverFactory {
 	 * 
 	 * @return the default conversion policy
 	 */
-	ConversionPolicy getConversionPolicy();
+	public ConversionPolicy getConversionPolicy();
 	
 	/**
 	 * Creates a new conversion policy.
 	 * 
 	 * @return the created conversion policy
 	 */
-	ConversionPolicy createConversionPolicy();
+	public ConversionPolicy createConversionPolicy();
 	
+	/**
+	 * Creates a new prover instance.
+	 * 
+	 * @param name the associated name for the prover
+	 */
+	public Prover resetProver(String name);
 }

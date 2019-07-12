@@ -59,4 +59,12 @@ public abstract class AbstractProverFactory implements IProverFactory {
 		return conversionPolicy;
 	}
 	
+	@Override
+	public Prover resetProver(String name) {
+		synchronized (this) {
+			proverMap.put(name, getProver());
+		}
+		return getProver(name);
+	}
+	
 }
