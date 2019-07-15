@@ -34,49 +34,20 @@ import org.prolog4j.Prover;
  * An implementation of {@link IProverFactory} which always returns
  * {@link TuPrologProver} instances.
  */
+@SuppressWarnings("deprecation")
 @Component(immediate = true)
 @Service
 @Property(name="implementation", value="projog")
 public final class ProjogProverFactory implements IProverFactory {
-
-	/**
-	 * The unique instance of this class.
-	 */
-	private static final ProjogProverFactory INSTANCE = new ProjogProverFactory();
-
-	/**
-	 * Private constructor to prevent instantiation.
-	 */
-	public ProjogProverFactory() {
-		
-	}
 	
 	@Override
-	public Prover getProver() {
-		return new ProjogProver();
+	public Prover createProver() {
+		return new ProjogProver(createConversionPolicy());
 	}
 
 	@Override
 	public ConversionPolicy createConversionPolicy() {
 		return new ProjogConversionPolicy();
-	}
-
-	@Override
-	public Prover getProver(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ConversionPolicy getConversionPolicy() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Prover resetProver(String name) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

@@ -114,11 +114,4 @@ public interface Prover {
 	 */
 	ConversionPolicy getConversionPolicy();
 
-	/**
-	 * Sets the conversion policy used by the prover.
-	 * 
-	 * @param conversionPolicy the conversion policy to be used
-	 */
-	void setConversionPolicy(ConversionPolicy conversionPolicy);
-
 }

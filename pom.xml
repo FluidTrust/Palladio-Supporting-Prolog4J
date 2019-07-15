@@ -55,8 +55,6 @@
 		<module>prolog4j-api</module>
 		<module>prolog4j-tuprolog</module>
 		<module>prolog4j-projog</module>
-		<module>prolog4j-test</module>
-		<module>prolog4j-interface</module>
 	</modules>
 
 	<build>

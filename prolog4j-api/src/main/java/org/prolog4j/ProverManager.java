@@ -25,7 +25,7 @@
 package org.prolog4j;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.felix.scr.annotations.Activate;
@@ -45,48 +45,62 @@ import org.osgi.framework.ServiceReference;
  * <p>
  * Please note that all methods in <code>ProverFactory</code> are static.
  */
+@SuppressWarnings("deprecation")
 @Component(immediate = true)
 public final class ProverManager {
-	public class ProverInformation {
-		private String name;
-
-		public ProverInformation(String name) {
-			this.name = name;
-		}
-
-		public String getName() {
-			return this.name;
-		}
-	}
+	private List<ProverInformation> availableProvers = new ArrayList<>();
 
 	@Activate
 	protected void activate() {
-		List<ProverInformation> availableProvers = getAvailableProvers();
-		
-		for(ProverInformation pi: availableProvers) {
-			System.out.println(pi.getName());
-		}
+		loadAvailableProvers();
+		printAvailableProvers();
 	}
 
-	private List<ProverInformation> getAvailableProvers() {
+	private void printAvailableProvers() {
+		availableProvers.stream().forEach(System.out::println);
+	}
+
+	private void loadAvailableProvers() {
 		BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
 
-		// Passing null as the filter argument returns all services
-		// implementing the interface
 		ServiceReference[] refs = null;
 		try {
 			refs = context.getServiceReferences(IProverFactory.class.getName(), null);
 			if (null != refs) {
-				List<ProverInformation> prover = new ArrayList<>();
+				List<ProverInformation> loadedProvers = new ArrayList<>();
 				for (ServiceReference ref : refs) {
-					String proverName = ref.getProperty("implementation").toString();
-					prover.add(new ProverInformation(proverName));
+					String proverId = ref.getProperty("id").toString();
+					String proverName = ref.getProperty("name").toString();
+
+					loadedProvers.add(new ProverInformation(proverId, proverName));
 				}
-				return prover;
+
+				this.availableProvers.clear();
+				this.availableProvers.addAll(loadedProvers);
 			}
 		} catch (InvalidSyntaxException e) {
-			System.err.print("Kacke");
+			System.err.print("Error while loading available provers");
 		}
-		return new ArrayList<>();
+	}
+
+	public Prover createProver(String proverId) {
+		BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
+
+		String filter = "(id=" + proverId + ")";
+
+		ServiceReference[] refs = null;
+		try {
+			refs = context.getServiceReferences(IProverFactory.class.getName(), filter);
+			if (refs == null) {
+				throw new IllegalArgumentException("Unknown proverId");
+			}
+			return ((IProverFactory) context.getService(refs[0])).createProver();
+		} catch (InvalidSyntaxException e) {
+			throw new IllegalArgumentException("Unknown proverId");
+		}
+	}
+
+	public List<ProverInformation> getAvailableProvers() {
+		return Collections.unmodifiableList(this.availableProvers);
 	}
 }

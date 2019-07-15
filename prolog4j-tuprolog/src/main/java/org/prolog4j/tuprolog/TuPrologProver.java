@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.prolog4j.AbstractProver;
+import org.prolog4j.ConversionPolicy;
 import org.prolog4j.Query;
 
 import alice.tuprolog.InvalidLibraryException;
@@ -52,8 +53,8 @@ public class TuPrologProver extends AbstractProver {
 	/**
 	 * Creates a tuProlog prover.
 	 */
-	TuPrologProver() {
-		super();
+	TuPrologProver(ConversionPolicy conversionPolicy) {
+		super(conversionPolicy);
 		engine = new Prolog();
 	}
 

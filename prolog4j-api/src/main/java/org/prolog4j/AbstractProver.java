@@ -26,7 +26,6 @@ package org.prolog4j;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Serves as base class for prover implementation.
@@ -34,6 +33,13 @@ import java.util.List;
 public abstract class AbstractProver implements Prover, Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** The conversion policy of the prover. */
+	private final ConversionPolicy conversionPolicy;
+	
+	public AbstractProver(ConversionPolicy conversionPolicy) {
+		this.conversionPolicy = conversionPolicy;
+	}
 
 	@Override
 	public final <A> Solution<A> solve(String goal, Object... actualArgs) {
@@ -68,143 +74,11 @@ public abstract class AbstractProver implements Prover, Serializable {
 		String[] inputLines = inputString.toString().split(System.lineSeparator());
 		addTheory(inputLines);
 	}
-
-	/** The default conversion policy used by the current implementation. */
-	//private static final ConversionPolicy GLOBAL_POLICY = ProverManager.getConversionPolicy();
-
-	/** The conversion policy of the prover. */
-	private ConversionPolicy conversionPolicy = new LazyConversionPolicy();
+	
 
 	@Override
 	public ConversionPolicy getConversionPolicy() {
-		return conversionPolicy;
+		return this.conversionPolicy;
 	}
-
-	@Override
-	public void setConversionPolicy(ConversionPolicy conversionPolicy) {
-		this.conversionPolicy = conversionPolicy;
-	}
-
-	/**
-	 * By default this policy delegates method calls to the global policy. At the
-	 * first time when the policy is customized (a converter is added), it creates a
-	 * new policy, and it will delegate the subsequent calls to this new policy.
-	 */
-	private class LazyConversionPolicy extends ConversionPolicy {
-
-		/**
-		 * The conversion requests will be delegated to this policy. Its value is the
-		 * global policy by default.
-		 */
-		private ConversionPolicy delegate = null;//GLOBAL_POLICY;
-
-		@Override
-		public <T> void addObjectConverter(Class<T> pattern, Converter<T> converter) {
-			//if (delegate == GLOBAL_POLICY) {
-			//	delegate = ProverManager.createConversionPolicy();
-			//}
-			delegate.addObjectConverter(pattern, converter);
-		}
-
-		@Override
-		public <T> void addListConverter(Class<T> pattern, Converter<List<?>> converter) {
-			//if (delegate == GLOBAL_POLICY) {
-			//	delegate = ProverManager.createConversionPolicy();
-			//}
-			delegate.addListConverter(pattern, converter);
-		}
-
-		@Override
-		public void addTermConverter(String pattern, Converter<Object> converter) {
-			//if (delegate == GLOBAL_POLICY) {
-			//	delegate = ProverManager.createConversionPolicy();
-			//}
-			delegate.addTermConverter(pattern, converter);
-		}
-
-		@Override
-		public Object convertObject(Object object) {
-			return delegate.convertObject(object);
-		}
-
-		@Override
-		public Object convertTerm(Object term) {
-			return delegate.convertTerm(term);
-		}
-
-		@Override
-		public <U, T> T convertTerm(U term, java.lang.Class<T> type) {
-			return delegate.convertTerm(term, type);
-		}
-
-		@Override
-		public boolean match(Object term1, Object term2) {
-			return delegate.match(term1, term2);
-		}
-
-		@Override
-		public Object term(int value) {
-			return delegate.term(value);
-		}
-
-		@Override
-		public Object term(double value) {
-			return delegate.term(value);
-		}
-
-		@Override
-		public Object term(String name) {
-			return delegate.term(name);
-		}
-
-		@Override
-		public Object term(String name, Object... args) {
-			return delegate.term(name, args);
-		}
-
-		@Override
-		public int intValue(Object term) {
-			return delegate.intValue(term);
-		}
-
-		@Override
-		public double doubleValue(Object term) {
-			return delegate.doubleValue(term);
-		}
-
-		@Override
-		protected String getName(Object compound) {
-			return delegate.getName(compound);
-		}
-
-		@Override
-		protected int getArity(Object compound) {
-			return delegate.getArity(compound);
-		}
-
-		@Override
-		protected Object getArg(Object compound, int index) {
-			return delegate.getArg(compound, index);
-		}
-
-		@Override
-		public boolean isAtom(Object term) {
-			return delegate.isAtom(term);
-		}
-
-		@Override
-		public boolean isCompound(Object term) {
-			return delegate.isCompound(term);
-		}
-
-		@Override
-		public boolean isDouble(Object term) {
-			return delegate.isDouble(term);
-		}
-
-		@Override
-		public boolean isInteger(Object term) {
-			return delegate.isInteger(term);
-		}
-	}
+	
 }

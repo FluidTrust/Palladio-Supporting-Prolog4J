@@ -32,54 +32,15 @@ import org.prolog4j.Prover;
  * {@link TuPrologProver} instances.
  */
 public final class TuPrologProverFactory implements IProverFactory {
-
-	/**
-	 * The unique instance of this class.
-	 */
-	private static final TuPrologProverFactory INSTANCE = new TuPrologProverFactory();
-	
-	/**
-	 * Returns the single instance of this class.
-	 * 
-	 * @return the only one TuPrologProverFactory instance
-	 */
-	public static TuPrologProverFactory getInstance() {
-		return INSTANCE;
-	}
-
-	/**
-	 * Private constructor to prevent instantiation.
-	 */
-	private TuPrologProverFactory() {
-		super();
-	}
 	
 	@Override
-	public Prover getProver() {
-		return new TuPrologProver();
+	public Prover createProver() {
+		return new TuPrologProver(createConversionPolicy());
 	}
 
 	@Override
 	public ConversionPolicy createConversionPolicy() {
 		return new TuPrologConversionPolicy();
-	}
-
-	@Override
-	public Prover getProver(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ConversionPolicy getConversionPolicy() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Prover resetProver(String name) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

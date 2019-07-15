@@ -40,29 +40,7 @@ public interface IProverFactory {
 	 * 
 	 * @return a new prover
 	 */
-	public Prover getProver();
-
-	/**
-	 * Returns an appropriate {@link Prover} instance as specified by the
-	 * <code>name</code> parameter. It provides the same prover instance
-	 * for the same name whenever you call it.
-	 * <p>
-	 * Null-valued name arguments are considered invalid.
-	 * 
-	 * @param name
-	 *            the name of the prover to return
-	 * @return a prover instance with the specified name
-	 */
-	public Prover getProver(String name);
-
-	/**
-	 * Returns the conversion policy used by provers at default. The 
-	 * modification of this policy effects all provers. The policy can also be
-	 * customized on a per prover base by getting their own policy.
-	 * 
-	 * @return the default conversion policy
-	 */
-	public ConversionPolicy getConversionPolicy();
+	public Prover createProver();
 	
 	/**
 	 * Creates a new conversion policy.
@@ -70,11 +48,4 @@ public interface IProverFactory {
 	 * @return the created conversion policy
 	 */
 	public ConversionPolicy createConversionPolicy();
-	
-	/**
-	 * Creates a new prover instance.
-	 * 
-	 * @param name the associated name for the prover
-	 */
-	public Prover resetProver(String name);
 }

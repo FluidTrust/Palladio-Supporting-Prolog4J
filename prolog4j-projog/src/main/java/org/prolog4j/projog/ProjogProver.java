@@ -28,6 +28,7 @@ import java.io.StringReader;
 
 import org.projog.api.Projog;
 import org.prolog4j.AbstractProver;
+import org.prolog4j.ConversionPolicy;
 import org.prolog4j.Query;
 
 /**
@@ -70,8 +71,8 @@ public class ProjogProver extends AbstractProver {
 	/**
 	 * Creates a projog prover.
 	 */
-	ProjogProver() {
-		super();
+	ProjogProver(ConversionPolicy conversionPolicy) {
+		super(conversionPolicy);
 		engine = new Projog();
 	}
 
