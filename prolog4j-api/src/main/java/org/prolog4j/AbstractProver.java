@@ -70,7 +70,7 @@ public abstract class AbstractProver implements Prover, Serializable {
 	}
 
 	/** The default conversion policy used by the current implementation. */
-	private static final ConversionPolicy GLOBAL_POLICY = ProverFactory.getConversionPolicy();
+	//private static final ConversionPolicy GLOBAL_POLICY = ProverManager.getConversionPolicy();
 
 	/** The conversion policy of the prover. */
 	private ConversionPolicy conversionPolicy = new LazyConversionPolicy();
@@ -96,29 +96,29 @@ public abstract class AbstractProver implements Prover, Serializable {
 		 * The conversion requests will be delegated to this policy. Its value is the
 		 * global policy by default.
 		 */
-		private ConversionPolicy delegate = GLOBAL_POLICY;
+		private ConversionPolicy delegate = null;//GLOBAL_POLICY;
 
 		@Override
 		public <T> void addObjectConverter(Class<T> pattern, Converter<T> converter) {
-			if (delegate == GLOBAL_POLICY) {
-				delegate = ProverFactory.createConversionPolicy();
-			}
+			//if (delegate == GLOBAL_POLICY) {
+			//	delegate = ProverManager.createConversionPolicy();
+			//}
 			delegate.addObjectConverter(pattern, converter);
 		}
 
 		@Override
 		public <T> void addListConverter(Class<T> pattern, Converter<List<?>> converter) {
-			if (delegate == GLOBAL_POLICY) {
-				delegate = ProverFactory.createConversionPolicy();
-			}
+			//if (delegate == GLOBAL_POLICY) {
+			//	delegate = ProverManager.createConversionPolicy();
+			//}
 			delegate.addListConverter(pattern, converter);
 		}
 
 		@Override
 		public void addTermConverter(String pattern, Converter<Object> converter) {
-			if (delegate == GLOBAL_POLICY) {
-				delegate = ProverFactory.createConversionPolicy();
-			}
+			//if (delegate == GLOBAL_POLICY) {
+			//	delegate = ProverManager.createConversionPolicy();
+			//}
 			delegate.addTermConverter(pattern, converter);
 		}
 

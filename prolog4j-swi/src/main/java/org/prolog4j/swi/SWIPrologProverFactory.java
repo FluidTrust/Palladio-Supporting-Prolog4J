@@ -26,10 +26,9 @@ package org.prolog4j.swi;
 import java.io.File;
 import java.util.StringTokenizer;
 
-import org.jpl7.*;
-
-import org.prolog4j.AbstractProverFactory;
+import org.jpl7.JPL;
 import org.prolog4j.ConversionPolicy;
+import org.prolog4j.IProverFactory;
 import org.prolog4j.Prover;
 
 /**
@@ -37,7 +36,7 @@ import org.prolog4j.Prover;
  * the same {@link SWIPrologProver} instance. SWI-Prolog does not support
  * multiple Prolog engines.
  */
-public final class SWIPrologProverFactory extends AbstractProverFactory {
+public final class SWIPrologProverFactory implements IProverFactory {
 
 	static {
 		// This is a workaround. If I run the test from Maven, then it won't find
@@ -87,6 +86,24 @@ public final class SWIPrologProverFactory extends AbstractProverFactory {
 	@Override
 	public ConversionPolicy createConversionPolicy() {
 		return new SWIPrologConversionPolicy();
+	}
+
+	@Override
+	public Prover getProver(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ConversionPolicy getConversionPolicy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Prover resetProver(String name) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

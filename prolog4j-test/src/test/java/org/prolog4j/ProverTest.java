@@ -28,9 +28,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -57,16 +54,9 @@ public class ProverTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() {
-		p = ProverFactory.getProver(ProverTest.class);
+		p = null;//ProverManager.getProver(ProverTest.class);
 
-		String theory = "mortal(X) :- human(X).\nhuman(socrates).\nhuman(plato).";
-		try {
-			p.loadTheory(new ByteArrayInputStream(theory.getBytes(StandardCharsets.UTF_8)));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//p.addTheory("mortal(X) :- human(X).", "human(socrates).", "human(plato).");
+		p.addTheory("mortal(X) :- human(X).", "human(socrates).", "human(plato).");
 	}
 
 	/**
@@ -247,7 +237,7 @@ public class ProverTest {
 	 */
 	@Test
 	public void testTermPattern() {
-		final ConversionPolicy cp = ProverFactory.getConversionPolicy();
+		final ConversionPolicy cp = null;//ProverManager.getConversionPolicy();
 		assertSuccess("? = a.", cp.term("a"));
 		assertSuccess("? = 1.", cp.term("1"));
 		//assertSuccess("? = 1.", cp.term("?", 1));

@@ -30,7 +30,7 @@ import java.io.InputStream;
  * A Prover object represents a Prolog knowledge base, on which you can create
  * and solve queries. The implementations of this interface should not provide
  * public constructors. The Prover instances should be created through
- * {@link ProverFactory#getProver()}.
+ * {@link ProverManager#getProver()}.
  */
 public interface Prover {
 

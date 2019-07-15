@@ -23,9 +23,6 @@
  */
 package org.prolog4j.swi;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.prolog4j.AbstractProver;
 import org.prolog4j.Query;
 

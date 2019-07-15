@@ -62,7 +62,7 @@ public final class ProverFactoryBinder {
 	 * The IProverFactory instance returned by the {@link #getProverFactory}
 	 * method.
 	 */
-	private final IProverFactory proverFactory = ProjogProverFactory.getInstance();
+	//private final IProverFactory proverFactory = ProjogProverFactory.getInstance();
 
 	/**
 	 * Private constructor to prevent instantiation.
@@ -75,7 +75,7 @@ public final class ProverFactoryBinder {
 	 * @return a factory for creating provers
 	 */
 	public IProverFactory getProverFactory() {
-		return proverFactory;
+		return null;
 	}
 
 	/**

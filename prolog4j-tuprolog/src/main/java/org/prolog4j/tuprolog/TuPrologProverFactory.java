@@ -23,15 +23,15 @@
  */
 package org.prolog4j.tuprolog;
 
-import org.prolog4j.AbstractProverFactory;
 import org.prolog4j.ConversionPolicy;
+import org.prolog4j.IProverFactory;
 import org.prolog4j.Prover;
 
 /**
  * An implementation of {@link IProverFactory} which always returns
  * {@link TuPrologProver} instances.
  */
-public final class TuPrologProverFactory extends AbstractProverFactory {
+public final class TuPrologProverFactory implements IProverFactory {
 
 	/**
 	 * The unique instance of this class.
@@ -62,6 +62,24 @@ public final class TuPrologProverFactory extends AbstractProverFactory {
 	@Override
 	public ConversionPolicy createConversionPolicy() {
 		return new TuPrologConversionPolicy();
+	}
+
+	@Override
+	public Prover getProver(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ConversionPolicy getConversionPolicy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Prover resetProver(String name) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

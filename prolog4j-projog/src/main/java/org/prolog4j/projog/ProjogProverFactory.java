@@ -23,35 +23,32 @@
  */
 package org.prolog4j.projog;
 
-import org.prolog4j.AbstractProverFactory;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Service;
 import org.prolog4j.ConversionPolicy;
+import org.prolog4j.IProverFactory;
 import org.prolog4j.Prover;
 
 /**
  * An implementation of {@link IProverFactory} which always returns
  * {@link TuPrologProver} instances.
  */
-public final class ProjogProverFactory extends AbstractProverFactory {
+@Component(immediate = true)
+@Service
+@Property(name="implementation", value="projog")
+public final class ProjogProverFactory implements IProverFactory {
 
 	/**
 	 * The unique instance of this class.
 	 */
 	private static final ProjogProverFactory INSTANCE = new ProjogProverFactory();
-	
-	/**
-	 * Returns the single instance of this class.
-	 * 
-	 * @return the only one TuPrologProverFactory instance
-	 */
-	public static ProjogProverFactory getInstance() {
-		return INSTANCE;
-	}
 
 	/**
 	 * Private constructor to prevent instantiation.
 	 */
-	private ProjogProverFactory() {
-		super();
+	public ProjogProverFactory() {
+		
 	}
 	
 	@Override
@@ -62,6 +59,24 @@ public final class ProjogProverFactory extends AbstractProverFactory {
 	@Override
 	public ConversionPolicy createConversionPolicy() {
 		return new ProjogConversionPolicy();
+	}
+
+	@Override
+	public Prover getProver(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ConversionPolicy getConversionPolicy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Prover resetProver(String name) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

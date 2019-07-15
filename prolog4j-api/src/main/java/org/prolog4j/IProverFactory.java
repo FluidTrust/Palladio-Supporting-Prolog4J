@@ -29,8 +29,8 @@ package org.prolog4j;
  * name.
  * <p>
  * Most users retrieve {@link Prover} instances through the static
- * {@link ProverFactory#getProver(String)} method. An instance of this
- * interface is bound internally with {@link ProverFactory} class at compile
+ * {@link ProverManager#getProver(String)} method. An instance of this
+ * interface is bound internally with {@link ProverManager} class at compile
  * time.
  */
 public interface IProverFactory {
