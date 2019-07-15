@@ -1,17 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-  <classpathentry kind="src" path="src/main/java"/>
-  <classpathentry kind="src" path="src/test/java" output="target/test-classes"/>
-  <classpathentry kind="src" path="target/generated-sources/annotations"/>
-  <classpathentry kind="src" path="target/generated-test-sources/test-annotations" output="target/test-classes"/>
-  <classpathentry kind="output" path="target/classes"/>
-  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-  <classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/mojo/animal-sniffer-annotations/1.9/animal-sniffer-annotations-1.9.jar" sourcepath="M2_REPO/org/codehaus/mojo/animal-sniffer-annotations/1.9/animal-sniffer-annotations-1.9-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/asm/asm/3.3.1/asm-3.3.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/asm/asm-commons/3.3.1/asm-commons-3.3.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/asm/asm-tree/3.3.1/asm-tree-3.3.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/asm/asm-util/3.3.1/asm-util-3.3.1.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/apache/felix/org.apache.felix.scr/2.1.16/org.apache.felix.scr-2.1.16.jar" sourcepath="M2_REPO/org/apache/felix/org.apache.felix.scr/2.1.16/org.apache.felix.scr-2.1.16-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/apache/felix/org.apache.felix.scr.annotations/1.12.0/org.apache.felix.scr.annotations-1.12.0.jar" sourcepath="M2_REPO/org/apache/felix/org.apache.felix.scr.annotations/1.12.0/org.apache.felix.scr.annotations-1.12.0-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/projog/projog-core/0.3.0/projog-core-0.3.0.jar" sourcepath="M2_REPO/org/projog/projog-core/0.3.0/projog-core-0.3.0-sources.jar"/>
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/mojo/animal-sniffer-annotations/1.9/animal-sniffer-annotations-1.9.jar" sourcepath="M2_REPO/org/codehaus/mojo/animal-sniffer-annotations/1.9/animal-sniffer-annotations-1.9-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/asm/asm/3.3.1/asm-3.3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/asm/asm-commons/3.3.1/asm-commons-3.3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/asm/asm-tree/3.3.1/asm-tree-3.3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/asm/asm-util/3.3.1/asm-util-3.3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/felix/org.apache.felix.scr/2.1.16/org.apache.felix.scr-2.1.16.jar" sourcepath="M2_REPO/org/apache/felix/org.apache.felix.scr/2.1.16/org.apache.felix.scr-2.1.16-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/felix/org.apache.felix.scr.annotations/1.12.0/org.apache.felix.scr.annotations-1.12.0.jar" sourcepath="M2_REPO/org/apache/felix/org.apache.felix.scr.annotations/1.12.0/org.apache.felix.scr.annotations-1.12.0-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/projog/projog-core/0.3.0/projog-core-0.3.0.jar" sourcepath="M2_REPO/org/projog/projog-core/0.3.0/projog-core-0.3.0-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
