@@ -24,6 +24,7 @@
 package org.prolog4j.projog;
 
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
 import org.prolog4j.ConversionPolicy;
@@ -37,9 +38,12 @@ import org.prolog4j.Prover;
 @SuppressWarnings("deprecation")
 @Component(immediate = true)
 @Service
-@Property(name="implementation", value="projog")
+@Properties({ //
+		@Property(name = "id", value = "org.prolog4j.projog.proverfactory"), //
+		@Property(name = "name", value = "Projog Interpreter") //
+})
 public final class ProjogProverFactory implements IProverFactory {
-	
+
 	@Override
 	public Prover createProver() {
 		return new ProjogProver(createConversionPolicy());

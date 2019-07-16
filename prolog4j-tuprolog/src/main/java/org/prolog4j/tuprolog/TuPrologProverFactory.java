@@ -23,6 +23,10 @@
  */
 package org.prolog4j.tuprolog;
 
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Service;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.IProverFactory;
 import org.prolog4j.Prover;
@@ -31,8 +35,15 @@ import org.prolog4j.Prover;
  * An implementation of {@link IProverFactory} which always returns
  * {@link TuPrologProver} instances.
  */
+@SuppressWarnings("deprecation")
+@Component(immediate = true)
+@Service
+@Properties({ //
+		@Property(name = "id", value = "org.prolog4j.tuprolog.proverfactory"), //
+		@Property(name = "name", value = "TuProlog Interpreter") //
+})
 public final class TuPrologProverFactory implements IProverFactory {
-	
+
 	@Override
 	public Prover createProver() {
 		return new TuPrologProver(createConversionPolicy());
