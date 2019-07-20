@@ -90,6 +90,8 @@ public class TuPrologQuery extends Query {
 		} catch (InvalidTermException e) {
 			throw new InvalidQueryException(goal, e);
 		}
+		
+		Struct s1;
 	}
 
 	@Override
