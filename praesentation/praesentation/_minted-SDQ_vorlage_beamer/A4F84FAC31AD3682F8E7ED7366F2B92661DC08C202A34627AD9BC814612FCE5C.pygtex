@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kd}{public} \PYG{k+kt}{boolean} \PYG{n+nf}{isChildOf}\PYG{o}{(}\PYG{n}{Human} \PYG{n}{parent}\PYG{o}{,} \PYG{n}{Human} \PYG{n}{childToCheck}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+    \PYG{n}{Atom} \PYG{n}{parentName} \PYG{o}{=} \PYG{n}{convert}\PYG{o}{(}\PYG{n}{parent}\PYG{o}{);}
+    \PYG{n}{Atom} \PYG{n}{childName} \PYG{o}{=} \PYG{n}{convert}\PYG{o}{(}\PYG{n}{childToCheck}\PYG{o}{);}
+    \PYG{c+c1}{// goal = child\PYGZus{}of(parentName, childName)}
+    \PYG{n}{Term} \PYG{n}{goal} \PYG{o}{=}
+        \PYG{n}{Util}\PYG{o}{.}\PYG{n+na}{textParamsToTerm}\PYG{o}{(}
+            \PYG{l+s}{\PYGZdq{}child\PYGZus{}of(?parent, ?child).\PYGZdq{}}\PYG{o}{,}
+            \PYG{n}{parentName}\PYG{o}{,} \PYG{n}{childName}\PYG{o}{);}
+    \PYG{n}{Query} \PYG{n}{query} \PYG{o}{=} \PYG{k}{new} \PYG{n}{Query}\PYG{o}{(}\PYG{n}{goal}\PYG{o}{);}
+    \PYG{k}{return} \PYG{n}{query}\PYG{o}{.}\PYG{n+na}{hasMoreSolutions}\PYG{o}{();}
+\PYG{o}{\PYGZcb{}}
+\end{Verbatim}

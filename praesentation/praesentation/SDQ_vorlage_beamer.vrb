@@ -1,0 +1,14 @@
+\frametitle{Bug in Projog}
+\begin{itemize}
+\item Folgender Code funktioniert \textbf{nicht}
+\begin{minted}{Prolog}
+addTheory(human(socrates)).
+addTheory(human(euklid)).
+addTheory(human(plato)).
+\end{minted}
+\vspace{0.5cm}
+\item Resultierende Datenbank
+\begin{minted}{Prolog}
+human(plato)
+\end{minted}
+\end{itemize}

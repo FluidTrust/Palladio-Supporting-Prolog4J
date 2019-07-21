@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nf}{human}\PYG{p}{(}\PYG{l+s+sAtom}{socrates}\PYG{p}{)}
+\PYG{n+nf}{human}\PYG{p}{(}\PYG{l+s+sAtom}{euklid}\PYG{p}{)}
+\PYG{n+nf}{human}\PYG{p}{(}\PYG{l+s+sAtom}{plato}\PYG{p}{)}
+\end{Verbatim}

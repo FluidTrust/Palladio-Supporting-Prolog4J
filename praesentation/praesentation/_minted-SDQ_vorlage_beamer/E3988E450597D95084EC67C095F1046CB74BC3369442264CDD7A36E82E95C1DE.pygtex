@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nf}{child\PYGZus{}of}\PYG{p}{(}\PYG{n+nv}{Hans}\PYG{p}{,} \PYG{n+nv}{Peter}\PYG{p}{).}
+\PYG{n+nf}{child\PYGZus{}of}\PYG{p}{(}\PYG{n+nv}{Brigitte}\PYG{p}{,} \PYG{n+nv}{Peter}\PYG{p}{).}
+\end{Verbatim}

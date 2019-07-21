@@ -1,0 +1,388 @@
+\documentclass[18pt]{beamer}
+
+%% SLIDE FORMAT
+
+% use 'beamerthemekit' for standard 4:3 ratio
+% for widescreen slides (16:9), use 'beamerthemekitwide'
+
+\usepackage{templates/beamerthemekit}
+%\usepackage{templates/beamerthemekitwide}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[ngerman]{babel}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{minted}
+
+%% TITLE PICTURE
+
+% if a custom picture is to be used on the title page, copy it into the 'logos'
+% directory, in the line below, replace 'mypicture' with the 
+% filename (without extension) and uncomment the following line
+% (picture proportions: 63 : 20 for standard, 169 : 40 for wide
+% *.eps format if you use latex+dvips+ps2pdf, 
+% *.jpg/*.png/*.pdf if you use pdflatex)
+
+%\titleimage{board}
+
+%% TITLE LOGO
+
+% for a custom logo on the front page, copy your file into the 'logos'
+% directory, insert the filename in the line below and uncomment it
+
+\titlelogo{blank}
+
+% (*.eps format if you use latex+dvips+ps2pdf,
+% *.jpg/*.png/*.pdf if you use pdflatex)
+
+%% TikZ INTEGRATION
+
+% use these packages for PCM symbols and UML classes
+% \usepackage{templates/tikzkit}
+% \usepackage{templates/tikzuml}
+
+% the presentation starts here
+
+\title[Prologadapter für Java]{Prologadapter für Java}
+\subtitle{Betreut von Stephan Seifermann}
+\author{Johannes Werner}
+
+\institute{Fakultaet für Informatik}
+
+% Bibliography
+
+\usepackage[citestyle=authoryear,bibstyle=numeric,hyperref,backend=biber]{biblatex}
+\addbibresource{templates/example.bib}
+\bibhang1em
+{\renewcommand{\arraystretch}{1.3}
+\begin{document}
+
+% change the following line to "ngerman" for German style date and logos
+\selectlanguage{ngerman}
+
+%title page
+\begin{frame}
+\titlepage
+\end{frame}
+
+%table of contents
+\begin{frame}{Gliederung}
+\tableofcontents
+\end{frame}
+
+\section{Motivation}
+\begin{frame}{Motivation}
+\begin{itemize}
+\item Sprachen haben unterschiedliche St"arken
+\begin{itemize}
+\item z.B. Haskell vs. C
+\end{itemize}
+\item Wie kann man diese St"arken kombinieren?
+\item Wie kann man mehrere Sprachen im selben Programm nutzen?
+\item \textbf{L"osung:} Adapter einsetzen
+\end{itemize}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.95\textwidth]{adapter.pdf}
+\end{figure}
+%TODO Realworld Beispiel bringen in der Praesentation
+\end{frame}
+\begin{frame}{Projektbezug}
+\begin{itemize}
+\item Softwaresystem soll Datenschutz garantieren
+\item Architekturmodell wird um Datenflussannotationen erg"anzt
+\item Durch Analyse k"onnen Risiken gefunden werden
+\vspace{1cm}
+\item Architekturmodell
+\begin{itemize}
+\item Eclispe-Plugin in \textbf{Java}
+\end{itemize}
+\item Datenflussanalyse
+\begin{itemize}
+\item Datenflussmodell wird zu \textbf{Prolog}-Statements transformiert und ausgewertet
+\end{itemize}
+\item $\Rightarrow$ \textbf{Java-zu-Prolog Adapter}
+\end{itemize}
+\end{frame}
+
+\section{Anforderungen}
+\begin{frame}{Anforderungen}
+\begin{itemize}
+\item Anbindung zu mehreren Prolog-Interpreter
+\begin{itemize}
+\item Mndst. 1 in Java implementierter Interpreter
+%TODO Grund in Praesi erlaeutern
+\end{itemize}
+\vspace{0.3cm}
+\item Interpreter muss EPL kompatible Lizenz haben
+\vspace{0.3cm}
+\item Java-Objekte als Antwort vom Interpreter
+\begin{itemize}
+\item Anfrage: String('2+2')
+\item Antwort: Integer(4)
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Interpreterwahl}
+\begin{frame}{Interpreterwahl}
+\begin{itemize}
+\item \textbf{Kriterien} (* Pflicht)
+\begin{itemize}
+\item Java-Anbindung*
+\item Passende Lizenz*
+\item Paket im Maven-Repository
+\item In Java implementiert
+\item Zeitpunkt des letzten Releases
+\end{itemize}
+\vspace{0.5cm}
+\item \textbf{Herausforderung}
+\begin{itemize}
+\item Prolog Community ist klein, weshalb es nicht viele aktive Projekte gibt
+\end{itemize}
+\end{itemize}
+\end{frame}
+\begin{frame}{Interpreterwahl}
+\begin{table}[]
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{r|ccc}
+\multicolumn{1}{l|}{} & \textbf{SWI-Prolog} & \textbf{TuProlog} & \textbf{Projog} \\ \hline
+Lizenz                & BSD          & LGPL              & Apache 2.0      \\ \hline
+Letzter Release       & Juli'19          & Okt'18        & Dez'18      \\ \hline
+Maven-Paket           & \checkmark          & \checkmark        & \checkmark      \\ \hline
+In Java implementiert & $\times$            & \checkmark        & \checkmark     
+\end{tabular}%
+}
+\end{table}
+\vspace{0.5cm}
+\begin{itemize}
+\item SWI-Prolog ist der weitestverbreitetste und am aktivsten weiterentwickelte Interpreter
+\end{itemize}
+\end{frame}
+
+\section{Java-Schnittstelle}
+\begin{frame}[fragile]{Java-Schnittstelle}
+Beispiel Prologdatenbank:
+\begin{minted}{Prolog}
+child_of(Hans, Peter).
+child_of(Brigitte, Peter).
+\end{minted}
+\vspace{1cm}
+\textbf{Ziel:} Prolog-Statement in Java ausf"uhren
+\begin{minted}{Prolog}
+    child_of(Norbert, Peter).
+\end{minted}
+\end{frame}
+\begin{frame}[fragile]{Java-Schnittstelle}
+\begin{minted}{Java}
+class Human {
+	private String name;
+	// Getter and Setter are present
+}
+
+public boolean isChildOf(Human parent, Human childToCheck) {
+	// How to query the prolog database?
+	// The query to execute:
+	//     child_of(nameOfParent, nameOfChildToCheck)
+}
+\end{minted}
+\end{frame}
+\begin{frame}[fragile]{Java-Schnittstelle SWI-Prolog}
+\begin{minted}{Java}
+public boolean isChildOf(Human parent, Human childToCheck) {
+    Atom parentName = convert(parent);
+    Atom childName = convert(childToCheck);
+    // goal = child_of(parentName, childName)
+    Term goal = 
+        Util.textParamsToTerm(
+            "child_of(?parent, ?child).", 
+            parentName, childName);
+    Query query = new Query(goal);
+    return query.hasMoreSolutions();
+}
+\end{minted}
+\end{frame}
+\begin{frame}[fragile]{Java-Schnittstelle Projog}
+\begin{minted}{Java}
+private Projog engine;
+
+public boolean isChildOf(Human parent, Human childToCheck) {
+    String pName = parent.getName();
+    String cName = childToCheck.getName();
+    QueryResult solution =
+        engine.solve("child_of("+pName+","+cName+").");
+    return solution.next();
+}
+\end{minted}
+\end{frame}
+
+\section{Prolog4J}
+\begin{frame}{Prolog4J}
+\begin{itemize}
+\item Java-zu-Prolog Adapter
+\item MIT Lizenz (EPL kompatibel)
+\item Unterst"utzte Interpreter
+\begin{itemize}
+\item SWI-Prolog
+\item TuProlog
+\item JTrolog
+\item JLog
+\end{itemize}
+\item Letzter Commit: \textbf{Januar 2011}
+\end{itemize}
+\end{frame}
+\subsection{Architektur}
+\begin{frame}[fragile]{Architektur}
+\begin{minted}{Java}
+private Prover prover;
+
+public boolean isChildOf(Human parent, Human childToCheck) {
+    Query query = p.query("child_of(?parent, ?child).");
+    Solution<?> solution = 
+        query.solve(parent, childToCheck);
+    return solution.isSuccess();
+}
+\end{minted}
+\end{frame}
+\begin{frame}{Architektur}
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth]{prolog4j.pdf}
+\end{figure}
+\end{frame}
+
+
+
+\subsection{Anpassungen}
+\begin{frame}{Anpassungen}
+%TODO in Praesi auf jeden Punkt genauer eingehen
+\begin{itemize}
+\item Entfernen ungewolter Interpreter
+\item Aktualisieren der POM-Dateien
+\begin{itemize}
+\item Maven als Build-System
+\end{itemize}
+\item Aktualisieren des Codes
+\item Projog Interpreter hinzuf"ugen
+\item API um n"otige Funktionalit"at erweitern
+\item Interpreter-Discovery mit OSGI
+\end{itemize}
+\end{frame}
+\begin{frame}[fragile]{SWI Prolog Anpassung}
+\begin{itemize}
+\item Darstellung einer leeren Liste in Standard Prolog
+\begin{minted}{Prolog}
+'.'([],[])
+\end{minted}
+\item SWI-Prolog Darstellung
+\begin{minted}{Prolog}
+'[|]'([],[])
+\end{minted}
+\vspace{0.5cm}
+\item Begr"undung
+\begin{minted}{Text}
+As of version 7, SWI-Prolog lists can be 
+distinguished unambiguously at runtime
+from ./2 terms and the atom '[]'
+\end{minted}
+\end{itemize}
+\end{frame}
+\begin{frame}[fragile]{Bug in Projog}
+\begin{itemize}
+\item Neu hinzugef"ugte Regeln f"ur einen Funktor "uberschreiben vorherige Regeln
+\begin{itemize}
+\item Regeln werden in einer Hashmap gespeichert und "uberschreiben beim Einf"ugen den vorherigen Wert des Funktors
+\end{itemize}
+\vspace{0.5cm}
+\item Folgende Regeln sollen der Datenbank hinzugef"ugt werden
+\begin{minted}{Prolog}
+human(socrates), human(euklid), human(plato)
+\end{minted}
+\end{itemize}
+\end{frame}
+\begin{frame}[fragile]{Bug in Projog}
+\begin{itemize}
+\item Folgender Code funktioniert
+\begin{minted}{Prolog}
+addTheory(human(socrates), human(euklid)), human(plato)).
+\end{minted}
+\vspace{0.5cm}
+\item Resultierende Datenbank
+\begin{minted}{Prolog}
+human(socrates)
+human(euklid)
+human(plato)
+\end{minted}
+\end{itemize}
+\end{frame}
+\begin{frame}[fragile]{Bug in Projog}
+\begin{itemize}
+\item Folgender Code funktioniert \textbf{nicht}
+\begin{minted}{Prolog}
+addTheory(human(socrates)).
+addTheory(human(euklid)).
+addTheory(human(plato)).
+\end{minted}
+\vspace{0.5cm}
+\item Resultierende Datenbank
+\begin{minted}{Prolog}
+human(plato)
+\end{minted}
+\end{itemize}
+\end{frame}
+\begin{frame}{Bug in Projog - L"osung}
+\begin{itemize}
+\item Eine Liste mit allen Regeln per Funktor wird parallel gehalten
+\vspace{0.5cm}
+\item Einf"ugen einer Regel:
+\begin{enumerate}
+\item Einf"ugen der Regel in die eigene Datenbank
+\item Einf"ugen der gesamten Datenbank in die Projog-Datenbank
+\end{enumerate}
+\end{itemize}
+\end{frame}
+\begin{frame}{Interpreter-Discovery mit OSGI}
+\begin{itemize}
+\item \textbf{O}pen \textbf{S}ervices \textbf{G}ateway \textbf{i}nitiative
+\begin{itemize}
+\item Einbinden modularer Services zur Laufzeit
+\end{itemize}
+\vspace{0.1cm}
+\item Erm"oglicht Laufzeiterkennung der verf"ugbaren Interpreter
+\begin{itemize}
+\item Kein festes Einprogrammieren n"otig
+\end{itemize}
+\end{itemize}
+\end{frame}
+\begin{frame}{Interpreter-Discovery mit OSGI}
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth]{osgi.pdf}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Zusammenfassung}
+\begin{itemize}
+\item Ausf"uhren von Prolog-Befehlen in Java
+\item Adapter soll an mehrere Interpreter anbinden
+\begin{itemize}
+\item SWI-Prolog
+\item TuProlog
+\item Projog
+\end{itemize}
+\item Java-Schnittstellen der Interpreter sind unterschiedlich
+\begin{itemize}
+\item Gutes Design des Adapters erforderlich
+\end{itemize}
+\item Existierende Bibliothek Prolog4J bietet was wir brauchen
+\begin{itemize}
+\item Muss modernisiert werden
+\item Hinzuf"ugen von OSGI Discovery
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\end{document}

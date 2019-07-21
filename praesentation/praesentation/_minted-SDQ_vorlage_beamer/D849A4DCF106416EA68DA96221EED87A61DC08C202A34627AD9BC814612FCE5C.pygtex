@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+ \PYG{n}{Query} \PYG{n}{q2} \PYG{o}{=} \PYG{k}{new} \PYG{n}{Query}\PYG{o}{(} \PYG{l+s}{\PYGZdq{}child\PYGZus{}of\PYGZdq{}}\PYG{o}{,} \PYG{k}{new} \PYG{n}{Term}\PYG{o}{[]} \PYG{o}{\PYGZob{}}\PYG{k}{new} \PYG{n}{Atom}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}joe\PYGZdq{}}\PYG{o}{),}\PYG{k}{new} \PYG{n}{Atom}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}ralf\PYGZdq{}}\PYG{o}{)\PYGZcb{}} \PYG{o}{);} 
+\end{Verbatim}
