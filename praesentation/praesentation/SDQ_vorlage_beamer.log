@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.7.18)  21 JUL 2019 15:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.7.18)  22 JUL 2019 00:21
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1651,7 +1651,7 @@ Package logreq Info: Writing requests to 'SDQ_vorlage_beamer.run.xml'.
 Here is how much of TeX's memory you used:
  27253 strings out of 492623
  523104 string characters out of 6135669
- 1067241 words of memory out of 5000000
+ 1067239 words of memory out of 5000000
  30475 multiletter control sequences out of 15000+600000
  26874 words of font info for 57 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
@@ -1663,7 +1663,7 @@ ic/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pf
 b></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-
 dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on SDQ_vorlage_beamer.pdf (23 pages, 503013 bytes).
+Output written on SDQ_vorlage_beamer.pdf (23 pages, 503012 bytes).
 PDF statistics:
  1360 PDF objects out of 1440 (max. 8388607)
  1262 compressed objects within 13 object streams
