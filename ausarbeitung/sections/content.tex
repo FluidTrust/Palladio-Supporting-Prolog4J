@@ -10,16 +10,20 @@
 %%
 %% Version 1.0, 2018-04-16
 
-\section{Grundlagen}
 
 \section{Anforderungen}
+Der Adapter soll im Projekt Trust 4.0 (Citation) eingesetzt werden. Daher gibt es einige Anforderungen. Zum einen m"ussen die angebunden Interpreten eine EPL kompatible Lizen haben (Citation). Da das Plugin, welches den Adapter einsetzt, unter EPL lizenziert sind, muss Software, die verwendet wird, auch EPL-kompatibel lizenziert sein. Au"serdem soll mindestens ein Interpreter standardm"a"sig mit ausgeliefert werden. Das hei"st es muss mindestens ein Interpreter in Java implementiert sein. Er muss in Java implementiert sein, dass er zusammen mit den anderen Jar-Dateien gepackaged werden kann. Der Grund dass mindestens einer mit ausgeliefert werden soll, ist, dass das Plugin out-of-the-box funktionieren soll und der user sich nur bei Bedarf andere Interpreter installieren muss. Daher sind auch keine gr"sen Anforderdungen bez"uglich Speicherverbauch oder Performance an den Interpreter zu stellen. Es sollen allerdings mindestens zwei Interpreter angebunden werden, da Auswahl sowieso immer gut ist und man so eben auch einen Interpreter w"hlen kann, der von der Performance her besser ist (Keine Ahnung). Eine weiter Anforderung ist, dass die Antworten vom Interpreter in Java Objekte transformiert werden und nicht als plain text zur"uck kommen. Vom Interface her ist es au"serdem erforderlich, dass eine Prologdatenbank aus einer Datei geladen werden kann.
 
 \section{Interpreter}
+Bei der Wahl der Interpreter, die angebunden werden, gibt es verschiedene Kriterien, die zu beachten sind. 
+\textbf{Java-Schnittstelle} Es ist erforderlich, dass der Interpreter eine eigene Java-Schnittstelle mitbringt, von der aus abstrahiert werden kann. Andernfalls w"are es im Rahmen dieses Praktikums zu aufw"andig eine komplett eigene Schnittstelle zu entwickeln.
+\textbf{Passende Lizenz} Wie bereits im vorherigen Kapitel erw"ahnt, muss der Interpreter eine zu EPL kompatible Lizenz haben, um sp"ater auch verwendet werden zu k"onnen
+\textbf{Paket im Maven Repository} Diese Anforderung ist nicht erforderlich, allerdings erleichtert es das Bauen des Adapters erheblich, wenn ein Paket einfach aus dem Maven-Repository geladen werden kann, anstatt dass die Libraries selber verwaltet werden m"ussen.
+\textbf{Java-Implementierung} Diese Anforderung gilt nur f"ur mindestens einen Interpreten. Allerdings ist es nicht schlecht, wenn auch mehr Interpreter in Java implementiert sind.
+\textbf{Projektaktivit"at} Es ist auch wichtig, ob die Interpreter aktiv gewartet werden, oder ob der Zeitpunkt des letzten Releases mehere Jahre zur"uck liegt
 \subsection{SWI-Prolog}
-\subsubsection{Java-Schnittstelle}
+Dieser Interpreter ist Quasi-Standard in der Prolog-Welt
 \subsection{TuProlog}
-\subsubsection{Java-Schnittstelle}
 \subsection{Projog}
-\subsubsection{Java-Schnittstelle}
 
 \section{Prolog4J}
