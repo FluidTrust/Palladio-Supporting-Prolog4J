@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.7.18)  23 JUL 2019 20:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.7.18)  23 JUL 2019 20:08
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1884,7 +1884,7 @@ ic/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pf
 b></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-
 dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on SDQ_vorlage_beamer.pdf (23 pages, 503350 bytes).
+Output written on SDQ_vorlage_beamer.pdf (23 pages, 503126 bytes).
 PDF statistics:
  944 PDF objects out of 1000 (max. 8388607)
  875 compressed objects within 9 object streams
