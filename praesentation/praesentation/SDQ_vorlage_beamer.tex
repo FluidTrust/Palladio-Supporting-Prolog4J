@@ -5,8 +5,8 @@
 % use 'beamerthemekit' for standard 4:3 ratio
 % for widescreen slides (16:9), use 'beamerthemekitwide'
 
-\usepackage{templates/beamerthemekit}
-%\usepackage{templates/beamerthemekitwide}
+%\usepackage{templates/beamerthemekit}
+\usepackage{templates/beamerthemekitwide}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage[ngerman]{babel}
@@ -76,53 +76,68 @@
 \begin{frame}{Motivation}
 \begin{itemize}
 \item Sprachen haben unterschiedliche St"arken
-\begin{itemize}
-\item z.B. Haskell vs. C
-\end{itemize}
-\item Wie kann man diese St"arken kombinieren?
-\item Wie kann man mehrere Sprachen im selben Programm nutzen?
+% Python vs C
+%
+% Mit Python kann man schnell entwickeln, sehr abstrakte Sprache.
+% In C kann man rechenintensive Algorithmen auslagern, um die
+% Performance zu erh"ohen, oder wenn man platformspezifische
+% Funktionalitaet braucht
+\item St"arken kombinierbar?
+\vspace{0.2cm}
+\item Implementierungen einer Sprache haben unterschiedliche St"arken
+% Proprietary vs Open source
+% Moegliche Lizenzkonflikte vermeiden
+% Spezielle Optimierungen implementiert
+\item Mehrere Implementierungen nutzbar?
+\vspace{0.2cm}
 \item \textbf{L"osung:} Adapter einsetzen
 \end{itemize}
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.95\textwidth]{adapter.pdf}
+\includegraphics[width=0.9\textwidth]{adapter.pdf}
 \end{figure}
-%TODO Realworld Beispiel bringen in der Praesentation
 \end{frame}
 \begin{frame}{Projektbezug}
+\begin{itemize}
+\item Trust 4.0
 \begin{itemize}
 \item Softwaresystem soll Datenschutz garantieren
 \item Architekturmodell wird um Datenflussannotationen erg"anzt
 \item Durch Analyse k"onnen Risiken gefunden werden
-\vspace{1cm}
-\item Architekturmodell
-\begin{itemize}
-\item Eclispe-Plugin in \textbf{Java}
 \end{itemize}
-\item Datenflussanalyse
-\begin{itemize}
-\item Datenflussmodell wird zu \textbf{Prolog}-Statements transformiert und ausgewertet
-\end{itemize}
-\item $\Rightarrow$ \textbf{Java-zu-Prolog Adapter}
+\vspace{0.5cm}
+\item Architekturmodell erstellen mit Eclipse-Plugin (\textbf{Java})
+\item Datenflussanalyse mittels \textbf{Prolog}
+\vspace{0.5cm}
+\item[] $\Rightarrow$ \textbf{Java-zu-Prolog Adapter}
 \end{itemize}
 \end{frame}
 
 \section{Anforderungen}
 \begin{frame}{Anforderungen}
 \begin{itemize}
-\item Anbindung zu mehreren Prolog-Interpreter
+\item Anbindung zu mehreren Interpretern
+% Siehe weiter oben. Verschiedene Interpreter haben verschiedene Staerken
 \begin{itemize}
-\item Mndst. 1 in Java implementierter Interpreter
-%TODO Grund in Praesi erlaeutern
+\item SWI-Prolog unterst"utzen
+% Ist der weitestverbreiteste Interpreter, dementsprechend auch aktiv weiterentwickelt
+\item Mindesten ein Interpreter in Java implementiert
+% Ein Interpreter soll mit dem Plugin selbst ausgeliefert werden, um
+% out-of-the-box funktioieren zu koennen, ohne vom Nutzer erwarten zu muessen,
+% ein Interpreter vorinstalliert zu haben
 \end{itemize}
 \vspace{0.3cm}
-\item Interpreter muss EPL kompatible Lizenz haben
+\item Interpreter m"ussen EPL-kompatible Lizenz haben
+% Eclipse Plugins laufen unter der EPL Lizenz, d.h. jede verwendete Software muss EPL
+% kompatibel sein
 \vspace{0.3cm}
 \item Java-Objekte als Antwort vom Interpreter
 \begin{itemize}
 \item Anfrage: String('2+2')
 \item Antwort: Integer(4)
 \end{itemize}
+% Mit den Ergebnissen soll weiter verarbeitet werden und m"ussten sonst
+% geparset werden.
 \end{itemize}
 \end{frame}
 
@@ -132,15 +147,24 @@
 \item \textbf{Kriterien} (* Pflicht)
 \begin{itemize}
 \item Java-Anbindung*
+% Eigene Java-Anbindung waere zu aufwaendig
 \item Passende Lizenz*
+% siehe oben
 \item Paket im Maven-Repository
-\item In Java implementiert
+% Convenience Grund. Vereinfacht den Build-Prozess
+\item Java-Implementierung
+% siehe oben
 \item Zeitpunkt des letzten Releases
+% Wenn ein Projekt nicht gewartet wird, kann es sein, dass irgendwann
+% kompatibilitaet gebrochen wird
+% Bugs werden nicht gefixt
+% Moeglicherweise geringer Funktionsumfang
 \end{itemize}
 \vspace{0.5cm}
 \item \textbf{Herausforderung}
 \begin{itemize}
-\item Prolog Community ist klein, weshalb es nicht viele aktive Projekte gibt
+\item Es gibt eine Vielzahl an Interpretern
+\item Wenige erf"ullen Kriterien
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -152,18 +176,18 @@
 Lizenz                & BSD          & LGPL              & Apache 2.0      \\ \hline
 Letzter Release       & Juli'19          & Okt'18        & Dez'18      \\ \hline
 Maven-Paket           & \checkmark          & \checkmark        & \checkmark      \\ \hline
-In Java implementiert & $\times$            & \checkmark        & \checkmark     
+Java-Implementierung & $\times$            & \checkmark        & \checkmark     
 \end{tabular}%
 }
 \end{table}
 \vspace{0.5cm}
 \begin{itemize}
-\item SWI-Prolog ist der weitestverbreitetste und am aktivsten weiterentwickelte Interpreter
+\item SWI-Prolog ist der weitestverbreitete und am aktivsten weiterentwickelte Interpreter
 \end{itemize}
 \end{frame}
 
 \section{Java-Schnittstelle}
-\begin{frame}[fragile]{Java-Schnittstelle}
+\begin{frame}[fragile]{Java-Schnittstelle - Prolog}
 Beispiel Prologdatenbank:
 \begin{minted}{Prolog}
 child_of(Hans, Peter).
@@ -175,23 +199,24 @@ child_of(Brigitte, Peter).
     child_of(Norbert, Peter).
 \end{minted}
 \end{frame}
-\begin{frame}[fragile]{Java-Schnittstelle}
+\begin{frame}[fragile]{Java-Schnittstelle - Java}
 \begin{minted}{Java}
 class Human {
-	private String name;
-	// Getter and Setter are present
-}
+    private String name;
+    // Getter and Setter are present
 
-public boolean isChildOf(Human parent, Human childToCheck) {
-	// How to query the prolog database?
-	// The query to execute:
-	//     child_of(nameOfParent, nameOfChildToCheck)
+    public boolean isChildOf(Human parent) {
+        // How to query the prolog database?
+        // The query to execute:
+        //     child_of(nameOfParent, this.name).
+    }	
 }
 \end{minted}
 \end{frame}
-\begin{frame}[fragile]{Java-Schnittstelle SWI-Prolog}
+\begin{frame}[fragile]{Java-Schnittstelle - SWI-Prolog}
 \begin{minted}{Java}
 public boolean isChildOf(Human parent, Human childToCheck) {
+    // convert(...) can tranform Human into Atom
     Atom parentName = convert(parent);
     Atom childName = convert(childToCheck);
     // goal = child_of(parentName, childName)
@@ -204,7 +229,7 @@ public boolean isChildOf(Human parent, Human childToCheck) {
 }
 \end{minted}
 \end{frame}
-\begin{frame}[fragile]{Java-Schnittstelle Projog}
+\begin{frame}[fragile]{Java-Schnittstelle - Projog}
 \begin{minted}{Java}
 private Projog engine;
 
@@ -222,7 +247,7 @@ public boolean isChildOf(Human parent, Human childToCheck) {
 \begin{frame}{Prolog4J}
 \begin{itemize}
 \item Java-zu-Prolog Adapter
-\item MIT Lizenz (EPL kompatibel)
+\item MIT-Lizenz (EPL-kompatibel)
 \item Unterst"utzte Interpreter
 \begin{itemize}
 \item SWI-Prolog
@@ -230,7 +255,13 @@ public boolean isChildOf(Human parent, Human childToCheck) {
 \item JTrolog
 \item JLog
 \end{itemize}
-\item Letzter Commit: \textbf{Januar 2011}
+\vspace{0.3cm}
+\item \textbf{Probleme}
+\begin{itemize}
+\item Veraltet (Letzter Commit in 2011)
+\item Fehlende Funktionali"at
+\item Unterst"utzt nicht alle gew"unschten Interpreter
+\end{itemize}
 \end{itemize}
 \end{frame}
 \subsection{Architektur}
@@ -255,19 +286,26 @@ public boolean isChildOf(Human parent, Human childToCheck) {
 
 
 
-\subsection{Anpassungen}
-\begin{frame}{Anpassungen}
-%TODO in Praesi auf jeden Punkt genauer eingehen
+\subsection{Analyse}
+\begin{frame}{Analyse}
 \begin{itemize}
-\item Entfernen ungewollter Interpreter
-\item Aktualisieren der POM-Dateien
+\item Unterst"utzt nicht alle Interpreter
 \begin{itemize}
-\item Maven als Build-System
+\item Entfernen nicht ben"otigter Interpreter
+\item Projog unterst"utzen
 \end{itemize}
+\vspace{0.2cm}
+\item Veraltet
+\begin{itemize}
+\item Aktualisieren der POM-Dateien (Maven)
 \item Aktualisieren des Codes
-\item Projog Interpreter hinzuf"ugen
-\item API um n"otige Funktionalit"at erweitern
+\end{itemize}
+\vspace{0.2cm}
+\item Fehlende Funktionalit"at
+\begin{itemize}
+\item API erweitern
 \item Interpreter-Discovery mit OSGI
+\end{itemize}
 \end{itemize}
 \end{frame}
 \begin{frame}[fragile]{SWI Prolog Anpassung}
@@ -350,9 +388,12 @@ human(plato)
 \item Einbinden modularer Services zur Laufzeit
 \end{itemize}
 \vspace{0.1cm}
-\item Erm"oglicht Laufzeiterkennung der verf"ugbaren Interpreter
+\item Einbindung in Laufzeitumgebung von Eclipse
+\vspace{0.1cm}
+\item Laufzeiterkennung verf"ugbarer Interpreter
 \begin{itemize}
 \item Kein festes Einprogrammieren n"otig
+\item Leichtes Einbinden zuk"unftiger Interpreter
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -363,7 +404,7 @@ human(plato)
 \end{figure}
 \end{frame}
 
-
+\section{Zusammenfassung}
 \begin{frame}{Zusammenfassung}
 \begin{itemize}
 \item Ausf"uhren von Prolog-Befehlen in Java
@@ -374,13 +415,15 @@ human(plato)
 \item Projog
 \end{itemize}
 \item Java-Schnittstellen der Interpreter sind unterschiedlich
-\begin{itemize}
-\item Gutes Design des Adapters erforderlich
-\end{itemize}
 \item Existierende Bibliothek Prolog4J bietet was wir brauchen
 \begin{itemize}
-\item Muss modernisiert werden
+\item Muss modernisiert und erweitert werden
 \item Hinzuf"ugen von OSGI Discovery
+\end{itemize}
+\item M"ogliche Fortsetzung
+\begin{itemize}
+\item Mehr Interpreter anbinden
+\item Ausf"uhrlicher testen
 \end{itemize}
 \end{itemize}
 \end{frame}
