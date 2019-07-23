@@ -97,25 +97,12 @@
 \includegraphics[width=0.9\textwidth]{adapter.pdf}
 \end{figure}
 \end{frame}
-\begin{frame}{Projektbezug}
-\begin{itemize}
-\item Trust 4.0
-\begin{itemize}
-\item Softwaresystem soll Datenschutz garantieren
-\item Architekturmodell wird um Datenflussannotationen erg"anzt
-\item Durch Analyse k"onnen Risiken gefunden werden
-\end{itemize}
-\vspace{0.5cm}
-\item Architekturmodell erstellen mit Eclipse-Plugin (\textbf{Java})
-\item Datenflussanalyse mittels \textbf{Prolog}
-\vspace{0.5cm}
-\item[] $\Rightarrow$ \textbf{Java-zu-Prolog Adapter}
-\end{itemize}
-\end{frame}
 
 \section{Anforderungen}
 \begin{frame}{Anforderungen}
 \begin{itemize}
+\item \textbf{Kontext:} Adapter soll in Eclipse-Plugin verwendet werden
+\vspace{0.3cm}
 \item Anbindung zu mehreren Interpretern
 % Siehe weiter oben. Verschiedene Interpreter haben verschiedene Staerken
 \begin{itemize}
@@ -215,10 +202,12 @@ class Human {
 \end{frame}
 \begin{frame}[fragile]{Java-Schnittstelle - SWI-Prolog}
 \begin{minted}{Java}
-public boolean isChildOf(Human parent, Human childToCheck) {
+// class Human { ...
+
+public boolean isChildOf(Human parent) {
     // convert(...) can tranform Human into Atom
     Atom parentName = convert(parent);
-    Atom childName = convert(childToCheck);
+    Atom childName = convert(this);
     // goal = child_of(parentName, childName)
     Term goal = 
         Util.textParamsToTerm(
@@ -231,11 +220,13 @@ public boolean isChildOf(Human parent, Human childToCheck) {
 \end{frame}
 \begin{frame}[fragile]{Java-Schnittstelle - Projog}
 \begin{minted}{Java}
+// class Human { ...
+
 private Projog engine;
 
-public boolean isChildOf(Human parent, Human childToCheck) {
+public boolean isChildOf(Human parent) {
     String pName = parent.getName();
-    String cName = childToCheck.getName();
+    String cName = this.getName();
     QueryResult solution =
         engine.solve("child_of("+pName+","+cName+").");
     return solution.next();
@@ -267,12 +258,14 @@ public boolean isChildOf(Human parent, Human childToCheck) {
 \subsection{Architektur}
 \begin{frame}[fragile]{Architektur}
 \begin{minted}{Java}
-private Prover prover;
+// class Human { ...
 
-public boolean isChildOf(Human parent, Human childToCheck) {
+private Prover p;
+
+public boolean isChildOf(Human parent) {
     Query query = p.query("child_of(?parent, ?child).");
     Solution<?> solution = 
-        query.solve(parent, childToCheck);
+        query.solve(parent, this);
     return solution.isSuccess();
 }
 \end{minted}
@@ -306,25 +299,6 @@ public boolean isChildOf(Human parent, Human childToCheck) {
 \item API erweitern
 \item Interpreter-Discovery mit OSGI
 \end{itemize}
-\end{itemize}
-\end{frame}
-\begin{frame}[fragile]{SWI Prolog Anpassung}
-\begin{itemize}
-\item Darstellung einer Liste in Standard Prolog
-\begin{minted}{Prolog}
-'.'([],[])
-\end{minted}
-\item SWI-Prolog Darstellung
-\begin{minted}{Prolog}
-'[|]'([],[])
-\end{minted}
-\vspace{0.5cm}
-\item Begr"undung
-\begin{minted}{Text}
-As of version 7, SWI-Prolog lists can be 
-distinguished unambiguously at runtime
-from ./2 terms and the atom '[]'
-\end{minted}
 \end{itemize}
 \end{frame}
 \begin{frame}[fragile]{Bug in Projog}
@@ -397,12 +371,6 @@ human(plato)
 \end{itemize}
 \end{itemize}
 \end{frame}
-\begin{frame}{Interpreter-Discovery mit OSGI}
-\begin{figure}[h]
-\centering
-\includegraphics[width=1\textwidth]{osgi.pdf}
-\end{figure}
-\end{frame}
 
 \section{Zusammenfassung}
 \begin{frame}{Zusammenfassung}
@@ -426,6 +394,49 @@ human(plato)
 \item Ausf"uhrlicher testen
 \end{itemize}
 \end{itemize}
+\end{frame}
+
+% Anhang
+\begin{frame}{Projektbezug}
+\begin{itemize}
+\item Trust 4.0
+\begin{itemize}
+\item Softwaresystem soll Datenschutz garantieren
+\item Architekturmodell wird um Datenflussannotationen erg"anzt
+\item Durch Analyse k"onnen Risiken gefunden werden
+\end{itemize}
+\vspace{0.5cm}
+\item Architekturmodell erstellen mit Eclipse-Plugin (\textbf{Java})
+\item Datenflussanalyse mittels \textbf{Prolog}
+\vspace{0.5cm}
+\item[] $\Rightarrow$ \textbf{Java-zu-Prolog Adapter}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{SWI-Prolog Anpassung}
+\begin{itemize}
+\item Darstellung einer Liste in Standard Prolog
+\begin{minted}{Prolog}
+'.'([],[])
+\end{minted}
+\item SWI-Prolog Darstellung
+\begin{minted}{Prolog}
+'[|]'([],[])
+\end{minted}
+\vspace{0.5cm}
+\item Begr"undung
+\begin{minted}{Text}
+As of version 7, SWI-Prolog lists can be 
+distinguished unambiguously at runtime
+from ./2 terms and the atom '[]'
+\end{minted}
+\end{itemize}
+\end{frame}
+\begin{frame}{Interpreter-Discovery mit OSGI}
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth]{osgi.pdf}
+\end{figure}
 \end{frame}
 
 \end{document}

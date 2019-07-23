@@ -1,14 +1,18 @@
-\frametitle{Bug in Projog}
+\frametitle{SWI-Prolog Anpassung}
 \begin{itemize}
-\item Folgender Code funktioniert \textbf{nicht}
+\item Darstellung einer Liste in Standard Prolog
 \begin{minted}{Prolog}
-addTheory(human(socrates)).
-addTheory(human(euklid)).
-addTheory(human(plato)).
+'.'([],[])
+\end{minted}
+\item SWI-Prolog Darstellung
+\begin{minted}{Prolog}
+'[|]'([],[])
 \end{minted}
 \vspace{0.5cm}
-\item Resultierende Datenbank
-\begin{minted}{Prolog}
-human(plato)
+\item Begr"undung
+\begin{minted}{Text}
+As of version 7, SWI-Prolog lists can be
+distinguished unambiguously at runtime
+from ./2 terms and the atom '[]'
 \end{minted}
 \end{itemize}

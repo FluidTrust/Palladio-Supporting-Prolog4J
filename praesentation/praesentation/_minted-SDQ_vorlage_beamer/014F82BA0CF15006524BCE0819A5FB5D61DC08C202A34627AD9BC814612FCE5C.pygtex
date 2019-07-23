@@ -1,10 +1,12 @@
 \begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kd}{private} \PYG{n}{Prover} \PYG{n}{prover}\PYG{o}{;}
+\PYG{c+c1}{// class Human \PYGZob{} ...}
 
-\PYG{k+kd}{public} \PYG{k+kt}{boolean} \PYG{n+nf}{isChildOf}\PYG{o}{(}\PYG{n}{Human} \PYG{n}{parent}\PYG{o}{,} \PYG{n}{Human} \PYG{n}{childToCheck}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+\PYG{k+kd}{private} \PYG{n}{Prover} \PYG{n}{p}\PYG{o}{;}
+
+\PYG{k+kd}{public} \PYG{k+kt}{boolean} \PYG{n+nf}{isChildOf}\PYG{o}{(}\PYG{n}{Human} \PYG{n}{parent}\PYG{o}{)} \PYG{o}{\PYGZob{}}
     \PYG{n}{Query} \PYG{n}{query} \PYG{o}{=} \PYG{n}{p}\PYG{o}{.}\PYG{n+na}{query}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}child\PYGZus{}of(?parent, ?child).\PYGZdq{}}\PYG{o}{);}
     \PYG{n}{Solution}\PYG{o}{\PYGZlt{}?\PYGZgt{}} \PYG{n}{solution} \PYG{o}{=}
-        \PYG{n}{query}\PYG{o}{.}\PYG{n+na}{solve}\PYG{o}{(}\PYG{n}{parent}\PYG{o}{,} \PYG{n}{childToCheck}\PYG{o}{);}
+        \PYG{n}{query}\PYG{o}{.}\PYG{n+na}{solve}\PYG{o}{(}\PYG{n}{parent}\PYG{o}{,} \PYG{k}{this}\PYG{o}{);}
     \PYG{k}{return} \PYG{n}{solution}\PYG{o}{.}\PYG{n+na}{isSuccess}\PYG{o}{();}
 \PYG{o}{\PYGZcb{}}
 \end{Verbatim}

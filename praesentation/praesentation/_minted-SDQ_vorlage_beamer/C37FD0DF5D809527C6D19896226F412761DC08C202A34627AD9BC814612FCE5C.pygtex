@@ -1,8 +1,10 @@
 \begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kd}{public} \PYG{k+kt}{boolean} \PYG{n+nf}{isChildOf}\PYG{o}{(}\PYG{n}{Human} \PYG{n}{parent}\PYG{o}{,} \PYG{n}{Human} \PYG{n}{childToCheck}\PYG{o}{)} \PYG{o}{\PYGZob{}}
+\PYG{c+c1}{// class Human \PYGZob{} ...}
+
+\PYG{k+kd}{public} \PYG{k+kt}{boolean} \PYG{n+nf}{isChildOf}\PYG{o}{(}\PYG{n}{Human} \PYG{n}{parent}\PYG{o}{)} \PYG{o}{\PYGZob{}}
     \PYG{c+c1}{// convert(...) can tranform Human into Atom}
     \PYG{n}{Atom} \PYG{n}{parentName} \PYG{o}{=} \PYG{n}{convert}\PYG{o}{(}\PYG{n}{parent}\PYG{o}{);}
-    \PYG{n}{Atom} \PYG{n}{childName} \PYG{o}{=} \PYG{n}{convert}\PYG{o}{(}\PYG{n}{childToCheck}\PYG{o}{);}
+    \PYG{n}{Atom} \PYG{n}{childName} \PYG{o}{=} \PYG{n}{convert}\PYG{o}{(}\PYG{k}{this}\PYG{o}{);}
     \PYG{c+c1}{// goal = child\PYGZus{}of(parentName, childName)}
     \PYG{n}{Term} \PYG{n}{goal} \PYG{o}{=}
         \PYG{n}{Util}\PYG{o}{.}\PYG{n+na}{textParamsToTerm}\PYG{o}{(}
