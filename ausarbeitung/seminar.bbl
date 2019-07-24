@@ -19,6 +19,18 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global}
+    \entry{epl}{article}{}
+      \field{sortinit}{E}
+      \field{sortinithash}{c554bd1a0b76ea92b9f105fe36d9c7b0}
+      \field{labeltitlesource}{title}
+      \field{title}{Eclipse Plugin Licence}
+      \verb{urlraw}
+      \verb https://www.eclipse.org/legal/epl-v10.html
+      \endverb
+      \verb{url}
+      \verb https://www.eclipse.org/legal/epl-v10.html
+      \endverb
+    \endentry
     \entry{trust40}{article}{}
       \name{author}{2}{}{%
         {{hash=ca5a011f45d3ddc740a71773c6a1376f}{%
@@ -49,6 +61,18 @@
       \endverb
       \verb{url}
       \verb https://sdqweb.ipd.kit.edu/publications/pdfs/seifermann2019b.pdf
+      \endverb
+    \endentry
+    \entry{swi}{article}{}
+      \field{sortinit}{S}
+      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
+      \field{labeltitlesource}{title}
+      \field{title}{SWI-Prolog}
+      \verb{urlraw}
+      \verb https://www.swi-prolog.org/
+      \endverb
+      \verb{url}
+      \verb https://www.swi-prolog.org/
       \endverb
     \endentry
   \enddatalist

@@ -1,18 +1,18 @@
 [0] Config.pm:304> INFO - This is Biber 2.12
 [0] Config.pm:307> INFO - Logfile is 'seminar.blg'
-[17] biber:315> INFO - === Tue Jul 23, 2019, 22:26:23
-[31] Biber.pm:371> INFO - Reading 'seminar.bcf'
-[79] Biber.pm:889> INFO - Found 1 citekeys in bib section 0
-[87] Biber.pm:4093> INFO - Processing section 0
-[96] Biber.pm:4254> INFO - Looking for bibtex format file 'seminar.bib' for section 0
-[96] bibtex.pm:1523> INFO - LaTeX decoding ...
-[98] bibtex.pm:1340> INFO - Found BibTeX data source 'seminar.bib'
-[102] Utils.pm:193> WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
-[102] Utils.pm:193> WARN - BibTeX subsystem: author, warning: comma(s) at end of name (removing)
-[108] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[108] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[108] Biber.pm:3921> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'de-DE'
-[108] Biber.pm:3927> INFO - No sort tailoring available for locale 'de-DE'
-[113] bbl.pm:636> INFO - Writing 'seminar.bbl' with encoding 'UTF-8'
-[113] bbl.pm:739> INFO - Output to seminar.bbl
-[114] Biber.pm:110> INFO - WARNINGS: 2
+[17] biber:315> INFO - === Wed Jul 24, 2019, 16:39:19
+[30] Biber.pm:371> INFO - Reading 'seminar.bcf'
+[74] Biber.pm:889> INFO - Found 3 citekeys in bib section 0
+[83] Biber.pm:4093> INFO - Processing section 0
+[90] Biber.pm:4254> INFO - Looking for bibtex format file 'seminar.bib' for section 0
+[91] bibtex.pm:1523> INFO - LaTeX decoding ...
+[92] bibtex.pm:1340> INFO - Found BibTeX data source 'seminar.bib'
+[97] Utils.pm:193> WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
+[97] Utils.pm:193> WARN - BibTeX subsystem: author, warning: comma(s) at end of name (removing)
+[104] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[104] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[104] Biber.pm:3921> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'de-DE'
+[104] Biber.pm:3927> INFO - No sort tailoring available for locale 'de-DE'
+[109] bbl.pm:636> INFO - Writing 'seminar.bbl' with encoding 'UTF-8'
+[109] bbl.pm:739> INFO - Output to seminar.bbl
+[109] Biber.pm:110> INFO - WARNINGS: 2
