@@ -21,16 +21,30 @@ man bei der Verwendung des Adpaters bereits verwertebare Objekte als Antwort erh
 
 \section{Interpreterwahl}
 In Kapitel \ref{anfo} wurde bereits SWI-Prolog als ein anzubindenden Interpreter fest vorgebeben, sowie die beiden Anforderungen, dass die Interpreter EPL-kompatibel lizenziert sein m"ussen und au"serdem mindestens ein Interpreter in Java implementiert sein muss. \newline
-Insgesamt habe ich die Wahl, welche Interpreter angebunden werden sollen, nach folgenden Kriterien getroffen:\newline
+Insgesamt habe ich die Wahl, welche Interpreter angebunden werden sollen, nach folgenden Kriterien getroffen: \textbf{(* Pflicht)}\newline
 \newline
 \textbf{EPL-kompatibel lizenziert*} Der Adapter wird Teil eines Eclipse-Plugins sein, welches unter EPL lizenziert ist. Daraus ergibt sich, dass ein verwendeter Interpreter mit EPL kompatibel lizensiert sein muss.\newline
 \textbf{Java-Schnittstelle*} Um einen Interpreter von Java-Code aus zu verwenden muss dieser bereits eine eigene Java-Schnittstelle mitbringen. Es w"are zwar m"oglich auch selber eine solche Schnittstelle zu entwickeln, allerdings liegt das au"serhalb des Umfangs dieses Praktikums.\newline
 \textbf{Paket im Maven-Repository} Ein Paket, welches im Maven-Repository liegt, kann ohne gro"sen Aufwand in den Build-Prozess eines Projektes eingebunden werden. Dies verringert den Wartungsaufwand und stabilisiert den Build-Prozess "uber Platformen und Ger"ate hinweg, da ein Paket direkt aus dem Repository geladen werden kann, anstatt dass nach lokalen Bibliotheken gesucht werden muss. Ein Interpreter, der seine Java-Schnittstelle als Packet im Maven-Repository bereitstellt, verursacht daher allgemein weniger Aufwand bei der Einbindung.\newline
 \textbf{Java-Implementierung} Mindestens ein Interpreter sollte in Java implementiert sein, sodass dieser mit dem Plugin zusammen ausgeliefert werden kann. Dadurch muss der Nutzer keinen eigenen Interpreter auf seinem System installieren.\newline
-\textbf{Zeitpunkt des letzten Releases} Ein Projekt, welches nicht gewartet wird, bringt ein gewisses Risiko bei der Verwendung mit sich. Zum Einen werden logische Programmfeheler, die zu falschen Ergebnissen bei Berechnungen f"uhren k"onnen, nicht mehr gefixt und zum Anderen k"onen auch ungepatchte Sicherheitsl"ucken zu einem Problem f"ur den Nutzer werden. Au"serdem kann mit der Ver"offentlichung neuer Versionen von Drittsoftware die Kompatibilit"at mit veralteten Projekten gebrochen werden. Daher ist es wichtig, dass ein Interpreter, zumindest zum jetzigen Zeitpunkt, noch aktiv weiter entwickelt wird.
+\textbf{Zeitpunkt des letzten Releases} Ein Projekt, welches nicht gewartet wird, bringt ein gewisses Risiko bei der Verwendung mit sich. Zum Einen werden logische Programmfeheler, die zu falschen Ergebnissen bei Berechnungen f"uhren k"onnen, nicht mehr gefixt und zum Anderen k"onen auch ungepatchte Sicherheitsl"ucken zu einem Problem f"ur den Nutzer werden. Au"serdem kann mit der Ver"offentlichung neuer Versionen von Drittsoftware die Kompatibilit"at mit veralteten Projekten gebrochen werden. Daher ist es wichtig, dass ein Interpreter, zumindest zum jetzigen Zeitpunkt, noch aktiv weiter entwickelt wird.\newline
+\newline
+Da eine EPL-kompatible Lizenz und eine bereits vorhandene Java-Schnittstelle Pflichtkriterien sind, werde ich in der folgenden Vorstellung der ausgew"ahlten Interpreter nur in besonderen F"allen weiter darauf eingehen.
 \subsection{SWI-Prolog}
-Dieser Interpreter ist Quasi-Standard in der Prolog-Welt
+SWI-Prolog\cite{swi} ist der am weitestverbreiteste und am aktivsten weiter entwickelte Interpreter. Deswegen wurde in Kapitel \ref{anfo} bereits vorrausgesetzt, dass dieser Interpreter angebunden werden sollte. Neue Versionen werden teilweise im Wochentakt ver"offentlicht, weshalb eine Veraltung des Projektes in n"achster Zeit nicht zu erwarten ist. Au"serdem stellt SWI-Prolog eine Maven-Paket zur Verf"ugung, welches allerdings eine Abh"angigkeit auf eine native Bibliothek hat. Dies setzt vorraus, das der Nutzer bereits SWI-Prolog installiert und sein System so konfiguriert hat, dass die JVM in der Lage ist, diese Bibliothek auch zu finden.
+\subsubsection{Installation unter Linux}
+\textbf{Zu installierende Pakete}: swi-prolog-devel\newline
+\newline
+Nachdem dieses Paket installiert wurde, sollte das Verzeichnis \emph{/usr/lib/swipl/lib/} existieren. Je nach Architektur liegt in diesem Verzeichnis ein Ordner \emph{x86-linux} oder \emph{x86\_64-linux}, worin wiederum eine Datei \emph{libjpl.so} liegt. F"uhren Sie folgenden Befehl im Terminal aus: (Beispiel 64-bit Architektur)\newline
+\begin{minted}{bash}
+ln -s /usr/lib/swipl/lib/x86_64-linux/libjpl.so /usr/lib/.
+\end{minted}
+Dieser Befehl erstellt eine Verkn"upfung der Datei \emph{libjpl.so} im Verzeichnis \emph{/usr/lib/libjpl.so}.
+
 \subsection{TuProlog}
+TuProlog\cite{tuprolog} ist ein in Java implementierter Interpreter. Er verfolgt die Philosophie, einen m"oglichst kleinen Kern zu haben und zus"atzliche Funktionalit"aten "uber Bibliotheken nachzuladen. Lizenziert ist er unter LGPL, welche im Allgemeinen nicht EPL-kompatibel ist\cite{eplkompatibel}. Jedoch wurde diese Lizenz in der Vergangenheit in einzelnen F"allen doch als kompatibel anerkannt, weshalb es hier eine gewisse Grauzone zu geben scheint. Au"serdem befindet sich das Projekt Trust 4.0 momentan noch im Bereich des 'non commercial use', weshalb die Nutzung dieses Interpreter vorerst ohnehin keine Schwierigkeit darstellt. Der letzte Release von TuProlog war im Juli 2019, allerdings nutzte ich in meinem Adapter noch die Version vom Oktober 2018, da ich mit der Implementierung bereits im Juni begonnen hatte. TuProlog ist au"serdem als Paket im Maven-Repository verf"ugbar, weshalb von Nutzerseite aus keine weitere Installation erforderlich ist.
+
 \subsection{Projog}
+Projog\cite{projog} ist ebenfalls ein in Java implementierter Interpreter. Im Gegensatz zu den beiden anderen Interpretern ist dieses Projekt noch sehr jung, wird aber dementsprechend auch noch weiter entwickelt. Ein Nachteil dieser Implementierung ist allerdings, dass sie noch nicht ganz konform zum Prolog ISO Standard ist, weshalb durchaus an einigen Stellen die Funktionalit"at eingeschr"ankt sein k"onnte. Projog steht, wie TuProlog, als Paket im Maven-Repository zur Verf"ugung und kann somit automatisch durch Maven eingerichtet werden und erfordert keine Installation oder Konfigration nutzerseitens.
 
 \section{Prolog4J}

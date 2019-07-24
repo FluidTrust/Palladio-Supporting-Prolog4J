@@ -31,6 +31,30 @@
       \verb https://www.eclipse.org/legal/epl-v10.html
       \endverb
     \endentry
+    \entry{eplkompatibel}{article}{}
+      \field{sortinit}{E}
+      \field{sortinithash}{c554bd1a0b76ea92b9f105fe36d9c7b0}
+      \field{labeltitlesource}{title}
+      \field{title}{EPL-kompatible Lizenzen}
+      \verb{urlraw}
+      \verb https://www.eclipse.org/legal/licenses.php
+      \endverb
+      \verb{url}
+      \verb https://www.eclipse.org/legal/licenses.php
+      \endverb
+    \endentry
+    \entry{projog}{article}{}
+      \field{sortinit}{P}
+      \field{sortinithash}{bb5b15f2db90f7aef79bb9e83defefcb}
+      \field{labeltitlesource}{title}
+      \field{title}{Projog}
+      \verb{urlraw}
+      \verb http://www.projog.org/
+      \endverb
+      \verb{url}
+      \verb http://www.projog.org/
+      \endverb
+    \endentry
     \entry{trust40}{article}{}
       \name{author}{2}{}{%
         {{hash=ca5a011f45d3ddc740a71773c6a1376f}{%
@@ -73,6 +97,18 @@
       \endverb
       \verb{url}
       \verb https://www.swi-prolog.org/
+      \endverb
+    \endentry
+    \entry{tuprolog}{article}{}
+      \field{sortinit}{T}
+      \field{sortinithash}{51f9faf24c60c62ca764a77f78cf5666}
+      \field{labeltitlesource}{title}
+      \field{title}{TuProlog}
+      \verb{urlraw}
+      \verb https://apice.unibo.it/xwiki/bin/view/Tuprolog/
+      \endverb
+      \verb{url}
+      \verb https://apice.unibo.it/xwiki/bin/view/Tuprolog/
       \endverb
     \endentry
   \enddatalist

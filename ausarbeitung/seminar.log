@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.7.18)  24 JUL 2019 16:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.7.18)  24 JUL 2019 21:32
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1019,70 +1019,182 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip79
 ))
+(/usr/share/texmf-dist/tex/latex/minted/minted.sty
+Package: minted 2017/07/19 v2.5 Yet another Pygments shim for LaTeX
+
+(/usr/share/texmf-dist/tex/latex/fvextra/fvextra.sty
+Package: fvextra 2019/02/04 v1.4 fvextra - extensions and patches for fancyvrb
+
+(/usr/share/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2019/01/15
+
+Style option: `fancyvrb' v3.2a <2019/01/15> (tvz)
+\FV@CodeLineNo=\count140
+\FV@InFile=\read1
+\FV@TabBox=\box38
+\c@FancyVerbLine=\count141
+\FV@StepNumber=\count142
+\FV@OutFile=\write3
+)
+(/usr/share/texmf-dist/tex/latex/upquote/upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+)
+(/usr/share/texmf-dist/tex/latex/lineno/lineno.sty
+Package: lineno 2005/11/02 line numbers on paragraphs v4.41
+\linenopenalty=\count143
+\output=\toks28
+\linenoprevgraf=\count144
+\linenumbersep=\dimen139
+\linenumberwidth=\dimen140
+\c@linenumber=\count145
+\c@pagewiselinenumber=\count146
+\c@LN@truepage=\count147
+\c@internallinenumber=\count148
+\c@internallinenumbers=\count149
+\quotelinenumbersep=\dimen141
+\bframerule=\dimen142
+\bframesep=\dimen143
+\bframebox=\box39
+LaTeX Info: Redefining \\ on input line 3056.
+)
+\c@FV@TrueTabGroupLevel=\count150
+\c@FV@TrueTabCounter=\count151
+\FV@TabBox@Group=\box40
+\FV@TmpLength=\skip80
+\c@FV@HighlightLinesStart=\count152
+\c@FV@HighlightLinesStop=\count153
+\FV@LoopCount=\count154
+\FV@NCharsBox=\box41
+\FV@BreakIndent=\dimen144
+\FV@BreakIndentNChars=\count155
+\FV@BreakSymbolSepLeft=\dimen145
+\FV@BreakSymbolSepLeftNChars=\count156
+\FV@BreakSymbolSepRight=\dimen146
+\FV@BreakSymbolSepRightNChars=\count157
+\FV@BreakSymbolIndentLeft=\dimen147
+\FV@BreakSymbolIndentLeftNChars=\count158
+\FV@BreakSymbolIndentRight=\dimen148
+\FV@BreakSymbolIndentRightNChars=\count159
+\c@FancyVerbLineBreakLast=\count160
+\FV@LineBox=\box42
+\FV@LineIndentBox=\box43
+\FV@LineWidth=\dimen149
+)
+(/usr/share/texmf-dist/tex/latex/tools/shellesc.sty
+Package: shellesc 2016/06/07 v0.02a unified shell escape interface for LaTeX
+Package shellesc Info: Unrestricted shell escape enabled on input line 67.
+)
+(/usr/share/texmf-dist/tex/latex/ifplatform/ifplatform.sty
+Package: ifplatform 2017/10/13 v0.4a Testing for the operating system
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/catchfile.sty
+Package: catchfile 2016/05/16 v1.7 Catch the contents of a file (HO)
+)
+runsystem(uname -s > "seminar.w18")...executed.
+
+ (./seminar.w18)
+runsystem(rm -- "seminar.w18")...executed.
+
+)
+(/usr/share/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/share/texmf-dist/tex/generic/xstring/xstring.tex
+\integerpart=\count161
+\decimalpart=\count162
+)
+Package: xstring 2019/02/06 v1.83 String manipulations (CT)
+)
+(/usr/share/texmf-dist/tex/latex/framed/framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip81
+\fb@frw=\dimen150
+\fb@frh=\dimen151
+\FrameRule=\dimen152
+\FrameSep=\dimen153
+)
+(/usr/share/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count163
+\float@exts=\toks29
+\float@box=\box44
+\@float@everytoks=\toks30
+\@floatcapt=\box45
+)
+\minted@appexistsfile=\read2
+\minted@bgbox=\box46
+\minted@code=\write4
+\c@minted@FancyVerbLineTemp=\count164
+\c@minted@pygmentizecounter=\count165
+\@float@every@listing=\toks31
+\c@listing=\count166
+)
+runsystem(mkdir -p _minted-seminar)...executed.
+
+
 (/usr/share/texmf-dist/tex/latex/biblatex/biblatex.sty
 Package: biblatex 2018/11/02 v3.12 programmable bibliographies (PK/MW)
 
 (/usr/share/texmf-dist/tex/latex/logreq/logreq.sty
 Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count140
+\lrq@indent=\count167
 
 (/usr/share/texmf-dist/tex/latex/logreq/logreq.def
 File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
 ))
-\c@tabx@nest=\count141
-\c@listtotal=\count142
-\c@listcount=\count143
-\c@liststart=\count144
-\c@liststop=\count145
-\c@citecount=\count146
-\c@citetotal=\count147
-\c@multicitecount=\count148
-\c@multicitetotal=\count149
-\c@instcount=\count150
-\c@maxnames=\count151
-\c@minnames=\count152
-\c@maxitems=\count153
-\c@minitems=\count154
-\c@citecounter=\count155
-\c@maxcitecounter=\count156
-\c@savedcitecounter=\count157
-\c@uniquelist=\count158
-\c@uniquename=\count159
-\c@refsection=\count160
-\c@refsegment=\count161
-\c@maxextratitle=\count162
-\c@maxextratitleyear=\count163
-\c@maxextraname=\count164
-\c@maxextradate=\count165
-\c@maxextraalpha=\count166
-\c@abbrvpenalty=\count167
-\c@highnamepenalty=\count168
-\c@lownamepenalty=\count169
-\c@maxparens=\count170
-\c@parenlevel=\count171
-\blx@tempcnta=\count172
-\blx@tempcntb=\count173
-\blx@tempcntc=\count174
-\blx@maxsection=\count175
-\blx@maxsegment@0=\count176
-\blx@notetype=\count177
-\blx@parenlevel@text=\count178
-\blx@parenlevel@foot=\count179
-\blx@sectionciteorder@0=\count180
-\blx@entrysetcounter=\count181
-\labelnumberwidth=\skip80
-\labelalphawidth=\skip81
-\biblabelsep=\skip82
-\bibitemsep=\skip83
-\bibnamesep=\skip84
-\bibinitsep=\skip85
-\bibparsep=\skip86
-\bibhang=\skip87
-\blx@bcfin=\read1
-\blx@bcfout=\write3
-\c@mincomprange=\count182
-\c@maxcomprange=\count183
-\c@mincompwidth=\count184
+\c@tabx@nest=\count168
+\c@listtotal=\count169
+\c@listcount=\count170
+\c@liststart=\count171
+\c@liststop=\count172
+\c@citecount=\count173
+\c@citetotal=\count174
+\c@multicitecount=\count175
+\c@multicitetotal=\count176
+\c@instcount=\count177
+\c@maxnames=\count178
+\c@minnames=\count179
+\c@maxitems=\count180
+\c@minitems=\count181
+\c@citecounter=\count182
+\c@maxcitecounter=\count183
+\c@savedcitecounter=\count184
+\c@uniquelist=\count185
+\c@uniquename=\count186
+\c@refsection=\count187
+\c@refsegment=\count188
+\c@maxextratitle=\count189
+\c@maxextratitleyear=\count190
+\c@maxextraname=\count191
+\c@maxextradate=\count192
+\c@maxextraalpha=\count193
+\c@abbrvpenalty=\count194
+\c@highnamepenalty=\count195
+\c@lownamepenalty=\count196
+\c@maxparens=\count197
+\c@parenlevel=\count198
+\blx@tempcnta=\count199
+\blx@tempcntb=\count266
+\blx@tempcntc=\count267
+\blx@maxsection=\count268
+\blx@maxsegment@0=\count269
+\blx@notetype=\count270
+\blx@parenlevel@text=\count271
+\blx@parenlevel@foot=\count272
+\blx@sectionciteorder@0=\count273
+\blx@entrysetcounter=\count274
+\labelnumberwidth=\skip82
+\labelalphawidth=\skip83
+\biblabelsep=\skip84
+\bibitemsep=\skip85
+\bibnamesep=\skip86
+\bibinitsep=\skip87
+\bibparsep=\skip88
+\bibhang=\skip89
+\blx@bcfin=\read3
+\blx@bcfout=\write5
+\c@mincomprange=\count275
+\c@maxcomprange=\count276
+\c@mincompwidth=\count277
 Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
 
@@ -1093,88 +1205,88 @@ Package biblatex Info: Trying to load biblatex style data model...
 Package biblatex Info: ... file 'numeric.dbx' not found.
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count185
-\c@savedafterword=\count186
-\c@annotator=\count187
-\c@savedannotator=\count188
-\c@author=\count189
-\c@savedauthor=\count190
-\c@bookauthor=\count191
-\c@savedbookauthor=\count192
-\c@commentator=\count193
-\c@savedcommentator=\count194
-\c@editor=\count195
-\c@savededitor=\count196
-\c@editora=\count197
-\c@savededitora=\count198
-\c@editorb=\count199
-\c@savededitorb=\count266
-\c@editorc=\count267
-\c@savededitorc=\count268
-\c@foreword=\count269
-\c@savedforeword=\count270
-\c@holder=\count271
-\c@savedholder=\count272
-\c@introduction=\count273
-\c@savedintroduction=\count274
-\c@namea=\count275
-\c@savednamea=\count276
-\c@nameb=\count277
-\c@savednameb=\count278
-\c@namec=\count279
-\c@savednamec=\count280
-\c@translator=\count281
-\c@savedtranslator=\count282
-\c@shortauthor=\count283
-\c@savedshortauthor=\count284
-\c@shorteditor=\count285
-\c@savedshorteditor=\count286
-\c@labelname=\count287
-\c@savedlabelname=\count288
-\c@institution=\count289
-\c@savedinstitution=\count290
-\c@lista=\count291
-\c@savedlista=\count292
-\c@listb=\count293
-\c@savedlistb=\count294
-\c@listc=\count295
-\c@savedlistc=\count296
-\c@listd=\count297
-\c@savedlistd=\count298
-\c@liste=\count299
-\c@savedliste=\count300
-\c@listf=\count301
-\c@savedlistf=\count302
-\c@location=\count303
-\c@savedlocation=\count304
-\c@organization=\count305
-\c@savedorganization=\count306
-\c@origlocation=\count307
-\c@savedoriglocation=\count308
-\c@origpublisher=\count309
-\c@savedorigpublisher=\count310
-\c@publisher=\count311
-\c@savedpublisher=\count312
-\c@language=\count313
-\c@savedlanguage=\count314
-\c@origlanguage=\count315
-\c@savedoriglanguage=\count316
-\c@pageref=\count317
-\c@savedpageref=\count318
-\shorthandwidth=\skip88
-\shortjournalwidth=\skip89
-\shortserieswidth=\skip90
-\shorttitlewidth=\skip91
-\shortauthorwidth=\skip92
-\shorteditorwidth=\skip93
-\locallabelnumberwidth=\skip94
-\locallabelalphawidth=\skip95
-\localshorthandwidth=\skip96
-\localshortjournalwidth=\skip97
-\localshortserieswidth=\skip98
-\localshorttitlewidth=\skip99
-\localshortauthorwidth=\skip100
-\localshorteditorwidth=\skip101
+\c@afterword=\count278
+\c@savedafterword=\count279
+\c@annotator=\count280
+\c@savedannotator=\count281
+\c@author=\count282
+\c@savedauthor=\count283
+\c@bookauthor=\count284
+\c@savedbookauthor=\count285
+\c@commentator=\count286
+\c@savedcommentator=\count287
+\c@editor=\count288
+\c@savededitor=\count289
+\c@editora=\count290
+\c@savededitora=\count291
+\c@editorb=\count292
+\c@savededitorb=\count293
+\c@editorc=\count294
+\c@savededitorc=\count295
+\c@foreword=\count296
+\c@savedforeword=\count297
+\c@holder=\count298
+\c@savedholder=\count299
+\c@introduction=\count300
+\c@savedintroduction=\count301
+\c@namea=\count302
+\c@savednamea=\count303
+\c@nameb=\count304
+\c@savednameb=\count305
+\c@namec=\count306
+\c@savednamec=\count307
+\c@translator=\count308
+\c@savedtranslator=\count309
+\c@shortauthor=\count310
+\c@savedshortauthor=\count311
+\c@shorteditor=\count312
+\c@savedshorteditor=\count313
+\c@labelname=\count314
+\c@savedlabelname=\count315
+\c@institution=\count316
+\c@savedinstitution=\count317
+\c@lista=\count318
+\c@savedlista=\count319
+\c@listb=\count320
+\c@savedlistb=\count321
+\c@listc=\count322
+\c@savedlistc=\count323
+\c@listd=\count324
+\c@savedlistd=\count325
+\c@liste=\count326
+\c@savedliste=\count327
+\c@listf=\count328
+\c@savedlistf=\count329
+\c@location=\count330
+\c@savedlocation=\count331
+\c@organization=\count332
+\c@savedorganization=\count333
+\c@origlocation=\count334
+\c@savedoriglocation=\count335
+\c@origpublisher=\count336
+\c@savedorigpublisher=\count337
+\c@publisher=\count338
+\c@savedpublisher=\count339
+\c@language=\count340
+\c@savedlanguage=\count341
+\c@origlanguage=\count342
+\c@savedoriglanguage=\count343
+\c@pageref=\count344
+\c@savedpageref=\count345
+\shorthandwidth=\skip90
+\shortjournalwidth=\skip91
+\shortserieswidth=\skip92
+\shorttitlewidth=\skip93
+\shortauthorwidth=\skip94
+\shorteditorwidth=\skip95
+\locallabelnumberwidth=\skip96
+\locallabelalphawidth=\skip97
+\localshorthandwidth=\skip98
+\localshortjournalwidth=\skip99
+\localshortserieswidth=\skip100
+\localshorttitlewidth=\skip101
+\localshortauthorwidth=\skip102
+\localshorteditorwidth=\skip103
 Package biblatex Info: Trying to load compatibility code...
 Package biblatex Info: ... file 'blx-compat.def' found.
 
@@ -1186,13 +1298,13 @@ Package biblatex Info: ... file 'biblatex.def' found.
 
 (/usr/share/texmf-dist/tex/latex/biblatex/biblatex.def
 File: biblatex.def 2018/11/02 v3.12 biblatex compatibility (PK/MW)
-\c@textcitecount=\count319
-\c@textcitetotal=\count320
-\c@textcitemaxnames=\count321
-\c@biburlnumpenalty=\count322
-\c@biburlucpenalty=\count323
-\c@biburllcpenalty=\count324
-\c@smartand=\count325
+\c@textcitecount=\count346
+\c@textcitetotal=\count347
+\c@textcitemaxnames=\count348
+\c@biburlnumpenalty=\count349
+\c@biburlucpenalty=\count350
+\c@biburllcpenalty=\count351
+\c@smartand=\count352
 )
 Package biblatex Info: Trying to load bibliography style 'numeric'...
 Package biblatex Info: ... file 'numeric.bbx' found.
@@ -1204,8 +1316,8 @@ Package biblatex Info: ... file 'standard.bbx' found.
 
 (/usr/share/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
 File: standard.bbx 2018/11/02 v3.12 biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count326
-\c@bbx:relatedtotal=\count327
+\c@bbx:relatedcount=\count353
+\c@bbx:relatedtotal=\count354
 ))
 Package biblatex Info: Trying to load citation style 'numeric'...
 Package biblatex Info: ... file 'numeric.cbx' found.
@@ -1251,75 +1363,75 @@ File: german.lbx 2018/11/02 v3.12 biblatex localization (PK/MW)
 Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 (biblatex)                Loading 'csquotes' recommended.
 
-\@quotelevel=\count328
-\@quotereset=\count329
+\@quotelevel=\count355
+\@quotereset=\count356
 (./seminar.aux)
 \openout1 = `seminar.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/nxlmi/m/it on input line 66.
-LaTeX Font Info:    Try loading font information for OML+nxlmi on input line 66
+LaTeX Font Info:    Checking defaults for OML/nxlmi/m/it on input line 68.
+LaTeX Font Info:    Try loading font information for OML+nxlmi on input line 68
 .
  (/usr/share/texmf-dist/tex/latex/newtx/omlnxlmi.fd
 File: omlnxlmi.fd 2013/11/19 Fontinst v1.933 font definitions for OML/nxlmi.
 )
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for U/ntxexa/m/n on input line 66.
-LaTeX Font Info:    Try loading font information for U+ntxexa on input line 66.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for U/ntxexa/m/n on input line 68.
+LaTeX Font Info:    Try loading font information for U+ntxexa on input line 68.
 
 
 (/usr/share/texmf-dist/tex/latex/newtx/untxexa.fd
 File: untxexa.fd 2012/04/16 Fontinst v1.933 font definitions for U/ntxexa.
 )
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 66.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 66.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 68.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 68.
 
 (/usr/share/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for LMS/ntxsy/m/n on input line 66.
-LaTeX Font Info:    Try loading font information for LMS+ntxsy on input line 66
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for LMS/ntxsy/m/n on input line 68.
+LaTeX Font Info:    Try loading font information for LMS+ntxsy on input line 68
 .
 
 (/usr/share/texmf-dist/tex/latex/newtx/lmsntxsy.fd
 File: lmsntxsy.fd 2016/07/02 Fontinst v1.933 font definitions for LMS/ntxsy.
 )
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for LMX/ntxexx/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for LMX/ntxexx/m/n on input line 68.
 LaTeX Font Info:    Try loading font information for LMX+ntxexx on input line 6
-6.
+8.
 
 (/usr/share/texmf-dist/tex/latex/newtx/lmxntxexx.fd
 File: lmxntxexx.fd 2016/07/03 Fontinst v1.933 font definitions for LMX/ntxexx.
 )
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for LY1/ptm/m/n on input line 66.
-LaTeX Font Info:    Try loading font information for LY1+ptm on input line 66.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for LY1/ptm/m/n on input line 68.
+LaTeX Font Info:    Try loading font information for LY1+ptm on input line 68.
 
 (/usr/share/texmf-dist/tex/latex/ly1/ly1ptm.fd
 File: ly1ptm.fd 2001/02/01 font definitions for LY1/ptm using Berry names.
 )
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
 LaTeX Font Info:    Try loading font information for T1+LinuxLibertineT-TLF on 
-input line 66.
+input line 68.
 
 (/usr/share/texmf-dist/tex/latex/libertine/T1LinuxLibertineT-TLF.fd
 File: T1LinuxLibertineT-TLF.fd 2017/03/20 (autoinst) Font definitions for T1/Li
 nuxLibertineT-TLF.
 )
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 66.
+(Font)              scaled to size 12.0pt on input line 68.
 
 (/usr/share/texmf-dist/tex/latex/translations/translations-basic-dictionary-ger
 man.trsl
@@ -1327,30 +1439,30 @@ File: translations-basic-dictionary-german.trsl (german translation file `trans
 lations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' f
-or `ngerman'. on input line 66.
-\c@mv@tabular=\count330
-\c@mv@boldtabular=\count331
-LaTeX Info: Redefining \microtypecontext on input line 66.
+or `ngerman'. on input line 68.
+\c@mv@tabular=\count357
+\c@mv@boldtabular=\count358
+LaTeX Info: Redefining \microtypecontext on input line 68.
 
 
 Package microtype Warning: `draft' option active.
 (microtype)                Disabling all micro-typographic extensions.
 (microtype)                This might lead to different line and page breaks.
 
-\AtBeginShipoutBox=\box38
+\AtBeginShipoutBox=\box47
 (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count332
-\scratchdimen=\dimen139
-\scratchbox=\box39
-\nofMPsegments=\count333
-\nofMParguments=\count334
-\everyMPshowfont=\toks28
-\MPscratchCnt=\count335
-\MPscratchDim=\dimen140
-\MPnumerator=\count336
-\makeMPintoPDFobject=\count337
-\everyMPtoPDFconversion=\toks29
+\scratchcounter=\count359
+\scratchdimen=\dimen154
+\scratchbox=\box48
+\nofMPsegments=\count360
+\nofMParguments=\count361
+\everyMPshowfont=\toks32
+\MPscratchCnt=\count362
+\MPscratchDim=\dimen155
+\MPnumerator=\count363
+\makeMPintoPDFobject=\count364
+\everyMPtoPDFconversion=\toks33
 ) (/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -1371,25 +1483,25 @@ e
 
 Package hyperref Warning: Draft mode on.
 
-Package hyperref Info: Link coloring OFF on input line 66.
+Package hyperref Info: Link coloring OFF on input line 68.
 (/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
 (/usr/share/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count338
+\c@section@level=\count365
 )
-LaTeX Info: Redefining \ref on input line 66.
-LaTeX Info: Redefining \pageref on input line 66.
-LaTeX Info: Redefining \nameref on input line 66.
+LaTeX Info: Redefining \ref on input line 68.
+LaTeX Info: Redefining \pageref on input line 68.
+LaTeX Info: Redefining \nameref on input line 68.
 Class scrartcl Info: loading recommended package `bookmark'.
 (scrartcl)           Using `bookmark' together with `hyperref' is recommended,
 (scrartcl)           because of handling of possible bookmark level gaps.
 (scrartcl)           You can avoid loading `bookmark' with KOMA-Script option
 (scrartcl)           `bookmarkpackage=false' before \begin{document} and
 (scrartcl)           you can avoid this message with `\usepackage{bookmark}'
-(scrartcl)           before \begin{document} on input line 66.
+(scrartcl)           before \begin{document} on input line 68.
 
 (/usr/share/texmf-dist/tex/latex/oberdiek/bookmark.sty
 Package: bookmark 2016/05/17 v1.26 PDF bookmarks (HO)
@@ -1399,61 +1511,61 @@ File: bkm-pdftex.def 2016/05/17 v1.26 bookmark driver for pdfTeX (HO)
 Package auxhook Info: \AddLineBeginMainAux comes a little late,
 (auxhook)             because the main .aux file is already opened on input lin
 e 164.
-\BKM@id=\count339
+\BKM@id=\count366
 ))
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
-\openout3 = `seminar.bcf'.
+\openout5 = `seminar.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'seminar.bbl' found.
  (./seminar.bbl)
-Package biblatex Info: Reference section=0 on input line 66.
-Package biblatex Info: Reference segment=0 on input line 66.
+Package biblatex Info: Reference section=0 on input line 68.
+Package biblatex Info: Reference segment=0 on input line 68.
 LaTeX Font Info:    Try loading font information for T1+SourceSansPro-LF on inp
-ut line 76.
+ut line 78.
 
 (/usr/share/texmf-dist/tex/latex/sourcesanspro/T1SourceSansPro-LF.fd
 File: T1SourceSansPro-LF.fd 2016/12/03 (autoinst) Font definitions for T1/Sourc
 eSansPro-LF.
 )
 LaTeX Font Info:    Font shape `T1/SourceSansPro-LF/m/n' will be
-(Font)              scaled to size 11.03998pt on input line 76.
+(Font)              scaled to size 11.03998pt on input line 78.
 LaTeX Font Info:    Font shape `T1/SourceSansPro-LF/b/n' will be
-(Font)              scaled to size 11.03998pt on input line 76.
+(Font)              scaled to size 11.03998pt on input line 78.
 LaTeX Font Info:    Font shape `T1/SourceSansPro-LF/b/n' will be
-(Font)              scaled to size 22.88956pt on input line 76.
+(Font)              scaled to size 22.88956pt on input line 78.
 LaTeX Font Info:    Font shape `T1/SourceSansPro-LF/b/n' will be
-(Font)              scaled to size 13.24796pt on input line 76.
+(Font)              scaled to size 13.24796pt on input line 78.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 17.28pt on input line 76.
+(Font)              scaled to size 17.28pt on input line 78.
 LaTeX Font Info:    Try loading font information for OT1+LinuxLibertineT-TLF on
- input line 76.
+ input line 78.
 
 (/usr/share/texmf-dist/tex/latex/libertine/OT1LinuxLibertineT-TLF.fd
 File: OT1LinuxLibertineT-TLF.fd 2017/03/20 (autoinst) Font definitions for OT1/
 LinuxLibertineT-TLF.
 )
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 17.28pt on input line 76.
+(Font)              scaled to size 17.28pt on input line 78.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 12.5pt on input line 76.
+(Font)              scaled to size 12.5pt on input line 78.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 9.4pt on input line 76.
-LaTeX Font Info:    Try loading font information for U+ntxmia on input line 76.
+(Font)              scaled to size 9.4pt on input line 78.
+LaTeX Font Info:    Try loading font information for U+ntxmia on input line 78.
 
 
 (/usr/share/texmf-dist/tex/latex/newtx/untxmia.fd
 File: untxmia.fd 2018/04/14 Fontinst v1.933 font definitions for U/ntxmia.
 )
-LaTeX Font Info:    Try loading font information for U+ntxsym on input line 76.
+LaTeX Font Info:    Try loading font information for U+ntxsym on input line 78.
 
 
 (/usr/share/texmf-dist/tex/latex/newtx/untxsym.fd
 File: untxsym.fd 2015/03/20 Fontinst v1.933 font definitions for U/ntxsym.
 )
-LaTeX Font Info:    Try loading font information for U+ntxsyc on input line 76.
+LaTeX Font Info:    Try loading font information for U+ntxsyc on input line 78.
 
 
 (/usr/share/texmf-dist/tex/latex/newtx/untxsyc.fd
@@ -1492,39 +1604,70 @@ pdfTeX warning: /usr/bin/pdflatex (file ./adapter.pdf): PDF inclusion: invalid
 other resource which is no dict (key 'ProcSets', type <array>); ignored.
 >]
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
-(Font)              scaled to size 12.0pt on input line 26.
+(Font)              scaled to size 12.0pt on input line 24.
 
-Underfull \hbox (badness 10000) in paragraph at lines 23--31
+Underfull \hbox (badness 10000) in paragraph at lines 23--33
 
  []
 
-[3]) (./sections/conclusion.tex)
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
-(Font)              scaled to size 12.0pt on input line 87.
-LaTeX Font Info:    Try loading font information for T1+fvm on input line 87.
- (/usr/share/texmf-dist/tex/latex/bera/t1fvm.fd
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--33
+
+ []
+
+[3]
+LaTeX Font Info:    Font shape `T1/SourceSansPro-LF/sb/n' will be
+(Font)              scaled to size 11.03998pt on input line 35.
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--39
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 36--39
+
+ []
+
+LaTeX Font Info:    Try loading font information for T1+fvm on input line 39.
+(/usr/share/texmf-dist/tex/latex/bera/t1fvm.fd
 File: t1fvm.fd 2004/09/07 scalable font definitions for T1/fvm.
 )
 LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
-(Font)              scaled to size 9.35999pt on input line 87.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 89.
- [4]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 89.
+(Font)              scaled to size 9.35999pt on input line 39.
+
+Overfull \hbox (3.16573pt too wide) in paragraph at lines 45--46
+\T1/LinuxLibertineT-TLF/m/n/12 möglichst klei-nen Kern zu ha-ben und zu-sätz-li
+-che Funk-tio-na-li-täten über Bi-blio-the-ken nach-
+ []
+
+[4]) (./sections/conclusion.tex)
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
+(Font)              scaled to size 12.0pt on input line 89.
+
+Overfull \hbox (0.49321pt too wide) in paragraph at lines 89--89
+[]\T1/LinuxLibertineT-TLF/m/n/12 ``EPL-kompatible Li-zen-zen''. In: (). \T1/Lin
+uxLibertineT-TLF/m/sc/12 url\T1/LinuxLibertineT-TLF/m/n/12 : $\T1/fvm/m/n/12 ht
+tps : / / www . eclipse . org / legal / licenses .
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 91.
+[5]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 91.
  (./seminar.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 89.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 89.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 91.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 91.
 Package logreq Info: Writing requests to 'seminar.run.xml'.
 \openout1 = `seminar.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 23865 strings out of 492623
- 444894 string characters out of 6135669
- 1040951 words of memory out of 5000000
- 27409 multiletter control sequences out of 15000+600000
- 114460 words of font info for 87 fonts, out of 8000000 for 9000
+ 26445 strings out of 492623
+ 501237 string characters out of 6135669
+ 1141250 words of memory out of 5000000
+ 29939 multiletter control sequences out of 15000+600000
+ 124330 words of font info for 89 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
- 57i,20n,80p,9087b,2280s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 59i,20n,81p,9087b,2282s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{section*.1} has been referenced but does not exis
 t, replaced by a fixed one
 
@@ -1543,6 +1686,9 @@ ist, replaced by a fixed one
 pdfTeX warning (dest): name{subsection.3.2} has been referenced but does not ex
 ist, replaced by a fixed one
 
+pdfTeX warning (dest): name{subsubsection.3.1.1} has been referenced but does n
+ot exist, replaced by a fixed one
+
 pdfTeX warning (dest): name{subsection.3.1} has been referenced but does not ex
 ist, replaced by a fixed one
 
@@ -1558,8 +1704,8 @@ ist, replaced by a fixed one
 pdfTeX warning (dest): name{section.1} has been referenced but does not exist, 
 replaced by a fixed one
 
-{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texmf-dist/fonts
-/enc/dvips/libertine/lbtn_ncsllp.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lib
+{/usr/share/texmf-dist/fonts/enc/dvips/libertine/lbtn_ncsllp.enc}{/usr/share/te
+xmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lib
 ertine/lbtn_nh77jq.enc}{/usr/share/texmf-dist/fonts/enc/dvips/sourcesanspro/a_g
 gs4wk.enc}{/usr/share/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{/us
 r/share/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc}</usr/share/texmf-
@@ -1569,10 +1715,10 @@ public/libertine/LinLibertineTI.pfb></usr/share/texmf-dist/fonts/type1/adobe/so
 urcesanspro/SourceSansPro-Bold.pfb></usr/share/texmf-dist/fonts/type1/adobe/sou
 rcesanspro/SourceSansPro-Semibold.pfb></usr/share/texmf-dist/fonts/type1/public
 /bera/fvmr8a.pfb>
-Output written on seminar.pdf (4 pages, 360065 bytes).
+Output written on seminar.pdf (5 pages, 367532 bytes).
 PDF statistics:
- 108 PDF objects out of 1000 (max. 8388607)
- 92 compressed objects within 1 object stream
- 11 named destinations out of 1000 (max. 500000)
- 94 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 115 PDF objects out of 1000 (max. 8388607)
+ 98 compressed objects within 1 object stream
+ 12 named destinations out of 1000 (max. 500000)
+ 102 words of extra memory for PDF output out of 10000 (max. 10000000)
 
