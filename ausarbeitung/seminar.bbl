@@ -55,6 +55,30 @@
       \verb http://www.projog.org/
       \endverb
     \endentry
+    \entry{prolog4j}{article}{}
+      \field{sortinit}{P}
+      \field{sortinithash}{bb5b15f2db90f7aef79bb9e83defefcb}
+      \field{labeltitlesource}{title}
+      \field{title}{Prolog4J}
+      \verb{urlraw}
+      \verb https://github.com/espakm/prolog4j
+      \endverb
+      \verb{url}
+      \verb https://github.com/espakm/prolog4j
+      \endverb
+    \endentry
+    \entry{prolog4jdoku}{article}{}
+      \field{sortinit}{P}
+      \field{sortinithash}{bb5b15f2db90f7aef79bb9e83defefcb}
+      \field{labeltitlesource}{title}
+      \field{title}{Prolog4J Dokumentation}
+      \verb{urlraw}
+      \verb https://github.com/espakm/prolog4j/tree/gh-pages
+      \endverb
+      \verb{url}
+      \verb https://github.com/espakm/prolog4j/tree/gh-pages
+      \endverb
+    \endentry
     \entry{trust40}{article}{}
       \name{author}{2}{}{%
         {{hash=ca5a011f45d3ddc740a71773c6a1376f}{%

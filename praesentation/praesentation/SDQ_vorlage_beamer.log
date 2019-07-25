@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.7.18)  23 JUL 2019 20:08
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.7.18)  25 JUL 2019 10:03
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1265,12 +1265,11 @@ Package biblatex Info: Automatic encoding selection.
 \openout7 = `SDQ_vorlage_beamer.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'SDQ_vorlage_beamer.bbl' not found.
-
-No file SDQ_vorlage_beamer.bbl.
+Package biblatex Info: ... file 'SDQ_vorlage_beamer.bbl' found.
+ (./SDQ_vorlage_beamer.bbl)
 Package biblatex Info: Reference section=0 on input line 60.
 Package biblatex Info: Reference segment=0 on input line 60.
-(./SDQ_vorlage_beamer.nav)
+ (./SDQ_vorlage_beamer.nav)
 LaTeX Font Info:    Font shape `OT1/phv/m/n' will be
 (Font)              scaled to size 5.51999pt on input line 60.
 LaTeX Font Info:    Font shape `OT1/phv/m/n' will be
@@ -1292,7 +1291,8 @@ LaTeX Font Info:    Font shape `OT1/phv/b/n' will be
 LaTeX Font Info:    Font shape `OT1/phv/m/n' will be
 (Font)              scaled to size 7.35999pt on input line 68.
 LaTeX Font Info:    Try loading font information for OMS+phv on input line 68.
- (/usr/share/texmf-dist/tex/latex/psnfss/omsphv.fd
+
+(/usr/share/texmf-dist/tex/latex/psnfss/omsphv.fd
 File: omsphv.fd 
 )
 LaTeX Font Info:    Font shape `OMS/phv/m/n' in size <8> not available
@@ -1306,8 +1306,7 @@ File: logos/bauplan.jpg Graphic file (type jpg)
 <use logos/bauplan.jpg>
 Package pdftex.def Info: logos/bauplan.jpg  used on input line 68.
 (pdftex.def)             Requested size: 431.33698pt x 113.80704pt.
-
-[1
+ [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./logos/kitlogo_de_rgb.pdf
 > <./logos/blank.png> <./logos/bauplan.jpg>] (./SDQ_vorlage_beamer.toc)
@@ -1870,8 +1869,8 @@ Package logreq Info: Writing requests to 'SDQ_vorlage_beamer.run.xml'.
 ### simple group (level 1) entered at line 59 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 27311 strings out of 492623
- 525412 string characters out of 6135669
+ 27313 strings out of 492623
+ 525458 string characters out of 6135669
  1066337 words of memory out of 5000000
  30528 multiletter control sequences out of 15000+600000
  27308 words of font info for 58 fonts, out of 8000000 for 9000
@@ -1884,7 +1883,7 @@ ic/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmtt10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pf
 b></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-
 dist/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on SDQ_vorlage_beamer.pdf (23 pages, 503126 bytes).
+Output written on SDQ_vorlage_beamer.pdf (23 pages, 503131 bytes).
 PDF statistics:
  944 PDF objects out of 1000 (max. 8388607)
  875 compressed objects within 9 object streams

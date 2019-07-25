@@ -48,3 +48,43 @@ TuProlog\cite{tuprolog} ist ein in Java implementierter Interpreter. Er verfolgt
 Projog\cite{projog} ist ebenfalls ein in Java implementierter Interpreter. Im Gegensatz zu den beiden anderen Interpretern ist dieses Projekt noch sehr jung, wird aber dementsprechend auch noch weiter entwickelt. Ein Nachteil dieser Implementierung ist allerdings, dass sie noch nicht ganz konform zum Prolog ISO Standard ist, weshalb durchaus an einigen Stellen die Funktionalit"at eingeschr"ankt sein k"onnte. Projog steht, wie TuProlog, als Paket im Maven-Repository zur Verf"ugung und kann somit automatisch durch Maven eingerichtet werden und erfordert keine Installation oder Konfigration nutzerseitens.
 
 \section{Prolog4J}
+Prolog4J\cite{prolog4j} ist eine bereits existierende Bibliothek, die verschiedene Prolog Interpreter an Java anbindet. Da der Code unter der MIT Lizenz steht, also EPL-kompatibel ist, kann ich darauf aufbauen und den Adapter so anpassen, dass er den in Kapitel \ref{anfo} geschilderten Anforderungen gerecht wird. Au"serdem ist Prolog3J relativ gut dokumentiert\cite{prolog4jdoku}.
+
+\subsection{Architektur}
+Prolog4J setzt auf einen minimalistischen Ansatzt. Der Kern der Bibliothek ist relativ klein und besteht lediglich aus 14 Klassen. In Abbildung \ref{fig:prolog4jj} ist ein grobes Klassendiagramm des Adapater dargestellt.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{prolog4j.pdf}
+\caption{Die API besteht aus Prover, Query und Solution, die jeweils f"ur einen konkreten Interpreter spezialisiert werden.}
+\label{fig:prolog4jj}
+\end{figure}
+
+
+\subsection{Anpassungen}
+Prolog4J bietet nicht alles was ben"otigt ist und bringt auch inige Probleme mit sich. Von selbst unterst"utzt es die Interpreter SWI, TuProlog, JTrolog und JLog, allerdings nicht Projog. Das hei"st zum einen m"ussen die "uberfl"ussigen Interpretr entfernt und Projog noch hinzugef"ugt werden. Des weiteren wurde das Projekt seit 2011 nicht mehr weiter entwicketlt, das hei"st dass zum einen die Maven Build dateien gupdatet werden m"ussen, also Paket-Versionen m"ussen angepasst werden, und ver"anderungen in den APIs in den POM m"ussen auch ber"ucksichtig werden. Au"serdem muss noch der Code aktualisiert werden. Denn die Schnittstellen der Interpretr wurden in der Zwischenzeit auch weiterentwickelt. Als letztes muss ich nich fehlende Funktionalit"at hinzuf"ugen. Zum einen m"ussen Fakten aus einer Datei gelesen werden, eine Interpretrinstanz muss zur"uckgestzt werden k"onnen und es muss OSGI discovery funktionieren.
+
+\subsection{Besonderheiten}
+In diesem Kapitel werde ich einige Besonderheiten erkl"aren, die mir bei der Implementierung aufgefallen sind.
+
+\subsubsection{Bug in Projog}
+Ein Fakt ist ein Ausdruck der Form name(inhalt). Diese Fakten werden in einer Datenbank gespeichert und k"onnen durch Abfragen abgrfragt werden. Projog speichert diese Fakten in einer Hashmap und verwendet dabei den Faktennamen als Key. F"ugt man nun ein Fakt der Datenbank hinzu wird der Name als Key. Beispiel Hashmap zeigen./ W"urde man weitere Fakten hinzuf"ugen, s"ahe die Hashmap so aus. Projog allerdings f"ugt neue Fakten nicht den alten hinzu, sondern ersetzt die bestehenden Fakten. Das ist kein Problem, wenn die Datenbank leer ist, und man alle ben"otigten Fakten auf einmal HinzuF'ugt. Projog erstellt eine Liste an Fakten und F'ugt sie dann der HashMap hinzu. Problemnatisch wird es, wenn man Fakten einzeln hinzuF'ugt. Beispiel erkl"aren. Um dieses Problem zu l"osen halte ich eine eigne HashMap und F'uge neue Fakten erst dort ein und danach die gesamten Werte in die Projog Datenbank.
+\subsubsection{Cons-Operator in SWI-Prolog}
+
+\subsubsection{Paramtererstezung in SWI-Prolog Termen}
+
+
+\subsection{OSGI}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
