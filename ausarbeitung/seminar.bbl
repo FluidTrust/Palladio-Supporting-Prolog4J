@@ -19,6 +19,18 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global}
+    \entry{cons}{article}{}
+      \field{sortinit}{C}
+      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
+      \field{labeltitlesource}{title}
+      \field{title}{Cons-Operator in SWI-Prolog}
+      \verb{urlraw}
+      \verb https://www.swi-prolog.org/pldoc/man?section=ext-lists
+      \endverb
+      \verb{url}
+      \verb https://www.swi-prolog.org/pldoc/man?section=ext-lists
+      \endverb
+    \endentry
     \entry{epl}{article}{}
       \field{sortinit}{E}
       \field{sortinithash}{c554bd1a0b76ea92b9f105fe36d9c7b0}

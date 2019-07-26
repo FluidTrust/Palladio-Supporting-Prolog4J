@@ -2004,6 +2004,7 @@
     <bcf:citekey order="7">projog</bcf:citekey>
     <bcf:citekey order="8">prolog4j</bcf:citekey>
     <bcf:citekey order="9">prolog4jdoku</bcf:citekey>
+    <bcf:citekey order="10">cons</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

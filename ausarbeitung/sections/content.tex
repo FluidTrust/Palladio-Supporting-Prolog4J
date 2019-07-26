@@ -48,33 +48,48 @@ TuProlog\cite{tuprolog} ist ein in Java implementierter Interpreter. Er verfolgt
 Projog\cite{projog} ist ebenfalls ein in Java implementierter Interpreter. Im Gegensatz zu den beiden anderen Interpretern ist dieses Projekt noch sehr jung, wird aber dementsprechend auch noch weiter entwickelt. Ein Nachteil dieser Implementierung ist allerdings, dass sie noch nicht ganz konform zum Prolog ISO Standard ist, weshalb durchaus an einigen Stellen die Funktionalit"at eingeschr"ankt sein k"onnte. Projog steht, wie TuProlog, als Paket im Maven-Repository zur Verf"ugung und kann somit automatisch durch Maven eingerichtet werden und erfordert keine Installation oder Konfigration nutzerseitens.
 
 \section{Prolog4J}
-Prolog4J\cite{prolog4j} ist eine bereits existierende Bibliothek, die verschiedene Prolog Interpreter an Java anbindet. Da der Code unter der MIT Lizenz steht, also EPL-kompatibel ist, kann ich darauf aufbauen und den Adapter so anpassen, dass er den in Kapitel \ref{anfo} geschilderten Anforderungen gerecht wird. Au"serdem ist Prolog3J relativ gut dokumentiert\cite{prolog4jdoku}.
-
-\subsection{Architektur}
-Prolog4J setzt auf einen minimalistischen Ansatzt. Der Kern der Bibliothek ist relativ klein und besteht lediglich aus 14 Klassen. In Abbildung \ref{fig:prolog4jj} ist ein grobes Klassendiagramm des Adapater dargestellt.
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.9\textwidth]{prolog4j.pdf}
-\caption{Die API besteht aus Prover, Query und Solution, die jeweils f"ur einen konkreten Interpreter spezialisiert werden.}
-\label{fig:prolog4jj}
-\end{figure}
-
+Prolog4J\cite{prolog4j} ist eine bereits existierende Bibliothek, die verschiedene Prolog Interpreter an Java anbindet. Da der Code unter der MIT Lizenz steht, also EPL-kompatibel ist, kann ich darauf aufbauen und den Adapter so anpassen, dass er den in Kapitel \ref{anfo} geschilderten Anforderungen gerecht wird. Au"serdem ist Prolog4J relativ gut dokumentiert\cite{prolog4jdoku}.
 
 \subsection{Anpassungen}
-Prolog4J bietet nicht alles was ben"otigt ist und bringt auch inige Probleme mit sich. Von selbst unterst"utzt es die Interpreter SWI, TuProlog, JTrolog und JLog, allerdings nicht Projog. Das hei"st zum einen m"ussen die "uberfl"ussigen Interpretr entfernt und Projog noch hinzugef"ugt werden. Des weiteren wurde das Projekt seit 2011 nicht mehr weiter entwicketlt, das hei"st dass zum einen die Maven Build dateien gupdatet werden m"ussen, also Paket-Versionen m"ussen angepasst werden, und ver"anderungen in den APIs in den POM m"ussen auch ber"ucksichtig werden. Au"serdem muss noch der Code aktualisiert werden. Denn die Schnittstellen der Interpretr wurden in der Zwischenzeit auch weiterentwickelt. Als letztes muss ich nich fehlende Funktionalit"at hinzuf"ugen. Zum einen m"ussen Fakten aus einer Datei gelesen werden, eine Interpretrinstanz muss zur"uckgestzt werden k"onnen und es muss OSGI discovery funktionieren.
+Prolog4J hat bereits Anbindungen an die Interpreter SWI-Prolog, TuProlog, JTrolog, JLog. Damit sind zwei der drei gew"unschten Interpreter bereits angebunden und ich muss nur noch  die Anbindung f"ur Projog selbst implementieren. Des weiteren wurde das Projekt jedoch seit 2011 nicht mehr aktualisiert, was erfodert, dass sowohl die POM-Dateien als auch der Code aktualisiert wird. Das beinihaltet zum einen, die neusten Versionen von eingebundenen Bibliotheken zu verwenden, und zum anderen eventuelle "Anderungen der API solcher Bibliotheken in dern Code einzufplegen. Im letzten Schritt muss noch fehlenede Funktionalit"at erg"anzt werden:\newline
+\newline
+\textbf{Prologdatenbank aus Datei lesen} Um eine Prologdatenbank aus einer Datei zu lesen, kann man die Methode \emph{Prover::loadTheory(InputStream)} benutzen.\newline
+\textbf{Interpreter zur"ucksetzten} Um einen komplett frischen Zustand eines Interpreters zu bekommen, also eine leere Datenbank zu haben, kann man mittels \emph{IProverFactory::createProver()} eine neue Prover-Instanz erzeugen.\newline
+\textbf{OSGI Einbindung} Vorhandene Anbindungen an Interpreter sollen nicht statisch im Code verwaltet werden. Stattdessen soll es m"oglich sein, dynamisch zur Laufzeit zu erkennen, welche Interpreter verf"ugbar sind. Das ist mit der Laufzeitumgebung von Eclipse, also OSGI, m"oglich. Damit k"onnen Services zur Laufzeit erkannt und eingebunden werden, was  in unserem Fall Instanzen von \emph{IProverFactory} sind. In der Klasse \emph{ProverManager} werden verf"ugbare Anbindungen dynamisch geladen und als List zur Verf"ugung gestellt.
 
 \subsection{Besonderheiten}
 In diesem Kapitel werde ich einige Besonderheiten erkl"aren, die mir bei der Implementierung aufgefallen sind.
 
 \subsubsection{Bug in Projog}
-Ein Fakt ist ein Ausdruck der Form name(inhalt). Diese Fakten werden in einer Datenbank gespeichert und k"onnen durch Abfragen abgrfragt werden. Projog speichert diese Fakten in einer Hashmap und verwendet dabei den Faktennamen als Key. F"ugt man nun ein Fakt der Datenbank hinzu wird der Name als Key. Beispiel Hashmap zeigen./ W"urde man weitere Fakten hinzuf"ugen, s"ahe die Hashmap so aus. Projog allerdings f"ugt neue Fakten nicht den alten hinzu, sondern ersetzt die bestehenden Fakten. Das ist kein Problem, wenn die Datenbank leer ist, und man alle ben"otigten Fakten auf einmal HinzuF'ugt. Projog erstellt eine Liste an Fakten und F'ugt sie dann der HashMap hinzu. Problemnatisch wird es, wenn man Fakten einzeln hinzuF'ugt. Beispiel erkl"aren. Um dieses Problem zu l"osen halte ich eine eigne HashMap und F'uge neue Fakten erst dort ein und danach die gesamten Werte in die Projog Datenbank.
+Ein Fakt ist ein Ausdruck der Form \emph{human(socrates)}. Dabei ist \emph{human} der Faktenname und \emph{socrates} der Faktwert. Diese Fakten werden in einer Datenbank gespeichert und k"onnen auch wieder abgefragt werden. Projog speichert diese Fakten in einer Hashmap und verwendet dabei den Faktennamen (also \emph{human}) als Key und speichert als Wert die Faktenwerte. F"ugt man mehrere Fakten mit dem gleichen Namen gleichzeitig der Datenbank hinzu, werden alle Faktenwert gespeichert. Also folgende Anfrage...
+\begin{minted}{Prolog}
+addTheory(human(socrates), human(euklid)), human(plato)).
+\end{minted}
+...resultiert in folgender Datenbank:
+\begin{minted}{Prolog}
+human(socrates)
+human(euklid)
+human(plato)
+\end{minted}
+F"ugt man jedoch alle Fakten einzeln in die Datenbank ein,...
+\begin{minted}{Prolog}
+addTheory(human(socrates)).
+addTheory(human(euklid)).
+addTheory(human(plato)).
+\end{minted}
+...erh"alt man folgende Datenbank:
+\begin{minted}{Prolog}
+human(plato)
+\end{minted}
+Es steht also nur noch der zuletzt hinzugef"ugte Wert in der Datenbank. Das liegt daran, dass anstatt, dass ein Fakt zu den bereits bestehenden hinzugef"ugt wird, der Wert an der Stelle \emph{human} in der HashMap jedes mal neu "uberschrieben wird. Gel"ost habe ich dieses Problem, indem ich eine eigene HashMap verwalte, und einen neuen Fakt erst dort einf"uge und danach alle Werte in der Projog-Datenbank "ubergebe.
 \subsubsection{Cons-Operator in SWI-Prolog}
+Zwei Listen werden in Prolog mit dem sogennaten Cons-Operator konkatniert. Zwei leere Listen zu verbinden s"ahe beispielsweie so aus: \emph{'.'([],[])}. Wobei \emph{.} der Cons-Operator ist, und \emph{[]} jeweil eine leere List. Als Ergebnis erh"alt man logischerweise wieder eine leere List. SWI-Prolog weicht da jedoch etwas vom Standard-Prolog ab, und hat den Cons-Operator durch \emph{[|]} ersetzt\cite{cons}. Das hei"st, zwei leere Listen zu konkatenieren sieht nun so aus: \emph{'[|]'([],[])}.
 
 \subsubsection{Paramtererstezung in SWI-Prolog Termen}
+Paramter in einer Anfrage werden in der Regel durch Fragezeichen und einen darrauffolgenden Namen markiert, z.B. \emph{is\_childof(?parent, ?child)}. Diese Parameter werden dann im n"achsten Schritt durch entsprechende Util-Funktionen der Interpreter-API durch tats"achliche Werte ersetzt. SWI-Prolog erwartet allerdings, dass solche Parameter lediglich mit einem einzigen Fragezeichen markiert werden, also \emph{is\_childof( ? , ? )}, weshalb in \emph{SWIPrologQuery} alle Parameter durch ein Fragezeichen ersetzt werden.
 
-
-\subsection{OSGI}
-
+\subsubsection{Integer, Long, Float und Double}
+Alle Interprter unterscheiden zwischen Long und Interger bzw. Double und Float. Der einzige Interpreter, der dies nicht tut, ist Projog. Projog behandelt alle Zahlen entweder als Long oder Double. Um trotzdem noch eine einheitlische Schnittstelle zu allen Interpretern bieten zu k"onnen, stehen f"ur alle Interpreter nur noch Long und Double als numerische Datentypen zur Verf"ugung. Das bedeutet, dass zwar noch Integer und Float als Eingabe g"ultig sind, aber die Antwort des Interpreters immer zu Long oder Double gecastet wird.
 
 
 

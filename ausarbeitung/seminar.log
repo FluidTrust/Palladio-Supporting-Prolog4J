@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.7.18)  25 JUL 2019 11:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.7.18)  26 JUL 2019 21:41
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1641,19 +1641,21 @@ Overfull \hbox (3.16573pt too wide) in paragraph at lines 45--46
  []
 
 [4]
-<prolog4j.pdf, id=31, 633.32607pt x 260.89468pt>
-File: prolog4j.pdf Graphic file (type pdf)
-<use prolog4j.pdf>
-Package pdftex.def Info: prolog4j.pdf  used on input line 57.
-(pdftex.def)             Requested size: 389.23111pt x 160.34377pt.
- [5 <./prolog4j.pdf
+Underfull \hbox (badness 10000) in paragraph at lines 54--59
 
-pdfTeX warning: /usr/bin/pdflatex (file ./prolog4j.pdf): PDF inclusion: invalid
- other resource which is no dict (key 'ProcSets', type <array>); ignored.
->]) (./sections/conclusion.tex)
+ []
+
+
+Overfull \hbox (25.15161pt too wide) in paragraph at lines 54--59
+\T1/LinuxLibertineT-TLF/m/n/12 be-kom-men, al-so ei-ne lee-re Da-ten-bank zu ha
+-ben, kann man mit-tels \T1/LinuxLibertineT-TLF/m/it/12 IPro-ver-Fac-to-ry::cre
+ateProver()
+ []
+
+[5] [6]) (./sections/conclusion.tex [7])
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
 (Font)              scaled to size 12.0pt on input line 89.
- [6]
+
 Overfull \hbox (0.49321pt too wide) in paragraph at lines 89--89
 []\T1/LinuxLibertineT-TLF/m/n/12 ``EPL-kompatible Li-zen-zen''. In: (). \T1/Lin
 uxLibertineT-TLF/m/sc/12 url\T1/LinuxLibertineT-TLF/m/n/12 : $\T1/fvm/m/n/12 ht
@@ -1661,7 +1663,7 @@ tps : / / www . eclipse . org / legal / licenses .
  []
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 91.
-[7]
+[8]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 91.
  (./seminar.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 91.
@@ -1671,36 +1673,30 @@ Package logreq Info: Writing requests to 'seminar.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26469 strings out of 492623
- 501680 string characters out of 6135669
- 1141483 words of memory out of 5000000
- 29955 multiletter control sequences out of 15000+600000
+ 26465 strings out of 492623
+ 501717 string characters out of 6135669
+ 1141385 words of memory out of 5000000
+ 29954 multiletter control sequences out of 15000+600000
  124330 words of font info for 89 fonts, out of 8000000 for 9000
  1143 hyphenation exceptions out of 8191
- 65i,20n,83p,9087b,3172s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 59i,20n,81p,9087b,2282s stack positions out of 5000i,500n,10000p,200000b,80000s
 pdfTeX warning (dest): name{section*.1} has been referenced but does not exis
 t, replaced by a fixed one
-
-pdfTeX warning (dest): name{section.6} has been referenced but does not exist, 
-replaced by a fixed one
 
 pdfTeX warning (dest): name{section.5} has been referenced but does not exist, 
 replaced by a fixed one
 
-pdfTeX warning (dest): name{subsection.4.4} has been referenced but does not ex
-ist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsubsection.4.3.3} has been referenced but does n
+pdfTeX warning (dest): name{subsubsection.4.2.4} has been referenced but does n
 ot exist, replaced by a fixed one
 
-pdfTeX warning (dest): name{subsubsection.4.3.2} has been referenced but does n
+pdfTeX warning (dest): name{subsubsection.4.2.3} has been referenced but does n
 ot exist, replaced by a fixed one
 
-pdfTeX warning (dest): name{subsubsection.4.3.1} has been referenced but does n
+pdfTeX warning (dest): name{subsubsection.4.2.2} has been referenced but does n
 ot exist, replaced by a fixed one
 
-pdfTeX warning (dest): name{subsection.4.3} has been referenced but does not ex
-ist, replaced by a fixed one
+pdfTeX warning (dest): name{subsubsection.4.2.1} has been referenced but does n
+ot exist, replaced by a fixed one
 
 pdfTeX warning (dest): name{subsection.4.2} has been referenced but does not ex
 ist, replaced by a fixed one
@@ -1746,10 +1742,10 @@ public/libertine/LinLibertineTI.pfb></usr/share/texmf-dist/fonts/type1/adobe/so
 urcesanspro/SourceSansPro-Bold.pfb></usr/share/texmf-dist/fonts/type1/adobe/sou
 rcesanspro/SourceSansPro-Semibold.pfb></usr/share/texmf-dist/fonts/type1/public
 /bera/fvmr8a.pfb>
-Output written on seminar.pdf (7 pages, 413524 bytes).
+Output written on seminar.pdf (8 pages, 388937 bytes).
 PDF statistics:
- 173 PDF objects out of 1000 (max. 8388607)
- 146 compressed objects within 2 object streams
- 19 named destinations out of 1000 (max. 500000)
- 163 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 148 PDF objects out of 1000 (max. 8388607)
+ 127 compressed objects within 2 object streams
+ 17 named destinations out of 1000 (max. 500000)
+ 142 words of extra memory for PDF output out of 10000 (max. 10000000)
 
