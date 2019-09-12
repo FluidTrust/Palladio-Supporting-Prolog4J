@@ -1,0 +1,16 @@
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.log
+*.run.xml
+*.synctex.gz
+*.toc
+*.out
+*.nav
+*.snm
+*.pygtex
+*.pygstyle
+*.fdb_latexmk
+*.fls
+*.synctex(busy)

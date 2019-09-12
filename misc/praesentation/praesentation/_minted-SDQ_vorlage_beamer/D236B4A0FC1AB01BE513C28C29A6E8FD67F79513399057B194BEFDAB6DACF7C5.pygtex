@@ -1,5 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-As of version 7, SWI\PYGZhy{}Prolog lists can be
-distinguished unambiguously at runtime
-from ./2 terms and the atom \PYGZsq{}[]\PYGZsq{}
-\end{Verbatim}

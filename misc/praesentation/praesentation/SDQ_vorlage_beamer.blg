@@ -1,9 +1,0 @@
-[0] Config.pm:304> INFO - This is Biber 2.12
-[0] Config.pm:307> INFO - Logfile is 'SDQ_vorlage_beamer.blg'
-[17] biber:315> INFO - === Thu Jul 25, 2019, 10:03:35
-[30] Biber.pm:371> INFO - Reading 'SDQ_vorlage_beamer.bcf'
-[76] Biber.pm:889> INFO - Found 0 citekeys in bib section 0
-[81] Utils.pm:193> WARN - The file 'SDQ_vorlage_beamer.bcf' does not contain any citations!
-[86] bbl.pm:636> INFO - Writing 'SDQ_vorlage_beamer.bbl' with encoding 'UTF-8'
-[86] bbl.pm:739> INFO - Output to SDQ_vorlage_beamer.bbl
-[86] Biber.pm:110> INFO - WARNINGS: 1
