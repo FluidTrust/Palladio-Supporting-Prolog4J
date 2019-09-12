@@ -14,13 +14,17 @@
 	<name>prolog4j-swi</name>
 	<description>Implementation for the Prolog4J API based on SWI-Prolog</description>
 
+    <properties>
+		<!-- we can only activate the tests if SWI Prolog is installed on the system -->
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
+
 	<repositories>
 		<repository>
 			<id>bedatadriven</id>
 			<url>https://nexus.bedatadriven.com/content/repositories/public/</url>
 		</repository>
 	</repositories>
-	
 
 	<dependencies>
 		<dependency>
