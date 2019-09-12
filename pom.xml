@@ -53,13 +53,9 @@
 	</developers>
 
 	<modules>
-		<module>prolog4j-api</module>
-		<module>prolog4j-manager</module>
-		<module>prolog4j-test</module>
-		<module>prolog4j-tuprolog</module>
-		<module>prolog4j-projog</module>
-		<module>prolog4j-swi</module>
-		<module>prolog4j-updatesite</module>
+		<module>bundles</module>
+		<module>tests</module>
+		<module>releng</module>
 	</modules>
 
 	<build>
