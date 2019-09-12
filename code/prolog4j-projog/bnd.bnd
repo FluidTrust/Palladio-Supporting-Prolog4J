@@ -1,0 +1,2 @@
+Export-Package: org.prolog4j.projog
+Bundle-ActivationPolicy: lazy

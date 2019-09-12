@@ -44,6 +44,7 @@
 			</roles>
 		</developer>
 		<developer>
+			<id>werner</id>
 			<name>Johannes Werner</name>
 			<roles>
 				<role>developer</role>
@@ -53,29 +54,37 @@
 
 	<modules>
 		<module>prolog4j-api</module>
+		<module>prolog4j-manager</module>
 		<module>prolog4j-test</module>
 		<module>prolog4j-tuprolog</module>
 		<module>prolog4j-projog</module>
 		<module>prolog4j-swi</module>
+		<module>prolog4j-updatesite</module>
 	</modules>
 
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-scr-plugin</artifactId>
-				<version>1.26.2</version>
+				<groupId>biz.aQute.bnd</groupId>
+				<artifactId>bnd-maven-plugin</artifactId>
+				<version>4.2.0</version>
 				<executions>
 					<execution>
-						<id>generate-scr-scrdescriptor</id>
 						<goals>
-							<goal>scr</goal>
+							<goal>bnd-process</goal>
 						</goals>
-						<configuration>
-							<outputDirectory>target/classes</outputDirectory>
-						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.2</version>
+				<configuration>
+					<archive>
+						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -86,23 +95,23 @@
 				<groupId>org.prolog4j</groupId>
 				<artifactId>prolog4j-api</artifactId>
 				<version>1.0-SNAPSHOT</version>
+			</dependency>			
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>osgi.cmpn</artifactId>
+				<version>6.0.0</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.felix</groupId>
+				<groupId>org.osgi</groupId>
+				<artifactId>osgi.annotation</artifactId>
+				<version>6.0.1</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
 				<artifactId>org.osgi.core</artifactId>
-				<version>1.4.0</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.scr</artifactId>
-				<version>2.1.16</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>org.apache.felix.scr.annotations</artifactId>
-				<version>1.12.0</version>
+				<version>6.0.0</version>
 				<scope>provided</scope>
 			</dependency>
 		</dependencies>
@@ -113,6 +122,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
+		<javase>11</javase>
 	</properties>
 
 </project>

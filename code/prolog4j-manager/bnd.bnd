@@ -1,0 +1,3 @@
+Export-Package: org.prolog4j.manager
+Bundle-Activator: org.prolog4j.manager.impl.Activator
+Bundle-ActivationPolicy: lazy

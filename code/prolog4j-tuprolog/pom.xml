@@ -16,23 +16,21 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.prolog4j</groupId>
-			<artifactId>prolog4j-api</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>it.unibo.alice.tuprolog</groupId>
 			<artifactId>tuprolog</artifactId>
 			<version>3.3.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.scr.annotations</artifactId>
-			<scope>provided</scope>
+			<groupId>org.prolog4j</groupId>
+			<artifactId>prolog4j-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.scr</artifactId>
-			<scope>provided</scope>
+			<groupId>org.osgi</groupId>
+			<artifactId>osgi.cmpn</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>osgi.annotation</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.prolog4j</groupId>
@@ -42,22 +40,5 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<version>4.2.0</version>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<Bundle-Name>${project.name}</Bundle-Name>
-						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-					</instructions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>

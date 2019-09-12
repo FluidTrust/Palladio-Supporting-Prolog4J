@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>org.prolog4j.projog</name>
-	<comment>Easy to use interface over Prolog engines for Java.</comment>
+	<name>org.prolog4j.manager</name>
 	<projects>
 	</projects>
 	<buildSpec>

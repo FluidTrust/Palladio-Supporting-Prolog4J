@@ -12,16 +12,9 @@
 	</parent>
 
 	<artifactId>prolog4j-api</artifactId>
-	<packaging>bundle</packaging>
+	<packaging>jar</packaging>
 
 	<name>prolog4j-api</name>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
-	</properties>
 
 	<dependencies>
 		<dependency>
@@ -35,40 +28,17 @@
 			<version>3.3.1</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.scr.annotations</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.scr</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.felix</groupId>
+			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.core</artifactId>
-			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>osgi.cmpn</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>osgi.annotation</artifactId>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<version>4.2.0</version>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<Bundle-Name>${project.name}</Bundle-Name>
-						<Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
-						<Export-Package>
-							org.prolog4j
-						</Export-Package>
-					</instructions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>

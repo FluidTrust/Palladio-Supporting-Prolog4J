@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>org.prolog4j.api [1.0-SNAPSHOT]</name>
+	<name>org.prolog4j.api</name>
 	<comment>Easy to use interface over Prolog engines for Java.</comment>
 	<projects>
 	</projects>
