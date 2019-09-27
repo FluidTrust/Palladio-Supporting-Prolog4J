@@ -75,6 +75,14 @@ public interface Prover {
 	 */
 	void loadTheory(InputStream input) throws IOException;
 
+    /**
+     * Loads a Prolog theory from a string.
+     * 
+     * @param input
+     *            the string
+     */
+	void loadTheory(String input);
+
 	/**
 	 * Adds a Prolog theory to the knowledge base.
 	 * 

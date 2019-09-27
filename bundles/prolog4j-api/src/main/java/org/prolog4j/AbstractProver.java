@@ -71,12 +71,16 @@ public abstract class AbstractProver implements Prover, Serializable {
 			inputString.append((char) i);
 		}
 
-		String[] inputLines = inputString.toString().split(System.lineSeparator());
-		addTheory(inputLines);
+		loadTheory(inputString.toString());
 	}
 	
-
 	@Override
+    public void loadTheory(String input) {
+        String[] inputLines = input.split(System.lineSeparator());
+        addTheory(inputLines);
+    }
+
+    @Override
 	public ConversionPolicy getConversionPolicy() {
 		return this.conversionPolicy;
 	}
