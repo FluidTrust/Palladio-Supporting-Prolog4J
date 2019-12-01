@@ -26,6 +26,7 @@ package org.prolog4j.manager.impl;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
@@ -55,8 +56,11 @@ public final class ProverManager implements IProverManager {
 	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
 	public void bindProverFactory(IProverFactory factory, Map<String, String> serviceProperties) {
 		String proverId = serviceProperties.get("id");
-		String proverName = serviceProperties.get("name");
-		availableProvers.put(new ProverInformation(proverId, proverName), factory);
+        String proverName = serviceProperties.get("name");
+        boolean proverNativeExecutables = Optional.ofNullable(serviceProperties.get("needsNativeExecutables"))
+            .map(Boolean::parseBoolean)
+            .orElse(false);
+        availableProvers.put(new ProverInformation(proverId, proverName, proverNativeExecutables), factory);
 	}
 
 	public void unbindProverFactory(IProverFactory factory) {

@@ -37,7 +37,7 @@ import org.prolog4j.Prover;
  * the same {@link SWIPrologProver} instance. SWI-Prolog does not support
  * multiple Prolog engines.
  */
-@Component(immediate = true, property = { "id=org.prolog4j.swi.proverfactory", "name=SWI Prolog Interpreter"})
+@Component(immediate = true, property = { "id=org.prolog4j.swi.proverfactory", "name=SWI Prolog Interpreter", "needsNativeExecutables=true"})
 public final class SWIPrologProverFactory implements IProverFactory {
 
 	static {
