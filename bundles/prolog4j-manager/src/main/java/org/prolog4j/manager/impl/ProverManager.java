@@ -51,29 +51,29 @@ import org.prolog4j.manager.IProverManager;
 @Component(immediate = true)
 public final class ProverManager implements IProverManager {
 
-	private final BidiMap<ProverInformation, IProverFactory> availableProvers = new DualHashBidiMap<>();
+    private final BidiMap<ProverInformation, IProverFactory> availableProvers = new DualHashBidiMap<>();
 
-	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
-	public void bindProverFactory(IProverFactory factory, Map<String, String> serviceProperties) {
-		String proverId = serviceProperties.get("id");
+    @Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
+    public void bindProverFactory(IProverFactory factory, Map<String, String> serviceProperties) {
+        String proverId = serviceProperties.get("id");
         String proverName = serviceProperties.get("name");
         boolean proverNativeExecutables = Optional.ofNullable(serviceProperties.get("needsNativeExecutables"))
             .map(Boolean::parseBoolean)
             .orElse(false);
         availableProvers.put(new ProverInformation(proverId, proverName, proverNativeExecutables), factory);
-	}
+    }
 
-	public void unbindProverFactory(IProverFactory factory) {
-		availableProvers.removeValue(factory);
-	}
+    public void unbindProverFactory(IProverFactory factory) {
+        availableProvers.removeValue(factory);
+    }
 
-	public void updatedProverFactory(IProverFactory factory, Map<String, String> serviceProperties) {
-		unbindProverFactory(factory);
-		bindProverFactory(factory, serviceProperties);
-	}
+    public void updatedProverFactory(IProverFactory factory, Map<String, String> serviceProperties) {
+        unbindProverFactory(factory);
+        bindProverFactory(factory, serviceProperties);
+    }
 
-	public Map<ProverInformation, IProverFactory> getProvers() {
-		return Collections.unmodifiableMap(availableProvers);
-	}
+    public Map<ProverInformation, IProverFactory> getProvers() {
+        return Collections.unmodifiableMap(availableProvers);
+    }
 
 }

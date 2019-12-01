@@ -19,7 +19,7 @@ public class ProverInformation {
         return this.id;
     }
 
-    public boolean isNeedsNativeExecutables() {
+    public boolean needsNativeExecutables() {
         return needsNativeExecutables;
     }
 
