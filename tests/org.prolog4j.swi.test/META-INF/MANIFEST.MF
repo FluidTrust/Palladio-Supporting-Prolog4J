@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Prolog4J SWI Tests
+Bundle-SymbolicName: org.prolog4j.swi.test
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: org.prolog4j.swi;bundle-version="1.0.0"
+Automatic-Module-Name: org.prolog4j.swi.test
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.prolog4j.test;bundle-version="1.0.0"
+Bundle-ClassPath: .,
+ lib/appdirs-1.0.3.jar,
+ lib/jna-4.5.2.jar,
+ lib/jna-platform-4.5.2.jar,
+ lib/slf4j-api-1.7.25.jar,
+ lib/swiPrologEnabler-0.2.0.jar
+Import-Package: org.apache.commons.io
+Bundle-Vendor: Palladio Simulator

@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Prolog4J TuProlog
+Bundle-SymbolicName: org.prolog4j.tuprolog
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: org.prolog4j.tuprolog2
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Service-Component: OSGI-INF/org.prolog4j.tuprolog.TuPrologProverFactory.xml
+Bundle-ActivationPolicy: lazy
+Import-Package: org.osgi.service.component.annotations;version="1.2.0",
+ org.prolog4j
+Bundle-ClassPath: .,
+ lib/tuprolog-3.3.0.jar,
+ lib/commons-lang3-3.0.jar,
+ lib/gson-2.6.2.jar
+Bundle-Vendor: Palladio Simulator
+Export-Package: org.prolog4j.tuprolog

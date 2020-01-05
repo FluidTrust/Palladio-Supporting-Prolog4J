@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Prolog4J Manager
+Bundle-SymbolicName: org.prolog4j.manager
+Bundle-Version: 1.0.0.qualifier
+Export-Package: org.prolog4j.manager
+Bundle-ActivationPolicy: lazy
+Import-Package: org.osgi.framework;version="1.2.0",
+ org.osgi.service.component.annotations;version="1.2.0",
+ org.prolog4j
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Automatic-Module-Name: org.prolog4j.manager
+Bundle-Activator: org.prolog4j.manager.impl.Activator
+Service-Component: OSGI-INF/org.prolog4j.manager.impl.ProverManager.xml
+Bundle-ClassPath: lib/commons-collections4-4.4.jar,
+ .
+Bundle-Vendor: Palladio Simulator

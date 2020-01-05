@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.prolog4j.tuprolog.TuPrologProverFactory">
+   <property name="id" value="org.prolog4j.tuprolog.proverfactory"/>
+   <property name="name" value="TuProlog Interpreter"/>
+   <property name="needsNativeExecutables" value="false"/>
+   <service>
+      <provide interface="org.prolog4j.IProverFactory"/>
+   </service>
+   <implementation class="org.prolog4j.tuprolog.TuPrologProverFactory"/>
+</scr:component>
