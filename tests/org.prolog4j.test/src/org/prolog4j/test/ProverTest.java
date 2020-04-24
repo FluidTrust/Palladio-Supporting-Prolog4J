@@ -448,4 +448,24 @@ public abstract class ProverTest {
 	public void testFormatElements() {
 		assertSuccess("member(?, [1, 2, 3]).", 1);
 	}
+	
+	@Test
+	public void testIntersection() {
+	    assertSuccess("intersection([?, 2, 3, 4], [2, 4, 5], [2, 4]).", 1);
+	}
+	
+	@Test
+	public void testUnion() {
+	    assertSuccess("union([?, 2, 3, 4], [2, 3, 4, 5], [1, 2, 3, 4, 5]).", 1);
+	}
+	
+	@Test
+	public void testSubset() {
+	    assertSuccess("subset([2,3], [?,2,3,4]).", 1);
+	}
+	
+	@Test
+	public void testSubtract() {
+	    assertSuccess("subtract([?, 2 , 3, 4], [2, 3], [1, 4]).", 1);
+	}
 }

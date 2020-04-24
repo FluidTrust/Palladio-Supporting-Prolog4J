@@ -29,11 +29,14 @@ import java.io.InputStream;
 import org.prolog4j.AbstractProver;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.Query;
+import org.prolog4j.tuprolog.impl.libraries.ListsLibrary;
 
 import alice.tuprolog.InvalidLibraryException;
 import alice.tuprolog.InvalidTheoryException;
 import alice.tuprolog.Prolog;
 import alice.tuprolog.Theory;
+import alice.tuprolog.event.ExceptionListener;
+import alice.tuprolog.event.WarningListener;
 
 /**
  * Represents a Prolog knowledge base and provides methods for solving queries
@@ -56,7 +59,12 @@ public class TuPrologProver extends AbstractProver {
 	public TuPrologProver(ConversionPolicy conversionPolicy) {
 		super(conversionPolicy);
 		engine = new Prolog();
+		loadDefaultLibraries();
 	}
+
+    protected void loadDefaultLibraries() {
+        loadLibrary(ListsLibrary.class.getName());
+    }
 
 	/**
 	 * Returns the tuProlog engine used by the prover.
@@ -93,7 +101,13 @@ public class TuPrologProver extends AbstractProver {
 	@Override
 	public void addTheory(String theory) {
 		try {
+			ExceptionListener el = e -> System.err.println(e.getSource() + " | " + e.getMsg());
+			WarningListener wl = w -> System.err.println(w.getSource() + " | " + w.getMsg());
+			engine.addExceptionListener(el);
+			engine.addWarningListener(wl);
 			engine.addTheory(new Theory(theory));
+			engine.removeExceptionListener(el);
+			engine.removeWarningListener(wl);
 		} catch (InvalidTheoryException e) {
 			e.printStackTrace();
 		}
@@ -106,7 +120,13 @@ public class TuPrologProver extends AbstractProver {
 			sb.append(factOrRule).append('\n');
 		}
 		try {
+			ExceptionListener el = e -> System.err.println(e.getSource() + " | " + e.getMsg());
+			WarningListener wl = w -> System.err.println(w.getSource() + " | " + w.getMsg());
+			engine.addExceptionListener(el);
+			engine.addWarningListener(wl);
 			engine.addTheory(new Theory(sb.toString()));
+			engine.removeExceptionListener(el);
+			engine.removeWarningListener(wl);
 		} catch (InvalidTheoryException e) {
 			e.printStackTrace();
 		}
