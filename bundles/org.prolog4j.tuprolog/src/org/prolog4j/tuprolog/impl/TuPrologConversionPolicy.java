@@ -172,18 +172,18 @@ public class TuPrologConversionPolicy extends ConversionPolicy {
 		addTermConverter(Struct.class, new Converter<Struct>() {
 			@Override
 			public Object convert(Struct value) {
-				if (value.isAtom()) {
-					return value.getName();
-				}
-				if (value.isList()) {
-					List<Object> list = new LinkedList<Object>();
-					while (!value.isEmptyList()) {
-						Term t = value.getArg(0);
-						list.add(convertTerm(t.getTerm()));
-						value = (Struct) value.getArg(1).getTerm();
-					}
-					return list;
-				}
+			    if (value.isList()) {
+			        List<Object> list = new LinkedList<Object>();
+			        while (!value.isEmptyList()) {
+			            Term t = value.getArg(0);
+			            list.add(convertTerm(t.getTerm()));
+			            value = (Struct) value.getArg(1).getTerm();
+			        }
+			        return list;
+			    }
+			    if (value.isAtom()) {
+			        return value.getName();
+			    }
 				int arity = value.getArity();
 				Object[] args = new Object[arity];
 				for (int i = 0; i < arity; ++i) {

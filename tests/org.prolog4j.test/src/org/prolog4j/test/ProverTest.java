@@ -30,6 +30,7 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -467,5 +468,13 @@ public abstract class ProverTest {
 	@Test
 	public void testSubtract() {
 	    assertSuccess("subtract([?, 2 , 3, 4], [2, 3], [1, 4]).", 1);
+	}
+	
+	@Test
+	public void testEmptyList() {
+	    var results = p.solve("TMP = [].").toSet();
+	    assertEquals(1, results.size());
+	    assertTrue(List.class.isInstance(results.iterator().next()));
+	    assertEquals(Collections.emptyList(), results.iterator().next());
 	}
 }

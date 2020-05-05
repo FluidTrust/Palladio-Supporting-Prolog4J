@@ -24,6 +24,7 @@
 package org.prolog4j.swi.impl;
 
 import java.lang.reflect.Array;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -148,6 +149,10 @@ public class SWIPrologConversionPolicy extends ConversionPolicy {
 		addTermConverter(Atom.class, new Converter<Atom>() {
 			@Override
 			public Object convert(Atom value) {
+			    if ("[]".equals(value.name()) && "reserved_symbol".equals(value.atomType())) {
+			        // we got an empty list
+			        return Collections.emptyList();
+			    }
 				return value.name();
 			}
 		});
