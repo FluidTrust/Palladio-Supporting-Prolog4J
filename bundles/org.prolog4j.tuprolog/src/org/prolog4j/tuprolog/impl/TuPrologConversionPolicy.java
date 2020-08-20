@@ -211,6 +211,15 @@ public class TuPrologConversionPolicy extends ConversionPolicy {
 				return null;
 			}
 		});
+		addTermConverter(Var.class, new Converter<Var>() {
+            @Override
+            public Object convert(Var term) {
+                if (term.isAnonymous()) {
+                    return term.toString();
+                }
+                return null;
+            }
+        });
 	}
 
 	@Override
