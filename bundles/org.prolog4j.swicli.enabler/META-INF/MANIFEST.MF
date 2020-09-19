@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SWI Prolog CLI Enabler
+Bundle-SymbolicName: org.prolog4j.swicli.enabler
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: org.prolog4j.swicli.enabler
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.prolog4j.swicli;bundle-version="1.0.0"
+Service-Component: OSGI-INF/org.prolog4j.swicli.enabler.SWIPrologEmbeddedFallbackExecutableProvider.xml
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .,
+ lib/commons-compress-1.20.jar,
+ lib/commons-io-2.8.0.jar,
+ lib/commons-lang3-3.11.jar
+Import-Package: org.osgi.service.component.annotations;version="1.2.0"
+Export-Package: org.prolog4j.swicli.enabler

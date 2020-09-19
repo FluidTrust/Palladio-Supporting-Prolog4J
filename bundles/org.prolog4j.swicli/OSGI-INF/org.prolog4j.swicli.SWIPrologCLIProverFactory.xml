@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" immediate="true" name="org.prolog4j.swicli.SWIPrologCLIProverFactory">
+   <property name="id" value="org.prolog4j.swicli.proverfactory"/>
+   <property name="name" value="SWI Prolog CLI Interpreter"/>
+   <property name="needsNativeExecutables" value="true"/>
+   <service scope="singleton">
+      <provide interface="org.prolog4j.IProverFactory"/>
+   </service>
+   <reference bind="addProvider" cardinality="0..n" interface="org.prolog4j.swicli.SWIPrologExecutableProvider" name="Provider" policy="dynamic" unbind="removeProvider"/>
+   <implementation class="org.prolog4j.swicli.SWIPrologCLIProverFactory"/>
+</scr:component>
