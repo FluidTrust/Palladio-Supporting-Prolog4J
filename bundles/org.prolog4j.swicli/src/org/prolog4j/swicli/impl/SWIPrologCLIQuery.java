@@ -45,7 +45,6 @@ public class SWIPrologCLIQuery extends Query {
     @Override
     public <A> Solution<A> solve(Object... actualArgs) {
         String newGoal = queryReplacer.getQueryString(actualArgs);
-//        String newGoal = buildGoalString(actualArgs);
         
         String resultString = null;
         try {
@@ -85,9 +84,9 @@ public class SWIPrologCLIQuery extends Query {
         List<String> warningLines = new ArrayList<>();
         List<String> regularLines = new ArrayList<>();
         for (String line : resultStringLines) {
-            if (line.startsWith("WARNING")) {
+            if (line.toLowerCase().startsWith("warning:")) {
                 warningLines.add(line);
-            } else if (line.startsWith("ERROR")) {
+            } else if (line.toLowerCase().startsWith("error:")) {
                 errorLines.add(line);
             }
             else {
