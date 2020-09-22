@@ -36,6 +36,14 @@ public class SWIPrologCLIRun {
         var actualGoal = buildGoal(goal, variables);
         var programFileContent = theory + System.lineSeparator() + ":- " + actualGoal;
         var programFile = createPrologFile(programFileContent);
+        try {
+            return runPrologProgram(programFile);            
+        } finally {
+            programFile.delete();
+        }
+    }
+
+    protected String runPrologProgram(File programFile) throws IOException, InterruptedException {
         var pb = new ProcessBuilder(Arrays.asList(executable.getPath(), "-q", "-f", programFile.getAbsolutePath(), "-g", "halt"));
         pb.environment().putAll(executable.getEnvironment());
         pb.redirectErrorStream(true);
