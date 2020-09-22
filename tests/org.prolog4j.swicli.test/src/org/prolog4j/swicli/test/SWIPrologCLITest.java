@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.BeforeClass;
+import org.prolog4j.swicli.DefaultSWIPrologExecutableProvider;
 import org.prolog4j.swicli.SWIPrologCLIProverFactory;
 import org.prolog4j.swicli.SWIPrologExecutableProvider;
 import org.prolog4j.swicli.enabler.SWIPrologEmbeddedFallbackExecutableProvider;
-import org.prolog4j.swicli.impl.DefaultSWIPrologExecutableProvider;
 import org.prolog4j.test.ProverTest;
 
 public class SWIPrologCLITest extends ProverTest {

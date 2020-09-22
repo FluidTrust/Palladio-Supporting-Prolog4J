@@ -1,5 +1,6 @@
 package org.prolog4j.swicli;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.SortedSet;
@@ -21,6 +22,28 @@ import org.prolog4j.swicli.impl.SWIPrologCLIProver;
         "needsNativeExecutables=true" }, scope = ServiceScope.SINGLETON)
 public class SWIPrologCLIProverFactory implements IProverFactory {
 
+    public static class SWIPrologExecutableProviderStandalone {
+        private final Map<Object, Object> properties = new HashMap<>();
+        private final SWIPrologExecutableProvider provider;
+        
+        public SWIPrologExecutableProviderStandalone(SWIPrologExecutableProvider provider, int priority) {
+            this.provider = provider;
+            this.properties.put(SWIPrologExecutableProvider.PRIORITY_PROPERTY, priority);
+        }
+        
+        public void addProperty(Object key, Object value) {
+            this.properties.put(key, value);
+        }
+
+        public Map<Object, Object> getProperties() {
+            return properties;
+        }
+
+        public SWIPrologExecutableProvider getProvider() {
+            return provider;
+        }
+    }
+    
     protected static class PrioritizedProvider implements Comparable<PrioritizedProvider> {
         private final int priority;
         private final SWIPrologExecutableProvider provider;
@@ -49,6 +72,23 @@ public class SWIPrologCLIProverFactory implements IProverFactory {
     private final PrologAPIWrapper prologApiWrapper = new PrologAPIWrapper();
     private final SortedSet<PrioritizedProvider> executableProviders = new TreeSet<>();
 
+    /**
+     * Default constructor to be used by OSGi.
+     */
+    public SWIPrologCLIProverFactory() {
+        // intentionally left empty
+    }
+    
+    /**
+     * Constructor to be used in standalone scenarios without OSGi.
+     * @param providers An iterable of providers to be used for initialization.
+     */
+    public SWIPrologCLIProverFactory(Iterable<SWIPrologExecutableProviderStandalone> providers) {
+        for (var provider : providers) {
+            addProvider(provider.getProvider(), provider.getProperties());
+        }
+    }
+    
     @Override
     public Prover createProver() {
         return new SWIPrologCLIProver(createConversionPolicy(), prologApiWrapper.getPrologApi(), getExecutable());

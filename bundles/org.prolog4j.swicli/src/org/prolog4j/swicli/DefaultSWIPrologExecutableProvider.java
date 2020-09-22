@@ -1,10 +1,8 @@
-package org.prolog4j.swicli.impl;
+package org.prolog4j.swicli;
 
 import java.util.Optional;
 
 import org.osgi.service.component.annotations.Component;
-import org.prolog4j.swicli.SWIPrologExecutable;
-import org.prolog4j.swicli.SWIPrologExecutableProvider;
 
 @Component(property = SWIPrologExecutableProvider.PRIORITY_PROPERTY + " = "
         + SWIPrologExecutableProvider.PRIORITY_LOWEST)
