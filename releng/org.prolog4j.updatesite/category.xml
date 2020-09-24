@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-	<feature id="org.prolog4j.core.feature" version="1.0.0.qualifier">
+	<feature id="org.prolog4j.core.feature">
 		<category name="prolog4j.category"/>
 	</feature>
-	<feature id="org.prolog4j.core.feature.source" version="1.0.0.qualifier">
+	<feature id="org.prolog4j.core.feature.source">
 		<category name="prolog4j.source.category"/>
 	</feature>
-	<feature id="org.prolog4j.swi.feature" version="1.0.0.qualifier">
+	<feature id="org.prolog4j.swi.feature">
 		<category name="prolog4j.category"/>
 	</feature>
-	<feature id="org.prolog4j.swi.feature.source" version="1.0.0.qualifier">
+	<feature id="org.prolog4j.swi.feature.source">
 		<category name="prolog4j.source.category"/>
 	</feature>
-	<feature id="org.prolog4j.tuprolog.feature" version="1.0.0.qualifier">
+	<feature id="org.prolog4j.swicli.feature">
 		<category name="prolog4j.category"/>
 	</feature>
-	<feature id="org.prolog4j.tuprolog.feature.source" version="1.0.0.qualifier">
+	<feature id="org.prolog4j.swicli.feature.source">
+		<category name="prolog4j.source.category"/>
+	</feature>
+	<feature id="org.prolog4j.swicli.enabler.feature">
+		<category name="prolog4j.category"/>
+	</feature>
+	<feature id="org.prolog4j.swicli.enabler.feature.source">
+		<category name="prolog4j.source.category"/>
+	</feature>
+	<feature id="org.prolog4j.tuprolog.feature">
+		<category name="prolog4j.category"/>
+	</feature>
+	<feature id="org.prolog4j.tuprolog.feature.source">
 		<category name="prolog4j.source.category"/>
 	</feature>
 	<category-def name="prolog4j.category" label="Prolog4J">

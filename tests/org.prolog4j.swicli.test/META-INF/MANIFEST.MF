@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: org.prolog4j.swicli.test
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: org.prolog4j.swicli;bundle-version="1.0.0"
+Automatic-Module-Name: org.prolog4j.swicli.test
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Import-Package: org.junit.jupiter.api
+Require-Bundle: org.prolog4j.test;bundle-version="1.0.0",
+ org.prolog4j.swicli.enabler;bundle-version="1.0.0"

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?>
+<target name="org.palladiosimulator.supporting.prolog Target Platform" sequenceNumber="1">
+	<locations>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+			<unit id="org.eclipse.xtext.sdk.feature.group" version="2.22.0.v20200602-1533"/>
+			<repository location="http://download.eclipse.org/releases/2020-06/202006171000/"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit" filter="nightly" refresh="true">
+			<unit id="org.palladiosimulator.supporting.prolog.serializer.feature.feature.group" version="tbd"/>
+			<repository location="https://updatesite.palladio-simulator.com/trust40-project/palladio-supporting-prolog/nightly"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit" filter="release" refresh="true">
+			<unit id="org.palladiosimulator.supporting.prolog.serializer.feature.feature.group" version="tbd"/>
+			<repository location="https://updatesite.palladio-simulator.com/trust40-project/palladio-supporting-prolog/releases/latest"/>
+		</location>
+	</locations>
+</target>

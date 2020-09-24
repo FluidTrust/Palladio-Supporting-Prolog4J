@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.prolog4j.swicli.enabler.feature"
+      label="SWI Prolog CLI Enabler"
+      version="1.0.0.qualifier">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <license url="https://www.gnu.org/licenses/lgpl-3.0.html">
+      This feature contains multiple components involving multiple licenses.
+
+SWI Prolog: Simplified BSD (https://www.swi-prolog.org/license.html)
+libgmp (linked from SWI prolog binary): LGPL (https://www.gnu.org/licenses/lgpl-3.0.html)
+Apache Commons Compress: Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
+Apache Commons IO: Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
+Apache Commons Lang3: Apache 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
+
+We apply to most restrictive license to the whole bundle, which is LGPL.
+   </license>
+
+   <requires>
+      <import feature="org.prolog4j.swicli.feature" version="1.0.0.qualifier"/>
+   </requires>
+
+   <plugin
+         id="org.prolog4j.swicli.enabler"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

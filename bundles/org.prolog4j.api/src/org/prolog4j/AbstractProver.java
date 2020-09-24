@@ -43,6 +43,12 @@ public abstract class AbstractProver implements Prover, Serializable {
 
 	@Override
 	public final <A> Solution<A> solve(String goal, Object... actualArgs) {
+	    if (!goal.endsWith(".")) {
+	        throw new InvalidQueryException(goal);
+	    }
+	    if (goal.trim().startsWith("assertz")) {
+	        throw new IllegalArgumentException("Dynamic assertion only supported via dedicated method.");
+	    }
 		return query(goal).solve(actualArgs);
 	}
 

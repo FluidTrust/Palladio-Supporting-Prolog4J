@@ -23,6 +23,7 @@
  */
 package org.prolog4j.test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -72,7 +73,7 @@ public abstract class ProverTest {
 	 * @param goal the Prolog goal
 	 * @param args the actual arguments of the goal
 	 */
-	public final void assertSuccess(final String goal, final Object... args) {
+	public void assertSuccess(final String goal, final Object... args) {
 		assertSuccess(p.solve(goal, args));
 	}
 
@@ -82,7 +83,7 @@ public abstract class ProverTest {
 	 * 
 	 * @param solution the solution
 	 */
-	public final void assertSuccess(final Solution<?> solution) {
+	public void assertSuccess(final Solution<?> solution) {
 		assertTrue(solution.isSuccess());
 	}
 
@@ -92,7 +93,7 @@ public abstract class ProverTest {
 	 * @param goal the Prolog goal
 	 * @param args the actual arguments of the goal
 	 */
-	public final void assertFailure(final String goal, final Object... args) {
+	public void assertFailure(final String goal, final Object... args) {
 		assertFailure(p.solve(goal, args));
 	}
 
@@ -102,7 +103,7 @@ public abstract class ProverTest {
 	 * 
 	 * @param solution the solution
 	 */
-	public final void assertFailure(final Solution<?> solution) {
+	public void assertFailure(final Solution<?> solution) {
 		assertFalse(solution.isSuccess());
 	}
 
@@ -268,10 +269,10 @@ public abstract class ProverTest {
 
 		List<Long> liVal = p.<List<Long>>solve("X = [0, 1, 2].").get();
 		assertEquals(Arrays.asList(0l, 1l, 2l), liVal);
-		List<String> lsVal = p.<List<String>>solve("X = [a, b, c].").get();
+		List<String> lsVal = p.<List<String>>solve("X = [a, b, c].").get("X");
 		assertEquals(Arrays.asList("a", "b", "c"), lsVal);
 
-		Object cVal = p.solve("X = functor(arg1, arg2).").get();
+		Object cVal = p.solve("X = functor(arg1, arg2).").get("X");
 		assertEquals(new Compound("functor", "arg1", "arg2"), cVal);
 	}
 
@@ -353,7 +354,7 @@ public abstract class ProverTest {
 				return null;
 			}
 		});
-		Human socrates = p.<Human>solve("H=human(socrates).").get();
+		Human socrates = p.<Human>solve("H=human(socrates).").get("H");
 		assertEquals(new Human("socrates"), socrates);
 	}
 
@@ -383,11 +384,8 @@ public abstract class ProverTest {
 	public void testTestArrayResult() {
 		List<String> h1 = Arrays.asList("socrates");
 		List<String> h3 = Arrays.asList("socrates", "homeros", "demokritos");
-		for (String[] humans : p.solve("append(?L1, L2, ?L12).", h1, h3).on("L2", String[].class)) {
-			for (String h : humans) {
-				System.out.println(h); // homeros and demokritos
-			}
-		}
+		String[] humans = p.solve("append(?L1, L2, ?L12).", h1, h3).on("L2", String[].class).get();
+		assertArrayEquals(new String[] {"homeros", "demokritos"}, humans);
 	}
 
 	/**
@@ -411,9 +409,9 @@ public abstract class ProverTest {
 	 */
 	@Test
 	public void testAssert() {
-		p.solve("assertz(roman(michelangelo)).");
-		p.solve("assertz(roman(davinci)).");
-		p.solve("assertz(roman(iulius)).");
+        p.assertz("roman(michelangelo).");
+        p.assertz("roman(davinci).");
+        p.assertz("roman(iulius).");
 		Set<Object> romans = p.solve("roman(H).").toSet();
 		Set<Object> romansExpected = new HashSet<Object>();
 		romansExpected.add("michelangelo");
