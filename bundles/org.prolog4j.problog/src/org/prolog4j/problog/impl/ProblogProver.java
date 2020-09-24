@@ -6,6 +6,7 @@ import java.util.List;
 import org.prolog4j.AbstractProver;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.Query;
+import org.prolog4j.Solution;
 
 import de.tudresden.inf.lat.jproblog.JProblog;
 
@@ -22,6 +23,7 @@ public class ProblogProver extends AbstractProver {
 		this.jproblog = new JProblog();
 		this.knowledgeBase = new ArrayList<>();
 		this.loadLibrary("lists");
+		this.loadLibrary("assert");
 	}
 
 	@Override
@@ -60,5 +62,19 @@ public class ProblogProver extends AbstractProver {
 	public JProblog getJProblog() {
 		return jproblog;
 	}
+	
+	@Override
+	public void assertz(String fact, Object... args) {
+		knowledgeBase.add("query(assertz(" + fact.substring(0, fact.lastIndexOf('.')) + ")).");
+	}
 
+	@Override
+	public void retract(String fact) {
+		int lastDot = fact.lastIndexOf('.');
+		int length = fact.length();
+		if (lastDot == -1 || fact.substring(lastDot, length).trim().length() > 1) {
+			lastDot = length;
+		}
+		knowledgeBase.add("query(retract(" + fact.substring(0, lastDot) + ")).");
+	}
 }
