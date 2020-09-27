@@ -113,8 +113,18 @@ public class SWIPrologCLIProverFactory implements IProverFactory {
     @Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
     public void addProvider(SWIPrologExecutableProvider provider, Map<Object, Object> properties) {
         var priority = properties.get(SWIPrologExecutableProvider.PRIORITY_PROPERTY);
-        if (priority != null || priority instanceof Integer) {
-            executableProviders.add(new PrioritizedProvider((Integer)priority, provider));
+        if (priority != null) {
+            int priorityNumeric = SWIPrologExecutableProvider.PRIORITY_LOWEST; 
+            if (priority instanceof Integer) {
+                priorityNumeric = (Integer)priority;
+            } else if (priority instanceof String) {
+                try {
+                    priorityNumeric = Integer.parseInt((String)priority);                    
+                } catch (NumberFormatException e) {
+                    // just ignore it and use default priority
+                }
+            }
+            executableProviders.add(new PrioritizedProvider(priorityNumeric, provider));
         }
     }
 
