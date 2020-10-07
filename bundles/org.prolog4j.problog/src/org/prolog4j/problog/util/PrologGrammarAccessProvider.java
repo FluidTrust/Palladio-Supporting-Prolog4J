@@ -6,6 +6,10 @@ import org.palladiosimulator.supporting.prolog.services.PrologGrammarAccess;
 
 import com.google.inject.Inject;
 
+/**
+ * Not needed? Delete?
+ *
+ */
 public class PrologGrammarAccessProvider implements Supplier<PrologGrammarAccess> {
     
     @Inject

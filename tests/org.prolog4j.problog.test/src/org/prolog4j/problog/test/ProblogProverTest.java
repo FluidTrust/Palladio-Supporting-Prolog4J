@@ -60,21 +60,6 @@ public class ProblogProverTest extends ProverTest {
 	
 	@Override
 	@Test
-	public void testAssert() {
-		//todo: single queries with assertz can not be used, as solve executes individual
-		//instances of problog with no memory
-		//--> überschreiben von solve in prover, aber dafür müsste solve in AbstractProver nicht mehr final
-		Set<Object> romans = p.solve("assertz(roman(michelangelo)), assertz(roman(davinci)), assertz(roman(iulius)),"
-				+ " roman(H).").toSet();
-		Set<Object> romansExpected = new HashSet<Object>();
-		romansExpected.add("michelangelo");
-		romansExpected.add("davinci");
-		romansExpected.add("iulius");
-		assertEquals(romansExpected, romans);
-	}
-	
-	@Override
-	@Test
 	public void testIterable() {
 		List<String> mortals = new ArrayList<String>();
 		for (String s : p.<String>solve("mortal(X).")) {

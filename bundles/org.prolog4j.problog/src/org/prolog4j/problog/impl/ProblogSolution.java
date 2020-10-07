@@ -1,19 +1,24 @@
 package org.prolog4j.problog.impl;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
+import org.eclipse.xtext.parser.IParseResult;
+import org.palladiosimulator.supporting.prolog.model.prolog.AtomicDouble;
+import org.palladiosimulator.supporting.prolog.model.prolog.AtomicNumber;
+import org.palladiosimulator.supporting.prolog.model.prolog.CompoundTerm;
+import org.palladiosimulator.supporting.prolog.model.prolog.expressions.Expression;
+import org.palladiosimulator.supporting.prolog.model.prolog.expressions.ModuleCall;
+import org.palladiosimulator.supporting.prolog.parser.antlr.PrologParser;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.Solution;
 import org.prolog4j.SolutionIterator;
 import org.prolog4j.UnknownVariableException;
-
-import com.google.common.base.CharMatcher;
 
 public class ProblogSolution<S> extends Solution<S> {
 	
@@ -23,14 +28,14 @@ public class ProblogSolution<S> extends Solution<S> {
 	
 	private double overallProbability = 0.0;
 	
-	private String localDefaultOutputVariable = "";
-	
 	private ConversionPolicy cp;
+	private PrologParser parser;
 	
-	public ProblogSolution(List<String> freeVariables, String solutions, ConversionPolicy conversionPolicy) {
+	public ProblogSolution(List<String> freeVariables, String solutions, ConversionPolicy conversionPolicy, PrologParser parser) {
 		this.freeVariables = freeVariables;
 		this.rawSolutions = solutions;
 		this.cp = conversionPolicy;
+		this.parser = parser;
 		
 		// initialize free variable assignment map
 		for(String var : freeVariables) {
@@ -42,52 +47,62 @@ public class ProblogSolution<S> extends Solution<S> {
 	
 	private void separateSolutions() {
 		List<String> solutions = Arrays.asList(rawSolutions.split("\n"));
+		int validSolutions = 0;
 		//parse for free Variables
+
 		for(String solution : solutions) {
-			solution = solution.replaceFirst("\\s*", "");
-			if(solution.startsWith("ParseError:")) {
+			IParseResult parseResult = this.parser.parse(this.parser.getGrammarAccess().getExpression_1100_xfyRule(), new StringReader(solution));
+			
+			if(parseResult.hasSyntaxErrors()) {
 				overallProbability = 0.0;
 				break;
-			}
-			
-			if(solution.startsWith("queryrule(")) {
-				String[] tmp = solution.split("\t");
-				String probabilityString = tmp[1];
-				probabilityString = probabilityString.replaceAll("\\s", "");
-				double probability = Double.valueOf(probabilityString);
-				overallProbability += probability;
-				if(freeVariables.isEmpty()) {
-					//if no free variables, create and add a mock
-					if(variableValues.containsKey("")) {
-						variableValues.get("").addValue("", probability);
-					} else {
-						ProblogResult result = new ProblogResult();
-						result.addValue("", probability);
-						variableValues.put("", result);
-					} 
-					defaultOutputVariable = "";
-				} else {
-					String predicate = tmp[0];
-					String variableString = predicate.substring(predicate.indexOf("(") + 1, predicate.lastIndexOf(")"));
-					List<String> variables = parseFreeVariableValues(variableString);
-					if(variables.size() != freeVariables.size()) {
-						//error?!
-					}
-					for(int i = 0; i < variables.size() && i < freeVariables.size(); ++i) {
-						if(variableValues.containsKey(freeVariables.get(i))) {
-							variableValues.get(freeVariables.get(i)).addValue(variables.get(i), probability);
+			} else if(parseResult.getRootASTElement() instanceof ModuleCall) {
+				ModuleCall call = (ModuleCall) parseResult.getRootASTElement();
+				double probability = 0.0;
+				
+				//right element is the probability of this solution
+				if(call.getRight() instanceof AtomicNumber) {
+					AtomicNumber probabilityElement = (AtomicNumber) call.getRight();
+					probability = probabilityElement.getValue();
+				} else if(call.getRight() instanceof AtomicDouble) {
+					AtomicDouble probabilityElement = (AtomicDouble) call.getRight();
+					probability = probabilityElement.getValue();
+				}
+				
+				//left is the query with the actual allocation of the free variables
+				if(call.getLeft() instanceof CompoundTerm) {
+					CompoundTerm queryRuleElement = (CompoundTerm) call.getLeft();
+					if(queryRuleElement.getValue().equals("queryrule")) {
+						List<Expression> queryRuleArgumentAllocation = queryRuleElement.getArguments();
+						
+						if(freeVariables.isEmpty()) {
+							addValueToMap("", null, probability);
+							this.on("");
 						} else {
-							ProblogResult result = new ProblogResult();
-							result.addValue(variables.get(i), probability);
-							variableValues.put(freeVariables.get(i), result);
+							for(int i = 0; i < queryRuleArgumentAllocation.size() && i < freeVariables.size(); ++i) {
+								addValueToMap(freeVariables.get(i), queryRuleArgumentAllocation.get(i), probability);
+							}
+							
+							this.on(freeVariables.get(0));
 						}
+						validSolutions++;
+						overallProbability += probability;
 					}
-					defaultOutputVariable = freeVariables.get(0);
 				}
 			}
 		}
 		
-		overallProbability = overallProbability / solutions.size();
+		overallProbability = overallProbability / validSolutions;
+	}
+	
+	private void addValueToMap(String key, Expression value, double probability) {
+		if(variableValues.containsKey(key)) {
+			variableValues.get(key).addValue(value, probability);
+		} else {
+			ProblogResult result = new ProblogResult();
+			result.addValue(value, probability);
+			variableValues.put(key, result);
+		}
 	}
 
 	@Override
@@ -97,6 +112,7 @@ public class ProblogSolution<S> extends Solution<S> {
 		return success;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <A> A get(String variable) {
 		if (clazz == null) {	
@@ -121,11 +137,19 @@ public class ProblogSolution<S> extends Solution<S> {
 		
 		return cp.convertTerm(result.getValue(), type);
 	}
-
+	
 	@Override
 	protected boolean fetch() {
 		//does not really fetch, since all solutions are already in variableValues
-		return variableValues.get(localDefaultOutputVariable).hasNextValue();
+		if(freeVariables.isEmpty()) {
+			return variableValues.get("").hasNextValue();
+		} else {
+			//TODO: Produziert einen Fehler im Zusammenhang mit on(), da hier jetzt die falsche Variable
+			//gefetched wird, da es aber bei mehrfachen freien vars immer die maximale Anzahl an Ergebnissen für jede
+			//Var gibt, könnte es trotzdem passen.
+			return variableValues.get(freeVariables.get(0)).hasNextValue();
+		}
+		
 	}
 
 	@Override
@@ -148,80 +172,5 @@ public class ProblogSolution<S> extends Solution<S> {
 		}
 		collect(lists);
 		return lists;
-	}
-	
-	@Override
-	public <A> Solution<A> on(final String variable) {
-		//localDefaultOutputVariable = variable;
-		return super.on(variable);
-	}
-
-	@Override
-	public <A> Solution<A> on(final String variable, final Class<A> clazz) {
-		//localDefaultOutputVariable = variable;
-		return super.on(variable,clazz);
-	}
-
-	@Override
-	public SolutionIterator<S> iterator() {
-		return new SolutionIterator<S>() {
-
-			@Override
-			public boolean hasNext() {
-				return ProblogSolution.this.variableValues.get(ProblogSolution.this.defaultOutputVariable).hasNextValue();
-			}
-
-			@Override
-			public S next() {
-				if (!hasNext()) {
-					throw new NoSuchElementException();
-				}
-				return get(ProblogSolution.this.defaultOutputVariable);
-			}
-			
-			@Override
-			public S get(String variable) {
-				if (clazz == null) {
-					return ProblogSolution.this.<S>get(variable);
-				}
-				return ProblogSolution.this.get(variable, clazz);
-			}
-
-			@Override
-			public <A> A get(String variable, Class<A> type) {
-				return ProblogSolution.this.get(variable, type);
-			}
-			
-		};
-	}
-	
-	// todo gleiche Funktion in PRoblogQuery --> eigene unterklasse mit utils?
-	private List<String> parseFreeVariableValues(String freeVariableString) {
-		List<String> queries = new ArrayList<>();
-		String[] splitQueries = freeVariableString.split(",");
-		int openBracketCount = 0;
-		int openSquareBracketCount = 0;
-		StringBuilder queryBuilder = new StringBuilder();
-		for(String queryFragment : splitQueries) {
-			openBracketCount += CharMatcher.is('(').countIn(queryFragment);
-			openBracketCount -= CharMatcher.is(')').countIn(queryFragment);
-			
-			openSquareBracketCount += CharMatcher.is('[').countIn(queryFragment);
-			openSquareBracketCount -= CharMatcher.is(']').countIn(queryFragment);
-			
-			if(queryFragment.endsWith(".")) {
-				queryFragment = queryFragment.substring(0, queryFragment.length() - 1);
-			}
-			queryFragment = queryFragment.trim();
-			queryBuilder.append(queryFragment);
-			
-			if(openBracketCount == 0 && openSquareBracketCount == 0) {
-				queries.add(queryBuilder.toString());
-				queryBuilder = new StringBuilder();
-			} else {
-				queryBuilder.append(",");
-			}
-		}
-		return queries;
 	}
 }

@@ -1,89 +1,98 @@
 package org.prolog4j.problog.impl;
 
-import java.io.Reader;
 import java.io.StringReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.parser.IParseResult;
+import org.palladiosimulator.supporting.prolog.model.prolog.AtomicDouble;
+import org.palladiosimulator.supporting.prolog.model.prolog.AtomicNumber;
+import org.palladiosimulator.supporting.prolog.model.prolog.AtomicQuotedString;
 import org.palladiosimulator.supporting.prolog.model.prolog.CompoundTerm;
+import org.palladiosimulator.supporting.prolog.model.prolog.PrologFactory;
 import org.palladiosimulator.supporting.prolog.model.prolog.expressions.Expression;
+import org.palladiosimulator.supporting.prolog.model.prolog.impl.AtomicDoubleImpl;
+import org.palladiosimulator.supporting.prolog.model.prolog.impl.AtomicNumberImpl;
+import org.palladiosimulator.supporting.prolog.model.prolog.impl.AtomicQuotedStringImpl;
+import org.palladiosimulator.supporting.prolog.model.prolog.impl.CompoundTermImpl;
+import org.palladiosimulator.supporting.prolog.model.prolog.impl.ListImpl;
 import org.palladiosimulator.supporting.prolog.parser.antlr.PrologParser;
-import org.palladiosimulator.supporting.prolog.services.PrologGrammarAccess;
 import org.prolog4j.Compound;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.Converter;
-import org.prolog4j.problog.util.PrologToolProvider;
 
+
+/**
+ * This is the conversion policy for the problog integration
+ * 
+ * REMARK: Most functionality has been taken from SWIPrologCLIConversionPolicy
+ * maybe create one shared conversion policy for all text based prolog api's.
+ * 
+ * @author Nicolas Boltz
+ */
 public class ProblogConversionPolicy extends ConversionPolicy {
+
+	@SuppressWarnings("unchecked")
+	private static final Class<Collection<?>> CLZ_COLLECTION = (Class<Collection<?>>) ((Class<?>) Collection.class);
+	private static final PrologFactory FACTORY = PrologFactory.eINSTANCE;
+	private final PrologParser parser;
 	
-	private Map<String, Converter<Object>> customTermConverters = new HashMap<String, Converter<Object>>();
-	
-	/** Converts an Integer object to a term. */
-	private static final Converter<Integer> INTEGER_CONVERTER = new Converter<Integer>() {
-		@Override
-		public Object convert(Integer i) {
-			return Integer.toString(i);
-		}
-	};
-	/** Converts a Long object to a term. */
-	private static final Converter<Long> LONG_CONVERTER = new Converter<Long>() {
-		@Override
-		public Object convert(Long value) {
-			return Long.toString(value);
-		}
-	};
-	/** Converts a Float object to a term. */
-	private static final Converter<Float> FLOAT_CONVERTER = new Converter<Float>() {
-		@Override
-		public Object convert(Float value) {
-			return Float.toString(value);
-		}
-	};
-	/** Converts a Double object to a term. */
-	private static final Converter<Double> DOUBLE_CONVERTER = new Converter<Double>() {
-		@Override
-		public Object convert(Double value) {
-			return Double.toString(value);
-		}
-	};
-	/** Converts a String object to a term. */
-	private static final Converter<String> STRING_CONVERTER = new Converter<String>() {
-		@Override
-		public Object convert(String value) {
-			return "'" + value + "'";
-		}
-	};
-	
-	private static final Converter<List<?>> LIST_CONVERTER = new Converter<List<?>>() {
-		@Override
-		public Object convert(List<?> list) {
-			StringBuilder builder = new StringBuilder();
-			builder.append("[");
-			Iterator<?> it = list.iterator();
-			while(it.hasNext()) {
-				builder.append(it.next().toString());
-				if(it.hasNext()) {
-					builder.append(",");
-				}
-			}
-			return builder.append("]").toString();
-		}
-	};
-	
-	public ProblogConversionPolicy() {
+	public ProblogConversionPolicy(PrologParser parser) {
 		super();
-		addObjectConverter(Long.class, LONG_CONVERTER);
-		addObjectConverter(Float.class, FLOAT_CONVERTER);
-		addObjectConverter(Double.class, DOUBLE_CONVERTER);
-		addObjectConverter(Integer.class, INTEGER_CONVERTER);
-		addObjectConverter(String.class, STRING_CONVERTER);
-		addListConverter(List.class, LIST_CONVERTER);
+		this.parser = parser;
+		
+		addObjectConverter(Integer.class, new Converter<Integer>() {
+			@Override
+			public Object convert(Integer value) {
+				return term(value);
+			}
+		});
+		
+		addObjectConverter(Long.class, new Converter<Long>() {
+            @Override
+            public Object convert(Long value) {
+                return term(value.intValue());
+            }
+        });
+		
+		addObjectConverter(Float.class, new Converter<Float>() {
+            @Override
+            public Object convert(Float value) {
+                return term(value.doubleValue());
+            }
+        });
+		
+		addObjectConverter(Double.class, new Converter<Double>() {
+            @Override
+            public Object convert(Double value) {
+                return term(value);
+            }
+        });
+		
+		addObjectConverter(String.class, new Converter<String>() {
+            @Override
+            public Object convert(String value) {
+                AtomicQuotedString term = FACTORY.createAtomicQuotedString();
+                term.setValue(value.replaceFirst("'([^']+)'", "$1"));
+                return term;
+            }
+        });
+		
+		addObjectConverter(CLZ_COLLECTION, new Converter<Collection<?>>() {
+            @Override
+            public Object convert(Collection<?> value) {
+                var listTerm = FACTORY.createList();
+                for (var item : value) {
+                    listTerm.getHeads()
+                        .add((Expression) convertObject(item));
+                }
+                return listTerm;
+            }
+        });
+		
 		addObjectConverter(Compound.class, new Converter<Compound>() {
 			@Override
 			public Object convert(Compound value) {
@@ -91,50 +100,66 @@ public class ProblogConversionPolicy extends ConversionPolicy {
 			}
 		});
 		
-		// Terms are only represented as Strings, so no real conversion as to be done.
-		addTermConverter(String.class, new Converter<String>() {
-			@Override
-			public Object convert(String value) {
-				EObject root = getRootObject(value);
-				if(root != null && root instanceof CompoundTerm) {
-					CompoundTerm elements = (CompoundTerm) root;
-					String functor = elements.getValue();
-					Converter<Object> customConverter = ProblogConversionPolicy.this.customTermConverters.get(functor);
-					if(customConverter != null) {
-						return customConverter.convert(value);
-					}
-				}
-				
-				//list
-				if(value.startsWith("[") && value.endsWith("]")) {
-					value = value.substring(1, value.length()-1);
-					String[] content = value.split(",\\s*");
-					List<Object> list = new ArrayList<Object>();
-					for(String str : content) {
-						list.add(this.convert(str));
-					}
-					return list;
-				} else { //number or string
-					try {
-						long longValue = Long.parseLong(value);
-				        return longValue;
-				    } catch (NumberFormatException nfe) {
-				    	try {
-				    		double doubleValue = Double.parseDouble(value);
-					        return doubleValue;
-					    } catch (NumberFormatException nfe2) {
-					    	return value;
-					    }
-				    }
-				}
-			}
-		});
-	}
-	
-	@Override
-	public void addTermConverter(String functor, Converter<Object> converter) {
-		customTermConverters.put(functor, converter);
-		super.addTermConverter(functor, converter);
+        addTermConverter(AtomicNumberImpl.class, new Converter<AtomicNumberImpl>() {
+            @Override
+            public Object convert(AtomicNumberImpl term) {
+                return (long) term.getValue();
+            }
+        });
+
+        addTermConverter(AtomicDoubleImpl.class, new Converter<AtomicDoubleImpl>() {
+            @Override
+            public Object convert(AtomicDoubleImpl term) {
+                return term.getValue();
+            }
+        });
+
+        addTermConverter(AtomicQuotedStringImpl.class, new Converter<AtomicQuotedStringImpl>() {
+            @Override
+            public Object convert(AtomicQuotedStringImpl term) {
+                return term.getValue().substring(1);
+            }
+        });
+
+        addTermConverter(ListImpl.class, new Converter<ListImpl>() {
+            @Override
+            public Object convert(ListImpl term) {
+                var result = new ArrayList<>();
+                for (Expression headTerm : term.getHeads()) {
+                    result.add(convertTerm(headTerm));
+                }
+                return result;
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            public <R> R convert(ListImpl object, Class<R> to) {
+                if (to.isArray()) {
+                    var arrayType = to.getComponentType();
+                    var destinationArray = (Object[]) Array.newInstance(arrayType, object.getHeads()
+                        .size());
+                    var array = ((List<?>) convert(object)).toArray(destinationArray);
+                    return (R) array;
+                }
+                return super.convert(object, to);
+            }
+
+        });
+
+        addTermConverter(CompoundTermImpl.class, new Converter<CompoundTermImpl>() {
+            @Override
+            public Object convert(CompoundTermImpl term) {
+                if (!term.getArguments()
+                    .isEmpty()) {
+                    var arguments = term.getArguments()
+                        .stream()
+                        .map(ProblogConversionPolicy.this::convertTerm)
+                        .collect(Collectors.toList());
+                    return new Compound(term.getValue(), arguments.toArray());
+                }
+                return term.getValue();
+            }
+        });
 	}
 
 	@Override
@@ -145,102 +170,182 @@ public class ProblogConversionPolicy extends ConversionPolicy {
 
 	@Override
 	public boolean isInteger(Object term) {
-		return term instanceof Integer;
+		return term instanceof AtomicNumber;
 	}
 
 	@Override
 	public boolean isDouble(Object term) {
-		return term instanceof Double;
+		return term instanceof AtomicDouble;
 	}
 
 	@Override
 	public boolean isAtom(Object term) {
-		return false;
+        if (term instanceof AtomicQuotedString || term instanceof AtomicNumber) {
+            return true;
+        }
+        if (term instanceof CompoundTerm) {
+            return ((CompoundTerm) term).getArguments()
+                .isEmpty();
+        }
+        return false;
 	}
 
 	@Override
 	public boolean isCompound(Object term) {
-		return false;
+        if (term instanceof CompoundTerm) {
+            return !((CompoundTerm) term).getArguments().isEmpty();
+        }
+        return false;
 	}
 
-	@Override
-	public Object term(int value) {
-		return INTEGER_CONVERTER.convert(value);
-	}
+    @Override
+    public Object term(int value) {
+        AtomicNumber term = FACTORY.createAtomicNumber();
+        term.setValue(value);
+        return term;
+    }
 
-	@Override
-	public Object term(double value) {
-		return DOUBLE_CONVERTER.convert(value);
-	}
+    @Override
+    public Object term(double value) {
+        AtomicDouble term = FACTORY.createAtomicDouble();
+        term.setValue(value);
+        return term;
+    }
 
-	@Override
-	public Object term(String name) {
-		return STRING_CONVERTER.convert(name);
-	}
+    @Override
+    public Object term(String name) {
+        // this should parse the text as far as the tests specify it...
+        IParseResult result = parser.parse(parser.getGrammarAccess()
+            .getTermRule(), new StringReader(name));
+        if (result.hasSyntaxErrors()) {
+            return null;
+        }
+        return result.getRootASTElement();
+//        
+//        AtomicQuotedString term = FACTORY.createAtomicQuotedString();
+//        term.setValue(name);
+//        return term;
+    }
 
-	@Override
-	public Object term(String pattern, Object... args) {
-		for(int i = 0; i < args.length && pattern.contains("?"); ++i) {
-			String argument = (String) this.convertObject(args[i]);
-			pattern = pattern.replaceFirst("\\?", argument);
-		}
+    @Override
+    public Object term(String pattern, Object... args) {
+        var newPattern = pattern;
+        var variables = new ArrayList<String>();
+        for (int i = newPattern.indexOf("?"); i >= 0 && i < newPattern.length(); i = newPattern.indexOf("?", i)) {
+            String variableName = "PROLOG1561_" + variables.size();
+            variables.add(variableName);
+            newPattern = newPattern.substring(0, i) + variableName + newPattern.substring(i + 1);
+            i = i + variableName.length() - 1;
+        }
 
-		return STRING_CONVERTER.convert(pattern);
-	}
+//        IParseResult parseResult = parser.doParse(newPattern);
+//        CompoundTerm patternTerm = (CompoundTerm)parseResult.getRootASTElement();
+//        for (TreeIterator<EObject> iter = patternTerm.eAllContents(); iter.hasNext();) {
+//            var part = iter.next();
+//            if (part instanceof CompoundTerm) {
+//                CompoundTerm term = (CompoundTerm) part;
+//                if (variables.contains(term.getValue())) {
+//                    var replacement = args[variables.indexOf(term.getValue())];
+//                    var replacementTerm = term(replacement);
+//                }
+//            }
+//        }
 
-	@Override
-	public int intValue(Object term) {
-		return ((int) term);
-	}
+        for (int i = 0; i < args.length; ++i) {
+            Object arg = args[i];
+            String replacement = null;
+            if (arg instanceof String) {
+                replacement = String.format("'%s'", arg);
+            } else if (arg instanceof Number) {
+                replacement = String.format("%d", arg);
+            }
+            newPattern = newPattern.replace(variables.get(i), replacement);
+        }
 
-	@Override
-	public double doubleValue(Object term) {
-		return ((double) term);
-	}
+        IParseResult parseResult = parser.parse(parser.getGrammarAccess()
+            .getTermRule(), new StringReader(newPattern));
+        if (parseResult.hasSyntaxErrors()) {
+            throw new IllegalArgumentException();
+        }
 
-	@Override
-	protected String getName(Object compound) {
-		return compound.toString();
-	}
+        return parseResult.getRootASTElement();
+    }
 
-	@Override
-	public int getArity(Object compound) {
-		EObject root = getRootObject((String) compound);
-		if(root != null && root instanceof CompoundTerm) {
-			CompoundTerm elements = (CompoundTerm) root;
-			return elements.getArguments().size();
-		}
+    @Override
+    public int intValue(Object term) {
+        if (term instanceof AtomicNumber) {
+            return ((AtomicNumber) term).getValue();
+        }
+        throw new IllegalArgumentException();
+    }
 
-		return 0;
-	}
+    @Override
+    public double doubleValue(Object term) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public Object getArg(Object compound, int index) {
-		EObject root = getRootObject((String) compound);
-		if(root != null && root instanceof CompoundTerm) {
-			CompoundTerm elements = (CompoundTerm) root;
-			if(index < elements.getArguments().size()) {
-				Expression expr = elements.getArguments().get(index);
-				if(expr instanceof CompoundTerm) {
-					CompoundTerm argument = (CompoundTerm) expr;
-					return argument.getValue();
-				}
-				
-			}
-		}
+    @Override
+    protected String getName(Object compound) {
+        if (compound instanceof CompoundTerm) {
+            return ((CompoundTerm) compound).getValue();
+        }
+        throw new IllegalArgumentException();
+    }
+    
+    @Override
+    public int getArity(Object compound) {
+        if (compound instanceof CompoundTerm) {
+            return ((CompoundTerm) compound).getArguments()
+                .size();
+        }
+        throw new IllegalArgumentException();
+    }
 
-		return null;
-	}
-	
-	//todo: zwei mal vorhanden (in problogquery) gemeinsame klasse für zugriff auf den parser!!!
-	private EObject getRootObject(String query) {
-		PrologToolProvider toolProvider = new PrologToolProvider();
-		PrologParser parser = toolProvider.getParser();
-		PrologGrammarAccess grammar = toolProvider.getGrammarAccess();
-		Reader targetReader = new StringReader(query);
-		IParseResult result = parser.parse(grammar.getExpression_1100_xfyRule(), targetReader);
+    @Override
+    public Object getArg(Object compound, int index) {
+        if (compound instanceof CompoundTerm) {
+            List<Expression> arguments = ((CompoundTerm) compound).getArguments();
+            if (arguments.size() > index) {
+                return convertTerm(arguments.get(index));
+            }
+        }
+        throw new IllegalArgumentException();
+    }
 
-		return result.getRootASTElement();
-	}
+//	@Override
+//	public int getArity(Object compound) {
+//		EObject root = getRootObject((String) compound);
+//		if(root != null && root instanceof CompoundTerm) {
+//			CompoundTerm elements = (CompoundTerm) root;
+//			return elements.getArguments().size();
+//		}
+//
+//		return 0;
+//	}
+//
+//	@Override
+//	public Object getArg(Object compound, int index) {
+//		EObject root = getRootObject((String) compound);
+//		if(root != null && root instanceof CompoundTerm) {
+//			CompoundTerm elements = (CompoundTerm) root;
+//			if(index < elements.getArguments().size()) {
+//				Expression expr = elements.getArguments().get(index);
+//				if(expr instanceof CompoundTerm) {
+//					CompoundTerm argument = (CompoundTerm) expr;
+//					return argument.getValue();
+//				}
+//				
+//			}
+//		}
+//
+//		return null;
+//	}
+//	
+//	private EObject getRootObject(String query) {
+//		Reader targetReader = new StringReader(query);
+//		IParseResult result = this.parser.parse(this.parser.getGrammarAccess().getExpression_1100_xfyRule(), targetReader);
+//
+//		return result.getRootASTElement();
+//	}
 
 }

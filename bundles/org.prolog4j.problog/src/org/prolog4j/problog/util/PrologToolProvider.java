@@ -15,6 +15,10 @@ import org.eclipse.core.runtime.Platform;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
 
+/**
+ * Not needed? Delete?
+ *
+ */
 @Component(scope = ServiceScope.SINGLETON)
 public class PrologToolProvider {
 

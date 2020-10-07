@@ -3,6 +3,8 @@ package org.prolog4j.problog.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.palladiosimulator.supporting.prolog.model.prolog.expressions.Expression;
+
 /**
  * A single result of a free variable in Problog, 
  * containing the value and probability.
@@ -11,15 +13,15 @@ import java.util.List;
  */
 public class ProblogResult {
 	
-	private final List<String> values = new ArrayList<String>();
+	private final List<Expression> values = new ArrayList<Expression>();
 	private final List<Double> probabilities = new ArrayList<Double>();
 	private int currentValuePos = 0;
 	
 	public ProblogResult() {}
 	
-	public String getValue() {
+	public Expression getValue() {
 		if(hasNextValue()) {
-			String result = values.get(currentValuePos);
+			Expression result = values.get(currentValuePos);
 			currentValuePos++;
 			return result;
 		} else {
@@ -27,7 +29,7 @@ public class ProblogResult {
 		}
 	}
 	
-	public void addValue(String value, double probability) {
+	public void addValue(Expression value, double probability) {
 		values.add(value);
 		probabilities.add(probability);
 	}

@@ -1,93 +1,67 @@
 package org.prolog4j.problog.impl;
 
-import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.parser.IParseResult;
-import org.palladiosimulator.supporting.prolog.PrologStandaloneSetup;
+import org.eclipse.xtext.resource.XtextResource;
+import org.palladiosimulator.supporting.prolog.api.PrologAPI;
 import org.palladiosimulator.supporting.prolog.model.prolog.CompoundTerm;
+import org.palladiosimulator.supporting.prolog.model.prolog.PrologFactory;
 import org.palladiosimulator.supporting.prolog.model.prolog.expressions.Expression;
+import org.palladiosimulator.supporting.prolog.model.prolog.expressions.LogicalAnd;
 import org.palladiosimulator.supporting.prolog.parser.antlr.PrologParser;
-import org.palladiosimulator.supporting.prolog.services.PrologGrammarAccess;
-import org.palladiosimulator.supporting.prolog.services.PrologGrammarAccess.CompoundTermElements;
 import org.prolog4j.Query;
 import org.prolog4j.Solution;
-import org.prolog4j.problog.util.PrologToolProvider;
-
-import com.google.common.base.CharMatcher;
-import com.google.inject.Injector;
 
 public class ProblogQuery extends Query {
 
-	private ProblogProver prover;
+	private final ProblogProver prover;
+	private final PrologParser parser;
+	private final QueryReplacer queryReplacer;
+	private final PrologAPI prologAPI;
 
-	protected ProblogQuery(ProblogProver prover, String goalPattern) {
+	protected ProblogQuery(ProblogProver prover, PrologAPI prologAPI, String goalPattern) {
 		super(goalPattern);
 		this.prover = prover;
+		this.prologAPI = prologAPI;
+		this.parser = prologAPI.getParser();
+		this.queryReplacer = new QueryReplacer(prover.getConversionPolicy(), prologAPI, goalPattern);
 	}
 
 	@Override
 	public <A> Solution<A> solve(Object... actualArgs) {
-		if(getPlaceholderNames().size() != actualArgs.length) {
-			// throw exeption?
-		}
-		// replace placeholders with actual arguments
-		String goal = getGoal();
-		for(int i = 0; i < actualArgs.length; ++i) {
-			String placeholder = getPlaceholderNames().get(i);
-			String argument = (String)prover.getConversionPolicy().convertObject(actualArgs[i]);
-			goal = goal.replaceFirst(placeholder, argument);
-
-
-		}
-
-		List<String> queries = parseQueries(goal);
-		String knowledgeBase = prover.combineKnowledgeBase();
-		StringBuilder queryRuleBuilder = new StringBuilder();
-		queryRuleBuilder.append("queryrule(");
-
+		//TODO: The QueryReplacer has been straight up copied from the swicli-bundle
+		// there are a lot of similarities --> maybe centralized classes for text based prolog apis
+		String newGoal = queryReplacer.getQueryString(actualArgs);
+		
+		List<String> queries = parseQueries(newGoal);
+		
+		//get free variables from each query and create list
 		List<String> freeVariables = new ArrayList<String>();
-
-		//get free variables of each query
-		StringBuilder freeVarsListBuilder = new StringBuilder();
-		if(!queries.isEmpty()) {
-			System.out.println("-----------------------------------------------------------");
-			System.out.println(queries.get(0));
-			List<String> tmp = getFreeVariablesExtensionPoint(queries.get(0));
-			freeVariables.addAll(tmp);
-			freeVarsListBuilder.append(String.join(",", tmp));
-			for(int i = 1; i < queries.size(); ++i) {
-				System.out.println("-----------------------------------------------------------");
-				System.out.println(queries.get(i));
-				tmp = getFreeVariablesExtensionPoint(queries.get(i));
-				if(!freeVariables.isEmpty()) {
-					freeVarsListBuilder.append(",");
-				}
-				freeVariables.addAll(tmp);
-				freeVarsListBuilder.append(String.join(",", tmp));
-			}
-
+		for(int i = 0; i < queries.size(); ++i) {
+			List<String> freeVarsOfQuery = getFreeVariablesExtensionPoint(queries.get(i));
+			freeVariables.addAll(freeVarsOfQuery);
 		}
+		String freeVariableString = String.join(",", freeVariables);
 
-		queryRuleBuilder.append(freeVarsListBuilder.toString()).append(")");
+		//create queryrule
+		StringBuilder queryRuleBuilder = new StringBuilder();
+		queryRuleBuilder.append("queryrule(").append(freeVariableString).append(")");
 		String queryRulePredicate = queryRuleBuilder.toString();
 		queryRuleBuilder.append(" :- ").append(String.join(",", queries)).append(".");
 
 		//create full output
+		String knowledgeBase = prover.combineKnowledgeBase();
 		StringBuilder problogQueryBuilder = new StringBuilder();
 		problogQueryBuilder.append(knowledgeBase).append(queryRuleBuilder.toString()).append("\nquery(").append(queryRulePredicate).append(").");
 
 		// run jproblog
 		String solution = this.prover.getJProblog().getProcessor().apply(problogQueryBuilder.toString());
 
-		return new ProblogSolution<A>(freeVariables, solution, this.prover.getConversionPolicy());
+		return new ProblogSolution<A>(freeVariables, solution, this.prover.getConversionPolicy(), this.parser);
 	}
 
 	@Override
@@ -104,13 +78,7 @@ public class ProblogQuery extends Query {
 
 	private List<String> getFreeVariablesExtensionPoint(String query) {
 		List<String> freeVariables = new ArrayList<String>();
-		PrologToolProvider toolProvider = new PrologToolProvider();
-		PrologParser parser = toolProvider.getParser();
-		PrologGrammarAccess grammar = toolProvider.getGrammarAccess();
-
-		Reader targetReader = new StringReader(query);
-
-		IParseResult result = parser.parse(grammar.getExpression_1100_xfyRule(), targetReader);
+		IParseResult result = this.parser.parse(this.parser.getGrammarAccess().getExpression_1100_xfyRule(), new StringReader(query));
 
 		EObject root = result.getRootASTElement();
 		if(root != null && root instanceof CompoundTerm) {
@@ -118,9 +86,9 @@ public class ProblogQuery extends Query {
 			for(Expression expr : elements.getArguments()) {
 				if(expr instanceof CompoundTerm) {
 					CompoundTerm argument = (CompoundTerm)expr;
-					//todo: maybe check if argument list is null before calling isEmpty
+					//TODO: maybe check if argument list is null before calling isEmpty
 					//this currently has not and should not result in an error
-					if(argument.getArguments().isEmpty() && argument.getValue().length() == 1) {
+					if(argument.getArguments().isEmpty() && !argument.getValue().isEmpty()) {
 						if(Character.isUpperCase(argument.getValue().charAt(0))) {
 							freeVariables.add(argument.getValue());
 						}
@@ -135,38 +103,47 @@ public class ProblogQuery extends Query {
 	// parse Queries and seperate them at ',' 
 	private List<String> parseQueries(String concatenatedQueries) {
 		List<String> queries = new ArrayList<>();
-		String[] splitQueries = concatenatedQueries.split(",");
-		int openBracketCount = 0;
-		int openSquareBracketCount = 0;
-		StringBuilder queryBuilder = new StringBuilder();
-		for(String queryFragment : splitQueries) {
-			openBracketCount += CharMatcher.is('(').countIn(queryFragment);
-			openBracketCount -= CharMatcher.is(')').countIn(queryFragment);
-
-			openSquareBracketCount += CharMatcher.is('[').countIn(queryFragment);
-			openSquareBracketCount -= CharMatcher.is(']').countIn(queryFragment);
-
-			if(queryFragment.endsWith(".")) {
-				queryFragment = queryFragment.substring(0, queryFragment.length() - 1);
-			}
-			queryFragment = queryFragment.trim();
-			queryBuilder.append(queryFragment);
-
-			if(openBracketCount == 0 && openSquareBracketCount == 0) {
-				queries.add(queryBuilder.toString());
-				queryBuilder = new StringBuilder();
-			} else {
-				queryBuilder.append(",");
-			}
+		IParseResult parseResult = this.parser.parse(this.parser.getGrammarAccess().getExpression_1100_xfyRule(), new StringReader(concatenatedQueries));
+		
+		if(parseResult.getRootASTElement() instanceof LogicalAnd) {
+			LogicalAnd and = (LogicalAnd) parseResult.getRootASTElement();
+			queries.addAll(parseQueries(and.getLeft()));
+			queries.addAll(parseQueries(and.getRight()));
+		} else if(parseResult.getRootASTElement() instanceof Expression) {
+			String query = serializeExpression((Expression)parseResult.getRootASTElement());
+			queries.add(query);
 		}
+		
 		return queries;
 	}
-
-	//	private void getFreeVariablesStandalone(String query) {
-	//	PrologStandaloneSetup setup = new PrologStandaloneSetup();
-	//	Injector inject = setup.createInjectorAndDoEMFRegistration();
-	//	PrologParser parser = inject.getInstance(PrologParser.class);
-	//	parser.doParse(query);
-	//}
-
+	
+	private List<String> parseQueries(Expression expr) {
+		List<String> queries = new ArrayList<>();
+		
+		if(expr instanceof LogicalAnd) {
+			LogicalAnd and = (LogicalAnd) expr;
+			queries.addAll(parseQueries(and.getLeft()));
+			queries.addAll(parseQueries(and.getRight()));
+		} else if(expr instanceof Expression) {
+			String query = serializeExpression((Expression)expr);
+			queries.add(query);
+		}
+		
+		return queries;
+	}
+	
+	public String serializeExpression(Expression expr) {
+    	var program = PrologFactory.eINSTANCE.createProgram();
+        var rule = PrologFactory.eINSTANCE.createRule();
+        program.getClauses().add(rule);
+        var head = PrologFactory.eINSTANCE.createCompoundTerm();
+        rule.setHead(head);
+        head.setValue("test");
+        rule.setBody(expr);
+        var r = new XtextResource();
+        r.getContents().add(program);
+        String termString = prologAPI.getSerializer()
+            .serialize(expr);
+        return termString;
+    }
 }
