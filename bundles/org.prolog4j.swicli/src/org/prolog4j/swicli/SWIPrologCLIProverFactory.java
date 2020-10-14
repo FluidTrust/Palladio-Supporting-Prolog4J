@@ -14,8 +14,8 @@ import org.osgi.service.component.annotations.ServiceScope;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.IProverFactory;
 import org.prolog4j.Prover;
-import org.prolog4j.swicli.impl.PrologAPIWrapper;
-import org.prolog4j.swicli.impl.SWIPrologCLIConversionPolicy;
+import org.prolog4j.base.MetaModelBasedConversionPolicy;
+import org.prolog4j.base.PrologAPIWrapper;
 import org.prolog4j.swicli.impl.SWIPrologCLIProver;
 
 @Component(immediate = true, property = { "id=org.prolog4j.swicli.proverfactory", "name=SWI Prolog CLI Interpreter",
@@ -91,12 +91,12 @@ public class SWIPrologCLIProverFactory implements IProverFactory {
     
     @Override
     public Prover createProver() {
-        return new SWIPrologCLIProver(createConversionPolicy(), prologApiWrapper.getPrologApi(), getExecutable());
+        return new SWIPrologCLIProver(createConversionPolicy(), prologApiWrapper, getExecutable());
     }
 
     @Override
     public ConversionPolicy createConversionPolicy() {
-        return new SWIPrologCLIConversionPolicy(prologApiWrapper.getPrologApi()
+        return new MetaModelBasedConversionPolicy(prologApiWrapper.getPrologApi()
             .getParser());
     }
     

@@ -12,30 +12,57 @@ import org.palladiosimulator.supporting.prolog.model.prolog.expressions.Expressi
  * @author Nicolas Boltz
  */
 public class ProblogResult {
-	
-	private final List<Expression> values = new ArrayList<Expression>();
-	private final List<Double> probabilities = new ArrayList<Double>();
-	private int currentValuePos = 0;
-	
-	public ProblogResult() {}
-	
-	public Expression getValue() {
-		if(hasNextValue()) {
-			Expression result = values.get(currentValuePos);
-			currentValuePos++;
-			return result;
-		} else {
-			return null;
+	private class Result {
+		private final Expression value;
+		private final Double probability;
+		
+		private Result(Expression value, Double probability) {
+			this.value = value;
+			this.probability = probability;
+		}
+		
+		private Expression getValue() {
+			return this.value;
+		}
+		
+		private Double getProbability() {
+			return this.probability;
 		}
 	}
 	
-	public void addValue(Expression value, double probability) {
-		values.add(value);
-		probabilities.add(probability);
+	private final List<Result> results = new ArrayList<Result>();
+	private int currentResult = 0;
+	
+	private Result getResult() {
+		if(results.isEmpty()) {
+			return null;
+		}
+		return results.get(currentResult);
 	}
 	
-	public boolean hasNextValue() {
-		if(currentValuePos < values.size()) {
+	public Expression getValue() {
+		return getResult().getValue();
+	}
+	
+	public Double getProbability() {
+		return getResult().getProbability();
+	}
+	
+	public void addResult(Expression value, double probability) {
+		results.add(new Result(value, probability));
+	}
+	
+	public boolean fetch() {
+		if(hasNextValue()) {
+			currentResult++;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean hasNextValue() {
+		if(currentResult < results.size() - 1) {
 			return true;
 		} else {
 			return false;

@@ -45,6 +45,15 @@ public class ProblogSolution<S> extends Solution<S> {
 		separateSolutions();
 	}
 	
+	public Double getProbability(String variable) {
+		ProblogResult result = variableValues.get(variable);
+		if(result != null) {
+			return result.getProbability();
+		} else {
+			return 0.0;
+		}
+	}
+	
 	private void separateSolutions() {
 		List<String> solutions = Arrays.asList(rawSolutions.split("\n"));
 		int validSolutions = 0;
@@ -97,17 +106,17 @@ public class ProblogSolution<S> extends Solution<S> {
 	
 	private void addValueToMap(String key, Expression value, double probability) {
 		if(variableValues.containsKey(key)) {
-			variableValues.get(key).addValue(value, probability);
+			variableValues.get(key).addResult(value, probability);
 		} else {
 			ProblogResult result = new ProblogResult();
-			result.addValue(value, probability);
+			result.addResult(value, probability);
 			variableValues.put(key, result);
 		}
 	}
 
 	@Override
 	public boolean isSuccess() {
-		// true if probability is 1 (100%)
+		// true if probability is 1 (100%) --> really true?!
 		boolean success = overallProbability == 1.0 ? true : false;
 		return success;
 	}
@@ -140,14 +149,13 @@ public class ProblogSolution<S> extends Solution<S> {
 	
 	@Override
 	protected boolean fetch() {
-		//does not really fetch, since all solutions are already in variableValues
 		if(freeVariables.isEmpty()) {
-			return variableValues.get("").hasNextValue();
+			return variableValues.get("").fetch();
 		} else {
-			//TODO: Produziert einen Fehler im Zusammenhang mit on(), da hier jetzt die falsche Variable
-			//gefetched wird, da es aber bei mehrfachen freien vars immer die maximale Anzahl an Ergebnissen für jede
-			//Var gibt, könnte es trotzdem passen.
-			return variableValues.get(freeVariables.get(0)).hasNextValue();
+			//TODO: Produziert vielleicht einen Fehler im Zusammenhang mit on(), da hier jetzt die falsche Variable
+			//gefetched wird, da es aber bei mehrfachen freien vars immer die gleiche Anzahl an Ergebnissen für jede
+			//Var gibt, sollte es trotzdem passen.
+			return variableValues.get(freeVariables.get(0)).fetch();
 		}
 		
 	}

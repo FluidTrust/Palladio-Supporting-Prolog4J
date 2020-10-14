@@ -12,7 +12,6 @@ import java.util.stream.StreamSupport;
 import org.eclipse.xtext.nodemodel.INode;
 import org.eclipse.xtext.nodemodel.SyntaxErrorMessage;
 import org.eclipse.xtext.parser.IParseResult;
-import org.palladiosimulator.supporting.prolog.api.PrologAPI;
 import org.palladiosimulator.supporting.prolog.model.prolog.False;
 import org.palladiosimulator.supporting.prolog.model.prolog.expressions.Expression;
 import org.palladiosimulator.supporting.prolog.parser.antlr.PrologParser;
@@ -20,26 +19,28 @@ import org.prolog4j.ConversionPolicy;
 import org.prolog4j.InvalidQueryException;
 import org.prolog4j.Query;
 import org.prolog4j.Solution;
+import org.prolog4j.base.PrologAPIWrapper;
+import org.prolog4j.base.QueryReplacer;
 import org.prolog4j.swicli.SWIPrologExecutable;
 
 public class SWIPrologCLIQuery extends Query {
 
 //    private final Map<String, String> replacements = new HashMap<>();
     private final ConversionPolicy cp;
-    private final PrologAPI prologAPI;
+    private final PrologAPIWrapper prologAPIWrapper;
     private final SWIPrologExecutable executable;
     private final String theory;
     private final PrologParser prologParser;
     private final QueryReplacer queryReplacer;
     
-    public SWIPrologCLIQuery(ConversionPolicy cp, PrologAPI prologAPI, SWIPrologExecutable executable, String theory, String goalPattern) {
+    public SWIPrologCLIQuery(ConversionPolicy cp, PrologAPIWrapper prologAPIWrapper, SWIPrologExecutable executable, String theory, String goalPattern) {
         super(goalPattern);
         this.cp = cp;
-        this.prologAPI = prologAPI;
+        this.prologAPIWrapper = prologAPIWrapper;
         this.executable = executable;
         this.theory = theory;
-        this.prologParser = prologAPI.getParser();
-        this.queryReplacer = new QueryReplacer(cp, prologAPI, goalPattern);
+        this.prologParser = prologAPIWrapper.getPrologApi().getParser();
+        this.queryReplacer = new QueryReplacer(cp, prologAPIWrapper, goalPattern);
     }
 
     @Override
@@ -111,7 +112,7 @@ public class SWIPrologCLIQuery extends Query {
     }
     
     private String executeQuery(String newGoal) throws IOException, InterruptedException, ExecutionException {
-        SWIPrologCLIRun cliRun = new SWIPrologCLIRun(executable, prologAPI);
+        SWIPrologCLIRun cliRun = new SWIPrologCLIRun(executable, prologAPIWrapper.getPrologApi());
         String resultString = cliRun.execute(theory, newGoal);
         return resultString;
     }

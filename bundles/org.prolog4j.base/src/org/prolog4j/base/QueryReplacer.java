@@ -1,21 +1,20 @@
-package org.prolog4j.problog.impl;
+package org.prolog4j.base;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 
-import org.eclipse.xtext.resource.XtextResource;
-import org.palladiosimulator.supporting.prolog.api.PrologAPI;
-import org.palladiosimulator.supporting.prolog.model.prolog.PrologFactory;
 import org.palladiosimulator.supporting.prolog.model.prolog.Term;
-import org.palladiosimulator.supporting.prolog.model.prolog.expressions.Expression;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.Query;
 import org.prolog4j.Solution;
 
 /**
- * Copied from swicli bundle!!
+ * Class for replacing the placeholders in a query with the given arguments.
+ * 
+ * @author Stephan Seifermann
+ * @author Nicolas Boltz
  */
 public class QueryReplacer {
 
@@ -23,12 +22,12 @@ public class QueryReplacer {
 
         private final Map<String, String> replacements = new HashMap<>();
         private final ConversionPolicy conversionPolicy;
-        private final PrologAPI prologAPI;
+        private final PrologAPIWrapper prologAPIWrapper;
 
-        public NestedQuery(String goalPattern, ConversionPolicy conversionPolicy, PrologAPI prologAPI) {
+        public NestedQuery(String goalPattern, ConversionPolicy conversionPolicy, PrologAPIWrapper prologAPIWrapper) {
             super(goalPattern);
             this.conversionPolicy = conversionPolicy;
-            this.prologAPI = prologAPI;
+            this.prologAPIWrapper = prologAPIWrapper;
         }
 
         @Override
@@ -80,23 +79,8 @@ public class QueryReplacer {
                 .filter(Term.class::isInstance)
                 .map(Term.class::cast)
                 .orElseGet(() -> (Term) conversionPolicy.convertObject(value));
-            var termString = serializeTerm(term);
+            var termString = prologAPIWrapper.serializeExpression(term);
             replacements.put(placeholderName, termString);
-        }
-
-        protected String serializeTerm(Term term) {
-            var program = PrologFactory.eINSTANCE.createProgram();
-            var rule = PrologFactory.eINSTANCE.createRule();
-            program.getClauses().add(rule);
-            var head = PrologFactory.eINSTANCE.createCompoundTerm();
-            rule.setHead(head);
-            head.setValue("test");
-            rule.setBody(term);
-            var r = new XtextResource();
-            r.getContents().add(program);
-            String termString = prologAPI.getSerializer()
-                .serialize(term);
-            return termString;
         }
 
         protected String getNextUnboundPlaceholder() {
@@ -115,18 +99,31 @@ public class QueryReplacer {
 
     private final NestedQuery nestedQuery;
 
-    public QueryReplacer(ConversionPolicy conversionPolicy, PrologAPI prologAPI, String pattern) {
-        this.nestedQuery = new NestedQuery(pattern, conversionPolicy, prologAPI);
+    public QueryReplacer(ConversionPolicy conversionPolicy, PrologAPIWrapper prologAPIWrapper, String pattern) {
+        this.nestedQuery = new NestedQuery(pattern, conversionPolicy, prologAPIWrapper);
     }
 
+    /**
+     * Binds the given value to the placeholder with the index 'argument'.
+     */
     public Query bind(int argument, Object value) {
         return nestedQuery.bind(argument, value);
     }
 
+    /**
+     * Binds the given value to the placeholder variable.
+     */
     public Query bind(String variable, Object value) {
         return nestedQuery.bind(variable, value);
     }
 
+    /**
+     * Replaces the placeholders in the pattern string with the actualArgs.
+     * If not bound to anything, placeholders are replaced in the order they occur in the pattern string.
+     * 
+     * @param actualArgs Actual values for the placeholders.
+     * @return Query string with replaced placeholders
+     */
     public String getQueryString(Object... actualArgs) {
         return nestedQuery.buildGoalString(actualArgs);
     }

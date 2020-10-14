@@ -9,7 +9,8 @@ Require-Bundle: org.palladiosimulator.supporting.prolog.api;bundle-version="1.0.
 Import-Package: com.google.inject,
  org.osgi.framework;version="1.9.0",
  org.osgi.service.component.annotations;version="1.3.0",
- org.prolog4j
+ org.prolog4j,
+ org.prolog4j.base
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.prolog4j.swicli.impl.SWIPrologCLIActivator
 Service-Component: OSGI-INF/org.prolog4j.swicli.SWIPrologCLIProverFactory.xml,

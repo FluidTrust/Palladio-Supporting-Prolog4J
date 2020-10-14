@@ -3,10 +3,10 @@ package org.prolog4j.problog.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.palladiosimulator.supporting.prolog.api.PrologAPI;
 import org.prolog4j.AbstractProver;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.Query;
+import org.prolog4j.base.PrologAPIWrapper;
 
 import de.tudresden.inf.lat.jproblog.JProblog;
 
@@ -18,13 +18,13 @@ public class ProblogProver extends AbstractProver {
 	
 	private List<String> knowledgeBase;
 	
-	private PrologAPI prologAPI;
+	private PrologAPIWrapper prologAPIWrapper;
 	
-	public ProblogProver(PrologAPI prologAPI, ConversionPolicy conversionPolicy) {
+	public ProblogProver(PrologAPIWrapper prologAPIWrapper, ConversionPolicy conversionPolicy) {
 		super(conversionPolicy);
 		this.jproblog = new JProblog();
 		this.knowledgeBase = new ArrayList<>();
-		this.prologAPI = prologAPI;
+		this.prologAPIWrapper = prologAPIWrapper;
 		
 		this.loadLibrary("lists");
 		this.loadLibrary("assert");
@@ -32,7 +32,7 @@ public class ProblogProver extends AbstractProver {
 
 	@Override
 	public Query query(String goal) {
-		return new ProblogQuery(this, prologAPI, goal);
+		return new ProblogQuery(this, prologAPIWrapper, goal);
 	}
 
 	@Override

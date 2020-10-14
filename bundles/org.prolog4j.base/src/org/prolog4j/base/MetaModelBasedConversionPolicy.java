@@ -1,4 +1,4 @@
-package org.prolog4j.swicli.impl;
+package org.prolog4j.base;
 
 import java.io.StringReader;
 import java.lang.reflect.Array;
@@ -24,24 +24,15 @@ import org.prolog4j.Compound;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.Converter;
 
-public class SWIPrologCLIConversionPolicy extends ConversionPolicy {
+public class MetaModelBasedConversionPolicy extends ConversionPolicy {
 
     private static final PrologFactory FACTORY = PrologFactory.eINSTANCE;
     @SuppressWarnings("unchecked")
     private static final Class<Collection<?>> CLZ_COLLECTION = (Class<Collection<?>>) ((Class<?>) Collection.class);
     private final PrologParser parser;
 
-    public SWIPrologCLIConversionPolicy(PrologParser parser) {
+    public MetaModelBasedConversionPolicy(PrologParser parser) {
         this.parser = parser;
-
-        addObjectConverter(String.class, new Converter<String>() {
-            @Override
-            public Object convert(String value) {
-                AtomicQuotedString term = FACTORY.createAtomicQuotedString();
-                term.setValue(value.replaceFirst("'([^']+)'", "$1"));
-                return term;
-            }
-        });
 
         addObjectConverter(Integer.class, new Converter<Integer>() {
             @Override
@@ -56,11 +47,27 @@ public class SWIPrologCLIConversionPolicy extends ConversionPolicy {
                 return term(value.intValue());
             }
         });
+        
+		addObjectConverter(Float.class, new Converter<Float>() {
+            @Override
+            public Object convert(Float value) {
+                return term(value.doubleValue());
+            }
+        });
 
         addObjectConverter(Double.class, new Converter<Double>() {
             @Override
             public Object convert(Double value) {
                 return term(value);
+            }
+        });
+        
+        addObjectConverter(String.class, new Converter<String>() {
+            @Override
+            public Object convert(String value) {
+                AtomicQuotedString term = FACTORY.createAtomicQuotedString();
+                term.setValue(value.replaceFirst("'([^']+)'", "$1"));
+                return term;
             }
         });
 
@@ -142,7 +149,7 @@ public class SWIPrologCLIConversionPolicy extends ConversionPolicy {
                     .isEmpty()) {
                     var arguments = term.getArguments()
                         .stream()
-                        .map(SWIPrologCLIConversionPolicy.this::convertTerm)
+                        .map(MetaModelBasedConversionPolicy.this::convertTerm)
                         .collect(Collectors.toList());
                     return new Compound(term.getValue(), arguments.toArray());
                 }
@@ -153,7 +160,6 @@ public class SWIPrologCLIConversionPolicy extends ConversionPolicy {
 
     @Override
     public boolean match(Object term1, Object term2) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -182,8 +188,7 @@ public class SWIPrologCLIConversionPolicy extends ConversionPolicy {
     @Override
     public boolean isCompound(Object term) {
         if (term instanceof CompoundTerm) {
-            return !((CompoundTerm) term).getArguments()
-                .isEmpty();
+            return !((CompoundTerm) term).getArguments().isEmpty();
         }
         return false;
     }
@@ -285,8 +290,7 @@ public class SWIPrologCLIConversionPolicy extends ConversionPolicy {
     @Override
     public int getArity(Object compound) {
         if (compound instanceof CompoundTerm) {
-            return ((CompoundTerm) compound).getArguments()
-                .size();
+            return ((CompoundTerm) compound).getArguments().size();
         }
         throw new IllegalArgumentException();
     }
@@ -301,5 +305,4 @@ public class SWIPrologCLIConversionPolicy extends ConversionPolicy {
         }
         throw new IllegalArgumentException();
     }
-
 }

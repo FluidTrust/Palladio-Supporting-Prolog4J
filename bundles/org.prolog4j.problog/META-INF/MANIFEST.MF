@@ -6,8 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: org.prolog4j.problog
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.osgi.service.component.annotations;version="1.2.0",
- org.prolog4j
-Service-Component: OSGI-INF/org.prolog4j.problog.ProblogProverFactory.xml
+ org.prolog4j,
+ org.prolog4j.base
 Bundle-ActivationPolicy: lazy
 Export-Package: org.prolog4j.problog
 Bundle-ClassPath: .,
