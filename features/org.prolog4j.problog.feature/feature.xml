@@ -18,7 +18,7 @@
 
    <requires>
       <import feature="org.prolog4j.core.feature" version="1.0.0" match="compatible"/>
-      <import feature="org.palladiosimulator.supporting.prolog.serializer.feature" version="4.3.0.202009191341"/>
+      <import feature="org.palladiosimulator.supporting.prolog.serializer.feature" version="4.3.0.qualifier"/>
    </requires>
 
    <plugin
