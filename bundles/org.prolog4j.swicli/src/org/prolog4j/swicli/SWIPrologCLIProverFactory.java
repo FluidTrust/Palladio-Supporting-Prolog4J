@@ -15,6 +15,7 @@ import org.prolog4j.ConversionPolicy;
 import org.prolog4j.IProverFactory;
 import org.prolog4j.Prover;
 import org.prolog4j.base.MetaModelBasedConversionPolicy;
+import org.prolog4j.base.PrioritizedExecutableProvider;
 import org.prolog4j.base.PrologAPIWrapper;
 import org.prolog4j.swicli.impl.SWIPrologCLIProver;
 
@@ -43,34 +44,9 @@ public class SWIPrologCLIProverFactory implements IProverFactory {
             return provider;
         }
     }
-    
-    protected static class PrioritizedProvider implements Comparable<PrioritizedProvider> {
-        private final int priority;
-        private final SWIPrologExecutableProvider provider;
-
-        public PrioritizedProvider(int priority, SWIPrologExecutableProvider provider) {
-            super();
-            this.priority = priority;
-            this.provider = provider;
-        }
-
-        public int getPriority() {
-            return priority;
-        }
-
-        public SWIPrologExecutableProvider getProvider() {
-            return provider;
-        }
-
-        @Override
-        public int compareTo(PrioritizedProvider o) {
-            return priority - o.priority;
-        }
-
-    }
 
     private final PrologAPIWrapper prologApiWrapper = new PrologAPIWrapper();
-    private final SortedSet<PrioritizedProvider> executableProviders = new TreeSet<>();
+    private final SortedSet<PrioritizedExecutableProvider<SWIPrologExecutableProvider>> executableProviders = new TreeSet<>();
 
     /**
      * Default constructor to be used by OSGi.
@@ -124,7 +100,7 @@ public class SWIPrologCLIProverFactory implements IProverFactory {
                     // just ignore it and use default priority
                 }
             }
-            executableProviders.add(new PrioritizedProvider(priorityNumeric, provider));
+            executableProviders.add(new PrioritizedExecutableProvider<SWIPrologExecutableProvider>(priorityNumeric, provider));
         }
     }
 

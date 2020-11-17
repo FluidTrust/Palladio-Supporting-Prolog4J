@@ -7,6 +7,7 @@ import org.prolog4j.AbstractProver;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.Query;
 import org.prolog4j.base.PrologAPIWrapper;
+import org.prolog4j.problog.ProblogExecutable;
 
 import de.tudresden.inf.lat.jproblog.JProblog;
 
@@ -19,12 +20,14 @@ public class ProblogProver extends AbstractProver {
 	private List<String> knowledgeBase;
 	
 	private PrologAPIWrapper prologAPIWrapper;
+	private final ProblogExecutable executable;
 	
-	public ProblogProver(PrologAPIWrapper prologAPIWrapper, ConversionPolicy conversionPolicy) {
+	public ProblogProver(PrologAPIWrapper prologAPIWrapper, ConversionPolicy conversionPolicy, ProblogExecutable executable) {
 		super(conversionPolicy);
 		this.jproblog = new JProblog();
 		this.knowledgeBase = new ArrayList<>();
 		this.prologAPIWrapper = prologAPIWrapper;
+		this.executable = executable;
 		
 		this.loadLibrary("lists");
 		this.loadLibrary("assert");
@@ -32,7 +35,7 @@ public class ProblogProver extends AbstractProver {
 
 	@Override
 	public Query query(String goal) {
-		return new ProblogQuery(this, prologAPIWrapper, goal);
+		return new ProblogQuery(this, prologAPIWrapper, goal, executable);
 	}
 
 	@Override

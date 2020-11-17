@@ -15,6 +15,7 @@ import org.prolog4j.Query;
 import org.prolog4j.Solution;
 import org.prolog4j.base.PrologAPIWrapper;
 import org.prolog4j.base.QueryReplacer;
+import org.prolog4j.problog.ProblogExecutable;
 
 public class ProblogQuery extends Query {
 
@@ -22,13 +23,15 @@ public class ProblogQuery extends Query {
 	private final PrologParser parser;
 	private final QueryReplacer queryReplacer;
 	private final PrologAPIWrapper prologAPIWrapper;
+	private final ProblogExecutable executable;
 	
-	protected ProblogQuery(ProblogProver prover, PrologAPIWrapper prologAPIWrapper, String goalPattern) {
+	protected ProblogQuery(ProblogProver prover, PrologAPIWrapper prologAPIWrapper, String goalPattern, ProblogExecutable executable) {
 		super(goalPattern);
 		this.prover = prover;
 		this.prologAPIWrapper = prologAPIWrapper;
 		this.parser = prologAPIWrapper.getPrologApi().getParser();
 		this.queryReplacer = new QueryReplacer(prover.getConversionPolicy(), prologAPIWrapper, goalPattern);
+		this.executable = executable;
 	}
 
 	@Override
@@ -61,8 +64,11 @@ public class ProblogQuery extends Query {
 		StringBuilder problogQueryBuilder = new StringBuilder();
 		problogQueryBuilder.append(knowledgeBase).append(queryRuleBuilder.toString()).append("\nquery(").append(queryRulePredicate).append(").");
 
-		// run jproblog
-		String solution = this.prover.getJProblog().getProcessor().apply(problogQueryBuilder.toString());
+		// run ProbLog
+		String solution = executable.execute(problogQueryBuilder.toString());
+		
+		// run jproblog old --> delete
+		//String solution = this.prover.getJProblog().getProcessor().apply(problogQueryBuilder.toString());
 
 		return new ProblogSolution<A>(freeVariables, solution, this.prover.getConversionPolicy(), this.parser);
 	}

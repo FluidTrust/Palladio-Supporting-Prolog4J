@@ -3,7 +3,6 @@ package org.prolog4j.swicli.enabler;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.prolog4j.swicli.SWIPrologExecutable;
 
 public class SimpleSWIPrologExecutable implements SWIPrologExecutable {

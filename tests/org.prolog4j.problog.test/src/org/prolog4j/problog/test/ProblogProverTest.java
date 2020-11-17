@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,7 +14,10 @@ import org.prolog4j.Compound;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.Converter;
 import org.prolog4j.Solution;
+import org.prolog4j.problog.DefaultProblogExecutableProvider;
+import org.prolog4j.problog.ProblogExecutableProvider;
 import org.prolog4j.problog.ProblogProverFactory;
+import org.prolog4j.problog.enabler.ProblogStandaloneExecutableProvider;
 import org.prolog4j.problog.impl.ProblogSolution;
 import org.prolog4j.test.ProverTest;
 
@@ -22,7 +27,17 @@ import org.prolog4j.test.ProverTest;
 public class ProblogProverTest extends ProverTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
-		p = new ProblogProverFactory().createProver();
+		var factory = new ProblogProverFactory();
+		//currently not fully implemented
+//        Map<Object, Object> properties = new HashMap<>();
+//        properties.put(ProblogExecutableProvider.PRIORITY_PROPERTY, ProblogExecutableProvider.PRIORITY_LOWEST);
+//        factory.addProvider(new DefaultProblogExecutableProvider(), properties);
+        
+        Map<Object, Object> properties2 = new HashMap<>();
+        properties2.put(ProblogExecutableProvider.PRIORITY_PROPERTY, ProblogExecutableProvider.PRIORITY_LOWEST - 1);
+        factory.addProvider(new ProblogStandaloneExecutableProvider(), properties2);
+        
+        p = factory.createProver();
 		
 		setup();
 	}

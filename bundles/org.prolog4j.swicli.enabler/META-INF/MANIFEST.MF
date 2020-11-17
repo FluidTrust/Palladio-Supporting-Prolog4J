@@ -5,7 +5,8 @@ Bundle-SymbolicName: org.prolog4j.swicli.enabler
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: org.prolog4j.swicli.enabler
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Require-Bundle: org.prolog4j.swicli;bundle-version="1.0.0"
+Require-Bundle: org.prolog4j.swicli;bundle-version="1.0.0", 
+ org.prolog4j.base
 Service-Component: OSGI-INF/org.prolog4j.swicli.enabler.SWIPrologEmbeddedFallbackExecutableProvider.xml
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,

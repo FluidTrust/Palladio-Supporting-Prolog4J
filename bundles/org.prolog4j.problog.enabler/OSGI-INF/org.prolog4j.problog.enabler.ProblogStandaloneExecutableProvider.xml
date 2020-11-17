@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="org.prolog4j.problog.enabler.ProblogStandaloneExecutableProvider.xml">
+   <property name="priority" value="998"/>
+   <service scope="singleton">
+      <provide interface="org.prolog4j.problog.ProblogExecutableProvider"/>
+   </service>
+   <implementation class="org.prolog4j.problog.enabler.ProblogStandaloneExecutableProvider.xml"/>
+</scr:component>

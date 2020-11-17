@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Problog Enabler
+Bundle-SymbolicName: org.prolog4j.problog.enabler
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: org.prolog4j.problog.enabler
+Bundle-RequiredExecutionEnvironment: JavaSE-14
+Require-Bundle: org.prolog4j.problog;bundle-version="1.0.0", 
+ org.prolog4j.base
+Service-Component: OSGI-INF/org.prolog4j.problog.enabler.ProblogStandaloneExecutableProvider.xml
+Bundle-ActivationPolicy: lazy
+Import-Package: org.osgi.service.component.annotations;version="1.2.0"
+Bundle-ClassPath: .,
+ lib/commons-lang3-3.11.jar
+Export-Package: org.prolog4j.problog.enabler
