@@ -2,9 +2,6 @@ package org.prolog4j.problog.enabler;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -22,7 +19,7 @@ public class ProblogStandaloneExecutable implements ProblogExecutable {
 	public String execute(String problogProgram) {
 		try {
 			//create tmp file for input
-			var inputFile = createPrologFile(problogProgram);
+			var inputFile = ProblogExecutable.createPrologFile(problogProgram, ProblogStandaloneExecutable.class.getSimpleName());
 			return runProblog(inputFile);
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -50,13 +47,4 @@ public class ProblogStandaloneExecutable implements ProblogExecutable {
             throw new IllegalStateException();
         }
 	}
-	
-	// similar copy can be found in SWIPRologCLIRun.java
-    private static File createPrologFile(String program) throws IOException {
-        var tmpFilePath = Files.createTempFile(ProblogStandaloneExecutable.class.getSimpleName(), ".pl");
-        var tmpFile = tmpFilePath.toFile();
-        tmpFile.deleteOnExit();
-        Files.writeString(tmpFilePath, program, StandardCharsets.UTF_8, StandardOpenOption.WRITE);
-        return tmpFile;
-    }
 }

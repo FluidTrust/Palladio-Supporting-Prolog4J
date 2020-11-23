@@ -74,9 +74,7 @@ public class ProblogStandaloneExecutableProvider implements ProblogExecutablePro
 			execFileOutStream.close();
 			execInStream.close();
 			
-			if (!execFile.canExecute()) {
-				execFile.setExecutable(true);
-            }
+			execFile.setExecutable(true);
 			
 			return Optional.of(execFile);
 			

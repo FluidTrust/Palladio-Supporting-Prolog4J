@@ -1,9 +1,7 @@
 package org.prolog4j.problog.enabler;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UncheckedIOException;
 import java.util.Optional;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -20,17 +18,6 @@ public class DefaultProblogExecutableProvider implements ProblogExecutableProvid
 	@Override
 	public Optional<ProblogExecutable> getExecutable() {
 		
-		// For testing!!
-		return Optional.empty();
-		
-//		if(isPythonInstalled()) {
-//			return Optional.of(new DefaultProblogExecutable());
-//		} else {
-//			return Optional.empty();
-//		}
-	}
-	
-	private boolean isPythonInstalled() {
 		String pythonCommand = null;
 		if (SystemUtils.IS_OS_WINDOWS) {
 			pythonCommand = "python";
@@ -39,18 +26,40 @@ public class DefaultProblogExecutableProvider implements ProblogExecutableProvid
 			pythonCommand = "python3";
 		}
 		
+		if(isPythonInstalled(pythonCommand)) {
+			return Optional.of(new DefaultProblogExecutable(pythonCommand));
+		} else {
+			return Optional.empty();
+		}
+	}
+	
+	private boolean isPythonInstalled(String pythonCommand) {
 		try {
-			ProcessBuilder builder = new ProcessBuilder(pythonCommand, "-V");
-			Process process = builder.start();
-			process.waitFor();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec(pythonCommand + " -V").getInputStream()));
 			String line = reader.readLine();
 			return (line != null && (line.startsWith("Python 3.6")));
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+//            if (Runtime.getRuntime()
+//                .exec(pythonCommand + " -V").getErrorStream()
+//                .exitValue() == 0) {
+//                return true;
+//            }
+//            return false;
+        } catch (Exception e) {
+            return false;
+        }
+		
+//		try {
+//			ProcessBuilder builder = new ProcessBuilder(pythonCommand, "-V");
+//			Process process = builder.start();
+//			process.waitFor();
+//			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+//			String line = reader.readLine();
+//			return (line != null && (line.startsWith("Python 3.6")));
+//		} catch (IOException e) {
+//			throw new UncheckedIOException(e);
+//		} catch (InterruptedException e) {
+//			throw new RuntimeException(e);
+//		}
 	}
 
 }
