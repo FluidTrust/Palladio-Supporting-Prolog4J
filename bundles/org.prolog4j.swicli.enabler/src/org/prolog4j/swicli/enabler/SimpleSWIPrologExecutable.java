@@ -30,5 +30,4 @@ public class SimpleSWIPrologExecutable implements SWIPrologExecutable {
     public Map<String, String> getEnvironment() {
         return environment;
     }
-
 }

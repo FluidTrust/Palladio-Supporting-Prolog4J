@@ -22,7 +22,7 @@ import org.prolog4j.swicli.SWIPrologExecutableProvider;
 @Component(scope = ServiceScope.SINGLETON, property = SWIPrologExecutableProvider.PRIORITY_PROPERTY + " = 998")
 public class SWIPrologEmbeddedFallbackExecutableProvider implements SWIPrologExecutableProvider {
 
-    private static final String DEFAULT_PATH = "swipl";
+    
     private final Optional<SWIPrologExecutable> executable;
 
     public SWIPrologEmbeddedFallbackExecutableProvider() {
@@ -37,10 +37,6 @@ public class SWIPrologEmbeddedFallbackExecutableProvider implements SWIPrologExe
     protected Optional<SWIPrologExecutable> createExecutable() {
         // we do not support other combinations yet
         if (!SystemUtils.OS_ARCH.contains("64") || !(SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_LINUX)) {
-            return Optional.empty();
-        }
-
-        if (isSwiplInstalled()) {
             return Optional.empty();
         }
 
@@ -62,20 +58,7 @@ public class SWIPrologEmbeddedFallbackExecutableProvider implements SWIPrologExe
         // we are out of luck
         return Optional.empty();
     }
-
-    protected boolean isSwiplInstalled() {
-        try {
-            if (Runtime.getRuntime()
-                .exec(DEFAULT_PATH + " --version")
-                .exitValue() == 0) {
-                return true;
-            }
-            return false;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
+    
     protected Optional<File> extractArchive(String resourcePath) {
         var cl = SWIPrologEmbeddedFallbackExecutableProvider.class.getClassLoader();
         if (cl.getResource(resourcePath) == null) {

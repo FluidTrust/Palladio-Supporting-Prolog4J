@@ -7,7 +7,8 @@ Automatic-Module-Name: org.prolog4j.swicli.enabler
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.prolog4j.swicli;bundle-version="1.0.0", 
  org.prolog4j.base
-Service-Component: OSGI-INF/org.prolog4j.swicli.enabler.SWIPrologEmbeddedFallbackExecutableProvider.xml
+Service-Component: OSGI-INF/org.prolog4j.swicli.enabler.SWIPrologEmbeddedFallbackExecutableProvider.xml,
+ OSGI-INF/org.prolog4j.swicli.enabler.DefaultSWIPrologExecutableProvider
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  lib/commons-compress-1.20.jar,

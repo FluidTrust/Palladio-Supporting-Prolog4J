@@ -1,10 +1,10 @@
 package org.prolog4j.problog.enabler;
 
-import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UncheckedIOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Optional;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -29,18 +29,17 @@ public class ProblogStandaloneExecutableProvider implements ProblogExecutablePro
 		if (!SystemUtils.OS_ARCH.contains("64") || !(SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_LINUX)) {
 			return Optional.empty();
 		}
-
-		if (isPythonInstalled()) {
+		
+		var file = extractExecutable();
+		
+		if(file.isEmpty()) {
 			return Optional.empty();
+		} else {
+			return Optional.of(new ProblogStandaloneExecutable(file.get()));
 		}
-
-		var resourcePath = getFileName();
-		var file = new File(resourcePath);
-
-		return Optional.of(new ProblogStandaloneExecutable(file));
 	}
 
-	protected String getFileName() {
+	private String getFileName() {
 		String os = null;
 		String ending = null;
 		if (SystemUtils.IS_OS_WINDOWS) {
@@ -55,56 +54,38 @@ public class ProblogStandaloneExecutableProvider implements ProblogExecutablePro
 		return String.format("problog-%s-%s-%s%s", version, os, architecture, ending);
 	}
 	
-	private boolean isPythonInstalled() {
-		String pythonCommand = null;
-		if (SystemUtils.IS_OS_WINDOWS) {
-			pythonCommand = "python";
+	private Optional<File> extractExecutable() {
+		var cl = ProblogStandaloneExecutableProvider.class.getClassLoader();
+		var execFileName = getFileName();
+		if (cl.getResource(execFileName) == null) {
+			return Optional.empty();
 		}
-		if (SystemUtils.IS_OS_LINUX) {
-			pythonCommand = "python3";
+		try (InputStream execInStream = cl.getResourceAsStream(execFileName)) {
+			var execFilePath = Files.createTempFile(execFileName, ""); //suffix already in resourcePath
+	        var execFile = execFilePath.toFile();
+	        execFile.deleteOnExit();
+	        
+	        FileOutputStream execFileOutStream = new FileOutputStream(execFile);
+			while(execInStream.available()>0)
+            { 
+                execFileOutStream.write(execInStream.read());
+            }
+			
+			execFileOutStream.close();
+			execInStream.close();
+			
+			if (!execFile.canExecute()) {
+				execFile.setExecutable(true);
+            }
+			
+			return Optional.of(execFile);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		try {
-			ProcessBuilder builder = new ProcessBuilder(pythonCommand, "-V");
-			Process process = builder.start();
-			process.waitFor();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-			String line = reader.readLine();
-			return (line != null && (line.startsWith("Python 3.6")));
-		} catch (IOException e) {
-			throw new UncheckedIOException(e);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
+		return Optional.empty();
 	}
-	
-//	//Copy executable to tmp dir
-//	protected File extractExecutable(String resourcePath) {
-//		var cl = ProblogStandaloneExecutableProvider.class.getClassLoader();
-//		if (cl.getResource(resourcePath) == null) {
-//			return Optional.empty();
-//		}
-//		try (InputStream archiveStream = cl.getResourceAsStream(resourcePath)) {
-//			File destinationDirectory = Files
-//					.createTempDirectory(ProblogStandaloneExecutableProvider.class.getSimpleName())
-//					.toFile();
-//			FileUtils.forceDeleteOnExit(destinationDirectory);
-//			var dst = new File(destinationDirectory, );
-//				if (tarEntry.isDirectory()) {
-//					dst.mkdirs();
-//				} else {
-//					try (FileOutputStream fos = new FileOutputStream(dst)) {
-//						IOUtils.copyLarge(tarIs, fos, 0, tarEntry.getSize());
-//					}
-//					if (isExecutable(tarEntry.getMode())) {
-//						dst.setExecutable(true);
-//					}
-//				}
-//			return Optional.of(destinationDirectory);
-//		} catch (IOException e) {
-//			// error, return fallback value below
-//		}
-//		return Optional.empty();
-//	}
 
 }

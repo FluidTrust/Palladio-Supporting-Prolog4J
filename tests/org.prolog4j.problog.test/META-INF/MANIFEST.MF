@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.prolog4j.problog.test
 Bundle-Version: 1.0.0.qualifier
 Fragment-Host: org.prolog4j.problog;bundle-version="1.0.0"
 Automatic-Module-Name: org.prolog4j.problog.test
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Require-Bundle: org.prolog4j.test;bundle-version="1.0.0",
  org.prolog4j.api,
  org.prolog4j.problog.enabler

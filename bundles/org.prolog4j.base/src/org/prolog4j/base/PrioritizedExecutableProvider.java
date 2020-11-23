@@ -1,5 +1,6 @@
 package org.prolog4j.base;
 
+@SuppressWarnings("rawtypes")
 public class PrioritizedExecutableProvider<E extends ExecutableProvider> implements Comparable<PrioritizedExecutableProvider> {
     private final int priority;
     private final E provider;
@@ -20,7 +21,8 @@ public class PrioritizedExecutableProvider<E extends ExecutableProvider> impleme
 
     @Override
     public int compareTo(PrioritizedExecutableProvider o) {
-        return priority - o.priority;
+    	// sort from highest priority to lowest
+        return o.priority - priority;
     }
 
 }
