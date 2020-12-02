@@ -1,12 +1,13 @@
 package org.prolog4j.problog.enabler;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Optional;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.prolog4j.problog.ProblogExecutable;
 import org.prolog4j.problog.ProblogExecutableProvider;
@@ -51,17 +52,15 @@ public class ProblogStandaloneExecutableProvider implements ProblogExecutablePro
 			return Optional.empty();
 		}
 		try (InputStream execInStream = cl.getResourceAsStream(execFileName)) {
-			var execFilePath = Files.createTempFile(execFileName, ""); //suffix already in resourcePath
-	        var execFile = execFilePath.toFile();
+			Path execFilePath = Files.createTempFile(execFileName, ""); //suffix already in resourcePath
+	        File execFile = execFilePath.toFile();
 	        execFile.deleteOnExit();
 	        
-	        FileOutputStream execFileOutStream = new FileOutputStream(execFile);
 	        byte[] execFileBytes = execInStream.readAllBytes();
-	        execFileOutStream.write(execFileBytes);
-			execFileOutStream.close();
+	        FileUtils.writeByteArrayToFile(execFile, execFileBytes);
+	        
+	        execFile.setExecutable(true);
 			execInStream.close();
-			
-			execFile.setExecutable(true);
 			
 			return Optional.of(execFile);
 			
