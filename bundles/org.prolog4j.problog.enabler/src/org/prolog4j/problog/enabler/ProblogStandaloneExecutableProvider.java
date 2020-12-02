@@ -12,19 +12,9 @@ import org.prolog4j.problog.ProblogExecutable;
 import org.prolog4j.problog.ProblogExecutableProvider;
 
 public class ProblogStandaloneExecutableProvider implements ProblogExecutableProvider {
-	
-	private Optional<ProblogExecutable> executable;
-	
-	public ProblogStandaloneExecutableProvider() {
-		executable = createExecutable();
-	}
-	
+
 	@Override
 	public Optional<ProblogExecutable> getExecutable() {
-		return this.executable;
-	}
-
-	protected Optional<ProblogExecutable> createExecutable() {
 		// we do not support other combinations yet
 		if (!SystemUtils.OS_ARCH.contains("64") || !(SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_LINUX)) {
 			return Optional.empty();
@@ -66,11 +56,8 @@ public class ProblogStandaloneExecutableProvider implements ProblogExecutablePro
 	        execFile.deleteOnExit();
 	        
 	        FileOutputStream execFileOutStream = new FileOutputStream(execFile);
-			while(execInStream.available()>0)
-            { 
-                execFileOutStream.write(execInStream.read());
-            }
-			
+	        byte[] execFileBytes = execInStream.readAllBytes();
+	        execFileOutStream.write(execFileBytes);
 			execFileOutStream.close();
 			execInStream.close();
 			
@@ -85,5 +72,4 @@ public class ProblogStandaloneExecutableProvider implements ProblogExecutablePro
 		
 		return Optional.empty();
 	}
-
 }

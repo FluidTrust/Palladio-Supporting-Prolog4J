@@ -29,10 +29,11 @@ public class ProblogProverTest extends ProverTest {
 	public static void setUpBeforeClass() {
 		var factory = new ProblogProverFactory();
 		//currently not fully implemented
-        Map<Object, Object> properties = new HashMap<>();
-        properties.put(ProblogExecutableProvider.PRIORITY_PROPERTY, ProblogExecutableProvider.PRIORITY_LOWEST);
-        factory.addProvider(new DefaultProblogExecutableProvider(), properties);
-        
+		
+//		Map<Object, Object> properties = new HashMap<>();
+//        properties.put(ProblogExecutableProvider.PRIORITY_PROPERTY, ProblogExecutableProvider.PRIORITY_LOWEST);
+//        factory.addProvider(new DefaultProblogExecutableProvider(), properties);
+
         Map<Object, Object> properties2 = new HashMap<>();
         properties2.put(ProblogExecutableProvider.PRIORITY_PROPERTY, ProblogExecutableProvider.PRIORITY_LOWEST - 1);
         factory.addProvider(new ProblogStandaloneExecutableProvider(), properties2);

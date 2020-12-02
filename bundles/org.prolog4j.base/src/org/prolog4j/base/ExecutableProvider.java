@@ -16,8 +16,14 @@ public interface ExecutableProvider<E extends Executable> {
     /**
      * Returns an Optional with an Executable.
      * 
-     * The provider is REQUIRED to check whether or not the executable can run on the system (dependencies etc.)
-     * before an executable is returned, if not Optional.empty() needs to be returned.
+     * The provider is REQUIRED to check whether or not the Executable can run on the system (dependencies etc.)
+     * before an Executable is returned, if not Optional.empty() needs to be returned.
+     * 
+     * The Executable should be created in this method and not the constructor of the provider.
+     * 
+     * Multiple providers with different priorities are be registered to one ProverFactory and are iterated.
+     * A providers getExecutable method may not be called if a higher priority provider can create an Executable.
+     * This saves time as no specific system checks and object creation needs to be done!
      * 
      * @return 	Optional.of(new E) 	if an E can run on the system
      * 			Optional.empty() 	if the system requirements are not met

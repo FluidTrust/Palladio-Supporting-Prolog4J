@@ -19,7 +19,7 @@ public class ProblogStandaloneExecutable implements ProblogExecutable {
 	public String execute(String problogProgram) {
 		try {
 			//create tmp file for input
-			var inputFile = ProblogExecutable.createPrologFile(problogProgram, ProblogStandaloneExecutable.class.getSimpleName());
+			var inputFile = ProblogExecutable.createTempFile(ProblogStandaloneExecutable.class.getSimpleName(), ".pl", problogProgram);
 			return runProblog(inputFile);
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
