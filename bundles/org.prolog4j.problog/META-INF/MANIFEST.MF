@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Prolog4J JProbLog 
+Bundle-Name: Prolog4J for ProbLog 
 Bundle-SymbolicName: org.prolog4j.problog;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: org.prolog4j.problog
@@ -11,8 +11,6 @@ Import-Package: org.osgi.service.component.annotations;version="1.2.0",
 Service-Component: OSGI-INF/org.prolog4j.problog.ProblogProverFactory.xml
 Bundle-ActivationPolicy: lazy
 Export-Package: org.prolog4j.problog
-Bundle-ClassPath: .,
- lib/jproblog-0.1.0.jar 
 Require-Bundle: org.palladiosimulator.supporting.prolog;bundle-version="4.3.0",
  com.google.inject;bundle-version="3.0.0",
  org.eclipse.xtext.testing;bundle-version="2.22.0",

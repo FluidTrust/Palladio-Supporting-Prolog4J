@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.prolog4j.problog2.ProblogProverFactory">
    <property name="id" value="org.prolog4j.problog2.proverfactory"/>
-   <property name="name" value="JProblog Interpreter"/>
+   <property name="name" value="ProbLog Interpreter"/>
    <property name="needsNativeExecutables" value="true"/>
    <service>
       <provide interface="org.prolog4j.IProverFactory"/>

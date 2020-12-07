@@ -17,7 +17,7 @@ import org.prolog4j.base.PrologAPIWrapper;
 import org.prolog4j.problog.impl.ProblogConversionPolicy;
 import org.prolog4j.problog.impl.ProblogProver;
 
-@Component(immediate = true, property = { "id=org.prolog4j.problog.proverfactory", "name=JProblog Interpreter", "needsNativeExecutables=true"})
+@Component(immediate = true, property = { "id=org.prolog4j.problog.proverfactory", "name=ProbLog Interpreter", "needsNativeExecutables=true"})
 public class ProblogProverFactory  implements IProverFactory {
 
 	private final SortedSet<PrioritizedExecutableProvider<ProblogExecutableProvider>> executableProviders = new TreeSet<>();

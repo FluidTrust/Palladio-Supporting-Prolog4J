@@ -22,7 +22,7 @@ import org.prolog4j.problog.impl.ProblogSolution;
 import org.prolog4j.test.ProverTest;
 
 /**
- * JUnit test for the jProblog binding. Inherits the common test class.
+ * JUnit test for the ProbLog binding. Inherits the common test class.
  */
 public class ProblogProverTest extends ProverTest {
 	@BeforeClass

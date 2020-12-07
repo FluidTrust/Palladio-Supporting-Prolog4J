@@ -15,12 +15,12 @@ public class ProblogConversionPolicy extends MetaModelBasedConversionPolicy {
 	public ProblogConversionPolicy(PrologParser parser) {
 		super(parser);
 		
-		// Strangely the metamodel always adds a ' at the beginning of the string
-		// for ProbLog this ' needs to be removed
+		//TODO: Strangely under windows this always adds a ' at the beginning of the string
+		// so the substring command was used when developing under windows...
         addTermConverter(AtomicQuotedStringImpl.class, new Converter<AtomicQuotedStringImpl>() {
             @Override
             public Object convert(AtomicQuotedStringImpl term) {
-                return term.getValue().substring(1);
+                return term.getValue();//.substring(1);
             }
         });
 	}

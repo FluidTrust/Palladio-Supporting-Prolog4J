@@ -66,9 +66,6 @@ public class ProblogQuery extends Query {
 
 		// run ProbLog
 		String solution = executable.execute(problogQueryBuilder.toString());
-		
-		// run jproblog old --> delete
-		//String solution = this.prover.getJProblog().getProcessor().apply(problogQueryBuilder.toString());
 
 		return new ProblogSolution<A>(freeVariables, solution, this.prover.getConversionPolicy(), this.parser);
 	}

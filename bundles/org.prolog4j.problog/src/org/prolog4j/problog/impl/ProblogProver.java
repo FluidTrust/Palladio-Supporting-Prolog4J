@@ -9,13 +9,9 @@ import org.prolog4j.Query;
 import org.prolog4j.base.PrologAPIWrapper;
 import org.prolog4j.problog.ProblogExecutable;
 
-import de.tudresden.inf.lat.jproblog.JProblog;
-
 public class ProblogProver extends AbstractProver {
 
 	private static final long serialVersionUID = -1L;
-	
-	private JProblog jproblog;
 	
 	private List<String> knowledgeBase;
 	
@@ -24,7 +20,6 @@ public class ProblogProver extends AbstractProver {
 	
 	public ProblogProver(PrologAPIWrapper prologAPIWrapper, ConversionPolicy conversionPolicy, ProblogExecutable executable) {
 		super(conversionPolicy);
-		this.jproblog = new JProblog();
 		this.knowledgeBase = new ArrayList<>();
 		this.prologAPIWrapper = prologAPIWrapper;
 		this.executable = executable;
@@ -64,10 +59,6 @@ public class ProblogProver extends AbstractProver {
 		}
 		
 		return sb.toString();
-	}
-
-	public JProblog getJProblog() {
-		return jproblog;
 	}
 	
 	@Override
