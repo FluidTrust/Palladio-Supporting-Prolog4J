@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.2.0" immediate="true" name="org.prolog4j.manager.impl.ProverManager">
-   <service>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="org.prolog4j.manager.impl.ProverManager">
+   <service scope="singleton">
       <provide interface="org.prolog4j.manager.IProverManager"/>
    </service>
    <reference bind="bindProverFactory" cardinality="0..n" interface="org.prolog4j.IProverFactory" name="ProverFactory" policy="dynamic" unbind="unbindProverFactory" updated="updatedProverFactory"/>

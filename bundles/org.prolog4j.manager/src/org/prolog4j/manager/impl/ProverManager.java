@@ -34,6 +34,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ServiceScope;
 import org.prolog4j.IProverFactory;
 import org.prolog4j.ProverInformation;
 import org.prolog4j.manager.IProverManager;
@@ -48,7 +49,7 @@ import org.prolog4j.manager.IProverManager;
  * <p>
  * Please note that all methods in <code>ProverFactory</code> are static.
  */
-@Component(immediate = true)
+@Component(scope = ServiceScope.SINGLETON)
 public final class ProverManager implements IProverManager {
 
     private final BidiMap<ProverInformation, IProverFactory> availableProvers = new DualHashBidiMap<>();

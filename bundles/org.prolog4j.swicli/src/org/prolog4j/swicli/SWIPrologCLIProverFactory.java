@@ -19,7 +19,7 @@ import org.prolog4j.base.PrioritizedExecutableProvider;
 import org.prolog4j.base.PrologAPIWrapper;
 import org.prolog4j.swicli.impl.SWIPrologCLIProver;
 
-@Component(immediate = true, property = { "id=org.prolog4j.swicli.proverfactory", "name=SWI Prolog CLI Interpreter",
+@Component(property = { "id=org.prolog4j.swicli.proverfactory", "name=SWI Prolog CLI Interpreter",
         "needsNativeExecutables=true" }, scope = ServiceScope.SINGLETON)
 public class SWIPrologCLIProverFactory implements IProverFactory {
 

@@ -34,7 +34,7 @@ import org.prolog4j.tuprolog.impl.TuPrologProver;
  * An implementation of {@link IProverFactory} which always returns
  * {@link TuPrologProver} instances.
  */
-@Component(immediate = true, property = { "id=org.prolog4j.tuprolog.proverfactory", "name=TuProlog Interpreter", "needsNativeExecutables=false" })
+@Component(property = { "id=org.prolog4j.tuprolog.proverfactory", "name=TuProlog Interpreter", "needsNativeExecutables=false" })
 public final class TuPrologProverFactory implements IProverFactory {
 
 	@Override
