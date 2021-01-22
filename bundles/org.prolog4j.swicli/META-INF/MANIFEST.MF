@@ -13,6 +13,5 @@ Import-Package: com.google.inject,
  org.prolog4j.base
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.prolog4j.swicli.impl.SWIPrologCLIActivator
-Service-Component: OSGI-INF/org.prolog4j.swicli.SWIPrologCLIProverFactory.xml,
- OSGI-INF/org.prolog4j.swicli.DefaultSWIPrologExecutableProvider.xml
+Service-Component: OSGI-INF/org.prolog4j.swicli.SWIPrologCLIProverFactory.xml
 Export-Package: org.prolog4j.swicli

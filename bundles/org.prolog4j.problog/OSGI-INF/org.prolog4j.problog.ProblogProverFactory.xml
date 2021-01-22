@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.prolog4j.problog2.ProblogProverFactory">
-   <property name="id" value="org.prolog4j.problog2.proverfactory"/>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.prolog4j.problog.ProblogProverFactory">
+   <property name="id" value="org.prolog4j.problog.proverfactory"/>
    <property name="name" value="ProbLog Interpreter"/>
    <property name="needsNativeExecutables" value="true"/>
    <service>
       <provide interface="org.prolog4j.IProverFactory"/>
    </service>
-   <implementation class="org.prolog4j.problog2.ProblogProverFactory"/>
+   <reference bind="addProvider" cardinality="0..n" interface="org.prolog4j.problog.ProblogExecutableProvider" name="Provider" policy="dynamic" unbind="removeProvider"/>
+   <implementation class="org.prolog4j.problog.ProblogProverFactory"/>
 </scr:component>
