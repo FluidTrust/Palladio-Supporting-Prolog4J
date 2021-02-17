@@ -6,12 +6,6 @@
 	<feature id="org.prolog4j.core.feature.source">
 		<category name="prolog4j.source.category"/>
 	</feature>
-	<feature id="org.prolog4j.swi.feature">
-		<category name="prolog4j.category"/>
-	</feature>
-	<feature id="org.prolog4j.swi.feature.source">
-		<category name="prolog4j.source.category"/>
-	</feature>
 	<feature id="org.prolog4j.swicli.feature">
 		<category name="prolog4j.category"/>
 	</feature>
