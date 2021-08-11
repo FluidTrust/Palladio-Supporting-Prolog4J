@@ -20,11 +20,11 @@ import org.prolog4j.swicli.SWIPrologExecutable;
 import org.prolog4j.swicli.SWIPrologExecutableProvider;
 
 @Component(scope = ServiceScope.SINGLETON, property = SWIPrologExecutableProvider.PRIORITY_PROPERTY + " = " + SWIPrologExecutableProvider.PRIORITY_LOWEST)
-public class SWIPrologEmbeddedExecutableProvider implements SWIPrologExecutableProvider {
+public class SWIPrologEmbeddedFallbackExecutableProvider implements SWIPrologExecutableProvider {
 
     private volatile Optional<SWIPrologExecutable> executable;
 
-    public SWIPrologEmbeddedExecutableProvider() {
+    public SWIPrologEmbeddedFallbackExecutableProvider() {
         // intentionally left blank
     }
 
@@ -74,7 +74,7 @@ public class SWIPrologEmbeddedExecutableProvider implements SWIPrologExecutableP
     }
 
     protected Optional<File> extractArchive(String resourcePath) {
-        var cl = SWIPrologEmbeddedExecutableProvider.class.getClassLoader();
+        var cl = SWIPrologEmbeddedFallbackExecutableProvider.class.getClassLoader();
         if (cl.getResource(resourcePath) == null) {
             return Optional.empty();
         }
@@ -82,7 +82,7 @@ public class SWIPrologEmbeddedExecutableProvider implements SWIPrologExecutableP
             try (GzipCompressorInputStream gzipIs = new GzipCompressorInputStream(archiveStream)) {
                 try (TarArchiveInputStream tarIs = new TarArchiveInputStream(gzipIs)) {
                     File destinationDirectory = Files
-                        .createTempDirectory(SWIPrologEmbeddedExecutableProvider.class.getSimpleName())
+                        .createTempDirectory(SWIPrologEmbeddedFallbackExecutableProvider.class.getSimpleName())
                         .toFile();
                     FileUtils.forceDeleteOnExit(destinationDirectory);
                     for (var tarEntry = tarIs.getNextTarEntry(); tarEntry != null; tarEntry = tarIs.getNextTarEntry()) {

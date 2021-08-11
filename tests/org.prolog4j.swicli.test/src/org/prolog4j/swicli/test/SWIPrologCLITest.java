@@ -7,7 +7,7 @@ import org.junit.BeforeClass;
 import org.prolog4j.swicli.DefaultSWIPrologExecutableProvider;
 import org.prolog4j.swicli.SWIPrologCLIProverFactory;
 import org.prolog4j.swicli.SWIPrologExecutableProvider;
-import org.prolog4j.swicli.enabler.SWIPrologEmbeddedExecutableProvider;
+import org.prolog4j.swicli.enabler.SWIPrologEmbeddedFallbackExecutableProvider;
 import org.prolog4j.test.ProverTest;
 
 public class SWIPrologCLITest extends ProverTest {
@@ -21,7 +21,7 @@ public class SWIPrologCLITest extends ProverTest {
         
         Map<Object, Object> properties2 = new HashMap<>();
         properties2.put(SWIPrologExecutableProvider.PRIORITY_PROPERTY, SWIPrologExecutableProvider.PRIORITY_LOWEST - 1);
-        factory.addProvider(new SWIPrologEmbeddedExecutableProvider(), properties2);
+        factory.addProvider(new SWIPrologEmbeddedFallbackExecutableProvider(), properties2);
         
         p = factory.createProver();
         setup();
