@@ -39,8 +39,9 @@ public interface IProverFactory {
 	 * Creates a new prover.
 	 * 
 	 * @return a new prover
+	 * @throws ProverCreationException In case of an error while creating a prover
 	 */
-	public Prover createProver();
+	public Prover createProver() throws ProverCreationException;
 	
 	/**
 	 * Creates a new conversion policy.

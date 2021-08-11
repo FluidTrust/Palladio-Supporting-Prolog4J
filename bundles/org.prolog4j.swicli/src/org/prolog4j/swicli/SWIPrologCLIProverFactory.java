@@ -14,6 +14,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.IProverFactory;
 import org.prolog4j.Prover;
+import org.prolog4j.ProverCreationException;
 import org.prolog4j.swicli.impl.PrologAPIWrapper;
 import org.prolog4j.swicli.impl.SWIPrologCLIConversionPolicy;
 import org.prolog4j.swicli.impl.SWIPrologCLIProver;
@@ -91,6 +92,11 @@ public class SWIPrologCLIProverFactory implements IProverFactory {
     
     @Override
     public Prover createProver() {
+        var foundExecutable = getExecutable();
+        if (foundExecutable == null) {
+            throw new ProverCreationException("Could not create an " + SWIPrologCLIProver.class.getSimpleName()
+                    + " because we could not find a usable executable.");
+        }
         return new SWIPrologCLIProver(createConversionPolicy(), prologApiWrapper.getPrologApi(), getExecutable());
     }
 
