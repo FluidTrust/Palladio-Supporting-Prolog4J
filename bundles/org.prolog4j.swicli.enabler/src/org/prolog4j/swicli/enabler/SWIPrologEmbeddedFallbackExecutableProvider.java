@@ -19,28 +19,33 @@ import org.osgi.service.component.annotations.ServiceScope;
 import org.prolog4j.swicli.SWIPrologExecutable;
 import org.prolog4j.swicli.SWIPrologExecutableProvider;
 
-@Component(scope = ServiceScope.SINGLETON, property = SWIPrologExecutableProvider.PRIORITY_PROPERTY + " = 998")
+@Component(scope = ServiceScope.SINGLETON, property = SWIPrologExecutableProvider.PRIORITY_PROPERTY + " = " + SWIPrologExecutableProvider.PRIORITY_LOWEST)
 public class SWIPrologEmbeddedFallbackExecutableProvider implements SWIPrologExecutableProvider {
 
-    private static final String DEFAULT_PATH = "swipl";
-    private final Optional<SWIPrologExecutable> executable;
+    private volatile Optional<SWIPrologExecutable> executable;
 
     public SWIPrologEmbeddedFallbackExecutableProvider() {
-        executable = createExecutable();
+        // intentionally left blank
     }
 
     @Override
     public Optional<SWIPrologExecutable> getExecutable() {
-        return executable;
+        var localExecutable = executable;
+        if (localExecutable == null) {
+            synchronized (this) {
+                localExecutable = executable;
+                if (localExecutable == null) {
+                    localExecutable = createExecutable();
+                    executable = localExecutable;
+                }
+            }
+        }
+        return localExecutable;
     }
 
     protected Optional<SWIPrologExecutable> createExecutable() {
         // we do not support other combinations yet
-        if (!SystemUtils.OS_ARCH.contains("64") || !(SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_LINUX)) {
-            return Optional.empty();
-        }
-
-        if (isSwiplInstalled()) {
+        if (!SystemUtils.OS_ARCH.contains("64") || !(SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_LINUX || SystemUtils.IS_OS_MAC_OSX)) {
             return Optional.empty();
         }
 
@@ -58,22 +63,14 @@ public class SWIPrologEmbeddedFallbackExecutableProvider implements SWIPrologExe
             return Optional.of(new SimpleSWIPrologExecutable(new File(swiDir, "bin/x86_64-linux/swipl"), swiDir,
                     new File(swiDir, "lib/x86_64-linux")));
         }
+        if (SystemUtils.IS_OS_MAC_OSX) {
+            return Optional.of(new SimpleSWIPrologExecutable(new File(swiDir, "SWI-Prolog.app/Contents/MacOS/swipl"),
+                    new File(swiDir, "SWI-Prolog.app/Contents/swipl"),
+                    new File(swiDir, "SWI-Prolog.app/Contents/swipl/lib/x86_64-darwin")));
+        }
 
         // we are out of luck
         return Optional.empty();
-    }
-
-    protected boolean isSwiplInstalled() {
-        try {
-            if (Runtime.getRuntime()
-                .exec(DEFAULT_PATH + " --version")
-                .exitValue() == 0) {
-                return true;
-            }
-            return false;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     protected Optional<File> extractArchive(String resourcePath) {
@@ -122,6 +119,8 @@ public class SWIPrologEmbeddedFallbackExecutableProvider implements SWIPrologExe
             os = "win";
         } else if (SystemUtils.IS_OS_LINUX) {
             os = "linux";
+        } else if (SystemUtils.IS_OS_MAC_OSX) {
+            os = "macos";
         }
         String version = "8.2.1";
         String variant = "regular";

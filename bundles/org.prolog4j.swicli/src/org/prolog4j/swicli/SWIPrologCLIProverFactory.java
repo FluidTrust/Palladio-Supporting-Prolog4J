@@ -119,7 +119,7 @@ public class SWIPrologCLIProverFactory implements IProverFactory {
                 priorityNumeric = (Integer)priority;
             } else if (priority instanceof String) {
                 try {
-                    priorityNumeric = Integer.parseInt((String)priority);                    
+                    priorityNumeric = Integer.parseInt((String)priority);
                 } catch (NumberFormatException e) {
                     // just ignore it and use default priority
                 }
