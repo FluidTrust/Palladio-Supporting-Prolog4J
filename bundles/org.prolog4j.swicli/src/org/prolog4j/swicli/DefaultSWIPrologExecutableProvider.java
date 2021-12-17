@@ -3,6 +3,7 @@ package org.prolog4j.swicli;
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
 
 import org.osgi.service.component.annotations.Component;
@@ -15,13 +16,13 @@ public class DefaultSWIPrologExecutableProvider implements SWIPrologExecutablePr
     private volatile Optional<SWIPrologExecutable> executable;
 
     @Override
-    public Optional<SWIPrologExecutable> getExecutable() {
+    public Optional<SWIPrologExecutable> getExecutable(Map<Object, Object> parameters) {
         var localExecutable = executable;
         if (localExecutable == null) {
             synchronized (this) {
                 localExecutable = executable;
                 if (localExecutable == null) {
-                    localExecutable = createExecutable();
+                    localExecutable = createExecutable(parameters);
                     executable = localExecutable;
                 }
             }
@@ -29,7 +30,7 @@ public class DefaultSWIPrologExecutableProvider implements SWIPrologExecutablePr
         return localExecutable;
     }
 
-    protected Optional<SWIPrologExecutable> createExecutable() {
+    protected Optional<SWIPrologExecutable> createExecutable(Map<Object, Object> parameters) {
         var command = "swipl";
         var pb = new ProcessBuilder(Arrays.asList(command, "--version"));
         pb.redirectErrorStream(true);
@@ -48,6 +49,11 @@ public class DefaultSWIPrologExecutableProvider implements SWIPrologExecutablePr
             @Override
             public String getPath() {
                 return "swipl";
+            }
+
+            @Override
+            public Map<Object, Object> getParameters() {
+                return parameters;
             }
         });
     }

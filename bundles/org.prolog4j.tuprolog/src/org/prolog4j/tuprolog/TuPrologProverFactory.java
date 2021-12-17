@@ -23,6 +23,8 @@
  */
 package org.prolog4j.tuprolog;
 
+import java.util.Map;
+
 import org.osgi.service.component.annotations.Component;
 import org.prolog4j.ConversionPolicy;
 import org.prolog4j.IProverFactory;
@@ -38,7 +40,7 @@ import org.prolog4j.tuprolog.impl.TuPrologProver;
 public final class TuPrologProverFactory implements IProverFactory {
 
 	@Override
-	public Prover createProver() {
+	public Prover createProver(Map<Object, Object> parameters) {
 		return new TuPrologProver(createConversionPolicy());
 	}
 

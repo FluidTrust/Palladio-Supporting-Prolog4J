@@ -91,13 +91,13 @@ public class SWIPrologCLIProverFactory implements IProverFactory {
     }
     
     @Override
-    public Prover createProver() {
-        var foundExecutable = getExecutable();
+    public Prover createProver(Map<Object, Object> parameters) {
+        var foundExecutable = getExecutable(parameters);
         if (foundExecutable == null) {
             throw new ProverCreationException("Could not create an " + SWIPrologCLIProver.class.getSimpleName()
                     + " because we could not find a usable executable.");
         }
-        return new SWIPrologCLIProver(createConversionPolicy(), prologApiWrapper.getPrologApi(), getExecutable());
+        return new SWIPrologCLIProver(createConversionPolicy(), prologApiWrapper.getPrologApi(), foundExecutable);
     }
 
     @Override
@@ -106,9 +106,9 @@ public class SWIPrologCLIProverFactory implements IProverFactory {
             .getParser());
     }
     
-    protected SWIPrologExecutable getExecutable() {
+    protected SWIPrologExecutable getExecutable(Map<Object, Object> parameters) {
         for (var executableProvider : executableProviders) {
-            Optional<SWIPrologExecutable> executable = executableProvider.getProvider().getExecutable();
+            Optional<SWIPrologExecutable> executable = executableProvider.getProvider().getExecutable(parameters);
             if (!executable.isEmpty()) {
                 return executable.get();
             }

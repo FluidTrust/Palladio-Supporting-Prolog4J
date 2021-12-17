@@ -24,6 +24,9 @@
  */
 package org.prolog4j;
 
+import java.util.Collections;
+import java.util.Map;
+
 /**
  * <code>IProverFactory</code> instances manufacture {@link Prover} instances by
  * name.
@@ -41,7 +44,17 @@ public interface IProverFactory {
 	 * @return a new prover
 	 * @throws ProverCreationException In case of an error while creating a prover
 	 */
-	public Prover createProver() throws ProverCreationException;
+	default Prover createProver() throws ProverCreationException {
+	    return createProver(Collections.emptyMap());
+	}
+	
+	/**
+	 * Creates a new prover using a set of given parameters.
+	 * @param parameters The parameters to be used to create a prover.
+	 * @return a new prover
+	 * @throws ProverCreationException In case of an error while creating a prover
+	 */
+	public Prover createProver(Map<Object, Object> parameters) throws ProverCreationException;
 	
 	/**
 	 * Creates a new conversion policy.

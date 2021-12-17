@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -29,13 +30,13 @@ public class SWIPrologEmbeddedFallbackExecutableProvider implements SWIPrologExe
     }
 
     @Override
-    public Optional<SWIPrologExecutable> getExecutable() {
+    public Optional<SWIPrologExecutable> getExecutable(Map<Object, Object> parameters) {
         var localExecutable = executable;
         if (localExecutable == null) {
             synchronized (this) {
                 localExecutable = executable;
                 if (localExecutable == null) {
-                    localExecutable = createExecutable();
+                    localExecutable = createExecutable(parameters);
                     executable = localExecutable;
                 }
             }
@@ -43,7 +44,7 @@ public class SWIPrologEmbeddedFallbackExecutableProvider implements SWIPrologExe
         return localExecutable;
     }
 
-    protected Optional<SWIPrologExecutable> createExecutable() {
+    protected Optional<SWIPrologExecutable> createExecutable(Map<Object, Object> parameters) {
         // we do not support other combinations yet
         if (!SystemUtils.OS_ARCH.contains("64") || !(SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_LINUX || SystemUtils.IS_OS_MAC_OSX)) {
             return Optional.empty();
@@ -57,15 +58,15 @@ public class SWIPrologEmbeddedFallbackExecutableProvider implements SWIPrologExe
         File swiDir = directory.get();
 
         if (SystemUtils.IS_OS_WINDOWS) {
-            return Optional.of(new SimpleSWIPrologExecutable(new File(swiDir, "bin/swipl"), swiDir));
+            return Optional.of(new SimpleSWIPrologExecutable(new File(swiDir, "bin/swipl"), swiDir, parameters));
         }
         if (SystemUtils.IS_OS_LINUX) {
             return Optional.of(new SimpleSWIPrologExecutable(new File(swiDir, "bin/x86_64-linux/swipl"), swiDir,
-                    new File(swiDir, "lib/x86_64-linux")));
+                    parameters, new File(swiDir, "lib/x86_64-linux")));
         }
         if (SystemUtils.IS_OS_MAC_OSX) {
             return Optional.of(new SimpleSWIPrologExecutable(new File(swiDir, "SWI-Prolog.app/Contents/MacOS/swipl"),
-                    new File(swiDir, "SWI-Prolog.app/Contents/swipl"),
+                    new File(swiDir, "SWI-Prolog.app/Contents/swipl"), parameters,
                     new File(swiDir, "SWI-Prolog.app/Contents/swipl/lib/x86_64-darwin")));
         }
 

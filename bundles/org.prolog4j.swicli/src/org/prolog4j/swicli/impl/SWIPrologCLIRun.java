@@ -6,10 +6,12 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -44,7 +46,16 @@ public class SWIPrologCLIRun {
     }
 
     protected String runPrologProgram(File programFile) throws IOException, InterruptedException {
-        var pb = new ProcessBuilder(Arrays.asList(executable.getPath(), "-q", "-f", programFile.getAbsolutePath(), "-g", "halt"));
+        var commandLine = new ArrayList<String>();
+        commandLine.add(executable.getPath());
+        Optional.ofNullable(executable.getParameters()
+            .get("--stack-limit"))
+            .filter(String.class::isInstance)
+            .map(String.class::cast)
+            .map(limit -> String.format("--stack-limit=%s", limit))
+            .ifPresent(commandLine::add);
+        commandLine.addAll(Arrays.asList("-q", "-f", programFile.getAbsolutePath(), "-g", "halt"));
+        var pb = new ProcessBuilder(commandLine);
         pb.environment().putAll(executable.getEnvironment());
         pb.redirectErrorStream(true);
         var process = pb.start();

@@ -1,5 +1,6 @@
 package org.prolog4j.swicli;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -13,6 +14,6 @@ public interface SWIPrologExecutableProvider {
     public static final String PRIORITY_PROPERTY = "priority";
     public static final int PRIORITY_LOWEST = 999;
 
-    Optional<SWIPrologExecutable> getExecutable();
+    Optional<SWIPrologExecutable> getExecutable(Map<Object, Object> parameters);
 
 }
