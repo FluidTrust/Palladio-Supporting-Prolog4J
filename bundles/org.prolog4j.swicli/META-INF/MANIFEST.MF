@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SWI Prolog CLI
 Bundle-SymbolicName: org.prolog4j.swicli;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.2.0.qualifier
 Automatic-Module-Name: org.prolog4j.swicli
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.palladiosimulator.supporting.prolog.api;bundle-version="1.0.0"

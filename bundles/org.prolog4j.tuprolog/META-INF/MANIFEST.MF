@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Prolog4J TuProlog
 Bundle-SymbolicName: org.prolog4j.tuprolog
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.2.0.qualifier
 Automatic-Module-Name: org.prolog4j.tuprolog2
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Service-Component: OSGI-INF/org.prolog4j.tuprolog.TuPrologProverFactory.xml

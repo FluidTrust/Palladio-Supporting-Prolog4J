@@ -2,11 +2,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Prolog4J Test Commons
 Bundle-SymbolicName: org.prolog4j.test
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.2.0.qualifier
 Export-Package: org.prolog4j.test
 Require-Bundle: org.hamcrest.core;bundle-version="1.3.0";visibility:=reexport,
  org.junit;bundle-version="4.12.0";visibility:=reexport,
- org.prolog4j.api;bundle-version="1.0.0";visibility:=reexport
+ org.prolog4j.api;bundle-version="1.2.0";visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: prolog4j-test
 Bundle-Vendor: Palladio Simulator

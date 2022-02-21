@@ -2,7 +2,7 @@
 <feature
       id="org.prolog4j.core.feature"
       label="Prolog4J Core Feature"
-      version="1.0.0.qualifier"
+      version="1.2.0.qualifier"
       provider-name="Palladio Simulator">
 
    <description url="http://www.example.com/description">

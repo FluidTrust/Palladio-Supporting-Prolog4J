@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Prolog4J API
 Bundle-SymbolicName: org.prolog4j.api
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.2.0.qualifier
 Export-Package: org.prolog4j
 Bundle-Activator: org.prolog4j.impl.Activator
 Bundle-ActivationPolicy: lazy

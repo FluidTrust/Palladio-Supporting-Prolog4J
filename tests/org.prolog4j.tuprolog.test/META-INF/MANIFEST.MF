@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Prolog4J TuProlog Tests
 Bundle-SymbolicName: org.prolog4j.tuprolog.test
-Bundle-Version: 1.0.0.qualifier
-Fragment-Host: org.prolog4j.tuprolog;bundle-version="1.0.0"
+Bundle-Version: 1.2.0.qualifier
+Fragment-Host: org.prolog4j.tuprolog;bundle-version="1.2.0"
 Automatic-Module-Name: org.prolog4j.tuprolog2.test
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Require-Bundle: org.prolog4j.test;bundle-version="1.0.0"
+Require-Bundle: org.prolog4j.test;bundle-version="1.2.0"
 Bundle-Vendor: Palladio Simulator
