@@ -9,7 +9,7 @@ jobs:
       - uses: PalladioSimulator/Palladio-Build-ActionsPipeline@v2
         with:
           use-display-output: true
-          deploy-updatesite: 'releng/org.palladiosimulator.simexp.updatesite/target/repository'
+          deploy-updatesite: 'releng/org.prolog4j.updatesite/target/repository'
           server-ssh-key: ${{ secrets.DEPLOYMENT_SERVER_SSH_KEY }}
           remote-host: ${{ secrets.DEPLOYMENT_REMOTE_HOST }}
           remote-port: ${{ secrets.DEPLOYMENT_REMOTE_PORT }}
